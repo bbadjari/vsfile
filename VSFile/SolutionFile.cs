@@ -48,14 +48,9 @@ namespace VSFile
 			public static class Regex
 			{
 				/// <summary>
-				/// Pattern used to match GUIDs.
+				/// Group used to match project file path.
 				/// </summary>
-				const string Guid = @"""{[A-F\d-]+}""";
-
-				/// <summary>
-				/// Pattern used to match project name.
-				/// </summary>
-				const string Name = @"""(?<" + NameGroup + @">.+)""";
+				public const string FilePathGroup = "Path";
 
 				/// <summary>
 				/// Group used to match project name.
@@ -63,26 +58,74 @@ namespace VSFile
 				public const string NameGroup = "Name";
 
 				/// <summary>
+				/// Pattern used to match project GUIDs, name and file path.
+				/// </summary>
+				public const string Pattern = "^" + Begin + @"\(" +
+					Guid.TypeGuid + @"\) = " + Name + ", " + FilePath + ", " +
+					Guid.UniqueGuid + "$";
+
+				/// <summary>
+				/// Group used to match project type GUID.
+				/// </summary>
+				public const string TypeGuidGroup = "TypeGUID";
+
+				/// <summary>
+				/// Group used to match project unique GUID.
+				/// </summary>
+				public const string UniqueGuidGroup = "UniqueGUID";
+
+				/// <summary>
+				/// GUID patterns.
+				/// </summary>
+				static class Guid
+				{
+					/// <summary>
+					/// Pattern used to match project type GUID.
+					/// </summary>
+					public const string TypeGuid = Begin + TypeGuidGroup + End;
+
+					/// <summary>
+					/// Pattern used to match project unique GUID.
+					/// </summary>
+					public const string UniqueGuid = Begin + UniqueGuidGroup + End;
+
+					/// <summary>
+					/// Beginning of GUID pattern.
+					/// </summary>
+					const string Begin = @"""{(?<";
+
+					/// <summary>
+					/// End of GUID pattern.
+					/// </summary>
+					const string End = @">[A-F\d-]+)}""";
+				}
+
+				/// <summary>
 				/// Pattern used to match project file path.
 				/// </summary>
-				const string Path = @"""(?<" + PathGroup + @">.+)""";
+				const string FilePath = @"""(?<" + FilePathGroup + @">.+)""";
 
 				/// <summary>
-				/// Group used to match project file path.
+				/// Pattern used to match project name.
 				/// </summary>
-				public const string PathGroup = "Path";
-
-				/// <summary>
-				/// Pattern used to match project name and file path.
-				/// </summary>
-				public const string Pattern = "^" + Start + @"\(" + Guid +
-					@"\) = " + Name + ", " + Path + ", " + Guid + "$";
+				const string Name = @"""(?<" + NameGroup + @">.+)""";
 			}
 
 			/// <summary>
-			/// Start of project tag.
+			/// Beginning of project tag.
 			/// </summary>
-			public const string Start = "Project";
+			public const string Begin = "Project";
+		}
+
+		/// <summary>
+		/// GUIDs used to identify types of projects.
+		/// </summary>
+		static class ProjectTypeGuid
+		{
+			/// <summary>
+			/// C# project type.
+			/// </summary>
+			public const string CSharp = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
 		}
 
 		/// <summary>
@@ -124,7 +167,7 @@ namespace VSFile
 				// Read entire solution file.
 				while ((inputLine = reader.ReadLine()) != null)
 				{
-					if (inputLine.StartsWith(ProjectTag.Start, StringComparison.Ordinal))
+					if (inputLine.StartsWith(ProjectTag.Begin, StringComparison.Ordinal))
 						AddProjectFile(inputLine);
 				}
 			}
@@ -145,8 +188,14 @@ namespace VSFile
 
 			if (match.Success)
 			{
+				string projectTypeGuid = GetMatchValue(match, ProjectTag.Regex.TypeGuidGroup);
+
+				// Skip non-C# project types.
+				if (projectTypeGuid != ProjectTypeGuid.CSharp)
+					return;
+
 				string projectName = GetMatchValue(match, ProjectTag.Regex.NameGroup);
-				string relativeFilePath = GetMatchValue(match, ProjectTag.Regex.PathGroup);
+				string relativeFilePath = GetMatchValue(match, ProjectTag.Regex.FilePathGroup);
 
 				m_projectFiles.Add(new CSharpProjectFile(projectName,
 					GetFullFilePath(relativeFilePath)));

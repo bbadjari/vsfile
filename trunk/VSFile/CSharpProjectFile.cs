@@ -70,7 +70,7 @@ namespace VSFile
 		string m_projectName;
 
 		/// <summary>
-		/// C# source files contained in project file.
+		/// Visual C# source files contained in project file.
 		/// </summary>
 		List<CSharpSourceFile> m_sourceFiles;
 
@@ -192,11 +192,11 @@ namespace VSFile
 		}
 
 		/// <summary>
-		/// Get C# source files contained in this project file.
+		/// Get Visual C# source files contained in this project file.
 		/// </summary>
 		/// <value>
 		/// Enumerable collection of CSharpSourceFile objects representing
-		/// C# source files referenced in project file.
+		/// Visual C# source files referenced in project file.
 		/// </value>
 		public IEnumerable<CSharpSourceFile> SourceFiles
 		{

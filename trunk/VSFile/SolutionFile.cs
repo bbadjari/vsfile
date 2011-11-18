@@ -123,7 +123,7 @@ namespace VSFile
 		static class ProjectTypeGuid
 		{
 			/// <summary>
-			/// C# project type.
+			/// Visual C# project type.
 			/// </summary>
 			public const string CSharp = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
 		}
@@ -136,7 +136,7 @@ namespace VSFile
 		////////////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// C# project files contained in solution file.
+		/// Visual C# project files contained in solution file.
 		/// </summary>
 		List<CSharpProjectFile> m_projectFiles;
 
@@ -190,7 +190,7 @@ namespace VSFile
 			{
 				string projectTypeGuid = GetMatchValue(match, ProjectTag.Regex.TypeGuidGroup);
 
-				// Skip non-C# project types.
+				// Skip non-Visual C# project types.
 				if (projectTypeGuid != ProjectTypeGuid.CSharp)
 					return;
 
@@ -225,11 +225,11 @@ namespace VSFile
 		// Properties
 
 		/// <summary>
-		/// Get C# project files contained in this solution file.
+		/// Get Visual C# project files contained in this solution file.
 		/// </summary>
 		/// <value>
 		/// Enumerable collection of CSharpProjectFile objects representing
-		/// C# project files referenced in solution file.
+		/// Visual C# project files referenced in solution file.
 		/// </value>
 		public IEnumerable<CSharpProjectFile> ProjectFiles
 		{

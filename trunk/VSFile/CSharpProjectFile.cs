@@ -37,6 +37,11 @@ namespace VSFile
 	public class CSharpProjectFile : VisualStudioFile
 	{
 		/// <summary>
+		/// File extension of project file.
+		/// </summary>
+		public const string ProjectFileExtension = ".csproj";
+
+		/// <summary>
 		/// XPath expressions used to select elements and attributes in
 		/// project file.
 		/// </summary>
@@ -56,11 +61,6 @@ namespace VSFile
 		/// Namespace prefix used in XPath expressions.
 		/// </summary>
 		const string NamespacePrefix = "msb";
-
-		/// <summary>
-		/// File extension of project file.
-		/// </summary>
-		const string ProjectFileExtension = ".csproj";
 
 		////////////////////////////////////////////////////////////////////////
 

@@ -92,7 +92,7 @@ namespace VSFile
 		/// </returns>
 		protected string GetFullFilePath(string relativeFilePath)
 		{
-			return DirectoryPath + Path.DirectorySeparatorChar + relativeFilePath;
+			return Path.Combine(DirectoryPath, relativeFilePath);
 		}
 
 		/// <summary>

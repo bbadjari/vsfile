@@ -38,6 +38,11 @@ namespace VSFile
 	public class SolutionFile : VisualStudioFile
 	{
 		/// <summary>
+		/// File extension of solution file.
+		/// </summary>
+		public const string SolutionFileExtension = ".sln";
+
+		/// <summary>
 		/// Project tag contained in solution file.
 		/// </summary>
 		static class ProjectTag
@@ -127,11 +132,6 @@ namespace VSFile
 			/// </summary>
 			public const string CSharp = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
 		}
-
-		/// <summary>
-		/// File extension of solution file.
-		/// </summary>
-		const string SolutionFileExtension = ".sln";
 
 		////////////////////////////////////////////////////////////////////////
 

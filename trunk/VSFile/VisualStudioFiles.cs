@@ -194,7 +194,7 @@ namespace VSFile
 				return;
 			}
 
-			string fileExtension = Path.GetExtension(filePath);
+			string fileExtension = Path.GetExtension(filePath).ToLowerInvariant();
 
 			// Skip unsupported file extensions.
 			if (!IsSupportedExtension(fileExtension))

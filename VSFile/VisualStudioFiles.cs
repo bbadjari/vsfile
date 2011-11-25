@@ -29,6 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using VSFile.Project;
+using VSFile.Source;
 
 namespace VSFile
 {
@@ -58,6 +60,8 @@ namespace VSFile
 		/// </summary>
 		static readonly string[] SupportedExtensions = new string[]
 		{
+			BasicProjectFile.ProjectFileExtension,
+			BasicSourceFile.SourceFileExtension,
 			CSharpProjectFile.ProjectFileExtension,
 			CSharpSourceFile.SourceFileExtension,
 			SolutionFile.SolutionFileExtension
@@ -73,6 +77,16 @@ namespace VSFile
 		};
 
 		////////////////////////////////////////////////////////////////////////
+
+		/// <summary>
+		/// Initialized Visual Basic project files.
+		/// </summary>
+		List<BasicProjectFile> m_basicProjectFiles;
+
+		/// <summary>
+		/// Initialized Visual Basic source files.
+		/// </summary>
+		List<BasicSourceFile> m_basicSourceFiles;
 
 		/// <summary>
 		/// Initialized Visual C# project files.
@@ -93,6 +107,9 @@ namespace VSFile
 		/// Initialized Visual Studio solution files.
 		/// </summary>
 		List<SolutionFile> m_solutionFiles;
+
+		////////////////////////////////////////////////////////////////////////
+		// Constructors
 
 		/// <summary>
 		/// Constructor for specifying file paths.
@@ -117,6 +134,8 @@ namespace VSFile
 		/// </param>
 		public VisualStudioFiles(string[] filePaths, bool recursiveSearch)
 		{
+			m_basicProjectFiles = new List<BasicProjectFile>();
+			m_basicSourceFiles = new List<BasicSourceFile>();
 			m_cSharpProjectFiles = new List<CSharpProjectFile>();
 			m_cSharpSourceFiles = new List<CSharpSourceFile>();
 			m_fileSearchOption = recursiveSearch ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
@@ -220,6 +239,14 @@ namespace VSFile
 
 			switch (fileExtension)
 			{
+				case BasicProjectFile.ProjectFileExtension:
+					m_basicProjectFiles.Add(new BasicProjectFile(filePath));
+
+					break;
+				case BasicSourceFile.SourceFileExtension:
+					m_basicSourceFiles.Add(new BasicSourceFile(filePath));
+
+					break;
 				case CSharpProjectFile.ProjectFileExtension:
 					m_cSharpProjectFiles.Add(new CSharpProjectFile(filePath));
 
@@ -262,6 +289,30 @@ namespace VSFile
 		// Public Properties
 
 		/// <summary>
+		/// Get initialized Visual Basic project files.
+		/// </summary>
+		/// <value>
+		/// Enumerable collection of BasicProjectFile objects representing
+		/// initialized Visual Basic project files.
+		/// </value>
+		public IEnumerable<BasicProjectFile> BasicProjectFiles
+		{
+			get { return m_basicProjectFiles; }
+		}
+
+		/// <summary>
+		/// Get initialized Visual Basic source files.
+		/// </summary>
+		/// <value>
+		/// Enumerable collection of BasicSourceFile objects representing
+		/// initialized Visual Basic source files.
+		/// </value>
+		public IEnumerable<BasicSourceFile> BasicSourceFiles
+		{
+			get { return m_basicSourceFiles; }
+		}
+
+		/// <summary>
 		/// Get initialized Visual C# project files.
 		/// </summary>
 		/// <value>
@@ -298,7 +349,7 @@ namespace VSFile
 		}
 
 		////////////////////////////////////////////////////////////////////////
-		// Private Properties
+		// Properties
 
 		/// <summary>
 		/// Get option to use when searching for files.

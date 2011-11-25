@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using VSFile.Project;
 
 namespace VSFile
 {
@@ -128,6 +129,11 @@ namespace VSFile
 		static class ProjectTypeGuid
 		{
 			/// <summary>
+			/// Visual Basic project type.
+			/// </summary>
+			public const string Basic = "F184B08F-C81C-45F6-A57F-5ABD9991F28F";
+
+			/// <summary>
 			/// Visual C# project type.
 			/// </summary>
 			public const string CSharp = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
@@ -136,9 +142,14 @@ namespace VSFile
 		////////////////////////////////////////////////////////////////////////
 
 		/// <summary>
-		/// Visual C# project files contained in solution file.
+		/// Visual Basic project files referenced in this solution file.
 		/// </summary>
-		List<CSharpProjectFile> m_projectFiles;
+		List<BasicProjectFile> m_basicProjectFiles;
+
+		/// <summary>
+		/// Visual C# project files referenced in this solution file.
+		/// </summary>
+		List<CSharpProjectFile> m_cSharpProjectFiles;
 
 		/// <summary>
 		/// Constructor.
@@ -149,7 +160,8 @@ namespace VSFile
 		public SolutionFile(string filePath)
 			: base(SolutionFileExtension, filePath)
 		{
-			m_projectFiles = new List<CSharpProjectFile>();
+			m_basicProjectFiles = new List<BasicProjectFile>();
+			m_cSharpProjectFiles = new List<CSharpProjectFile>();
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -188,17 +200,23 @@ namespace VSFile
 
 			if (match.Success)
 			{
-				string projectTypeGuid = GetMatchValue(match, ProjectTag.Regex.TypeGuidGroup);
-
-				// Skip non-Visual C# project types.
-				if (projectTypeGuid != ProjectTypeGuid.CSharp)
-					return;
-
 				string projectName = GetMatchValue(match, ProjectTag.Regex.NameGroup);
+				string projectTypeGuid = GetMatchValue(match, ProjectTag.Regex.TypeGuidGroup);
 				string relativeFilePath = GetMatchValue(match, ProjectTag.Regex.FilePathGroup);
 
-				m_projectFiles.Add(new CSharpProjectFile(projectName,
-					GetFullFilePath(relativeFilePath)));
+				string filePath = GetFullFilePath(relativeFilePath);
+
+				switch (projectTypeGuid)
+				{
+					case ProjectTypeGuid.Basic:
+						m_basicProjectFiles.Add(new BasicProjectFile(projectName, filePath));
+
+						break;
+					case ProjectTypeGuid.CSharp:
+						m_cSharpProjectFiles.Add(new CSharpProjectFile(projectName, filePath));
+
+						break;
+				}
 			}
 		}
 
@@ -225,15 +243,27 @@ namespace VSFile
 		// Properties
 
 		/// <summary>
-		/// Get Visual C# project files contained in this solution file.
+		/// Get Visual Basic project files referenced in this solution file.
+		/// </summary>
+		/// <value>
+		/// Enumerable collection of BasicProjectFile objects representing
+		/// Visual Basic project files referenced in this solution file.
+		/// </value>
+		public IEnumerable<BasicProjectFile> BasicProjectFiles
+		{
+			get { return m_basicProjectFiles; }
+		}
+
+		/// <summary>
+		/// Get Visual C# project files referenced in this solution file.
 		/// </summary>
 		/// <value>
 		/// Enumerable collection of CSharpProjectFile objects representing
-		/// Visual C# project files referenced in solution file.
+		/// Visual C# project files referenced in this solution file.
 		/// </value>
-		public IEnumerable<CSharpProjectFile> ProjectFiles
+		public IEnumerable<CSharpProjectFile> CSharpProjectFiles
 		{
-			get { return m_projectFiles; }
+			get { return m_cSharpProjectFiles; }
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //
 // Copyright (c) 2011 Bernard Badjari
 //
@@ -25,38 +25,60 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace VSFile
+using VSFile.Source;
+
+namespace VSFile.Project
 {
 	/// <summary>
-	/// Represents a Visual C# source file.
+	/// Represents a Visual C# project file.
 	/// </summary>
-	public class CSharpSourceFile : VisualStudioFile
+	public class CSharpProjectFile : ProjectFile<CSharpSourceFile>
 	{
 		/// <summary>
-		/// File extension of source file.
+		/// File extension of a Visual C# project file.
 		/// </summary>
-		public const string SourceFileExtension = ".cs";
+		public const string ProjectFileExtension = ".csproj";
+
+		////////////////////////////////////////////////////////////////////////
+		// Constructors
 
 		/// <summary>
-		/// Constructor.
+		/// Constructor for specifying file path.
 		/// </summary>
 		/// <param name="filePath">
-		/// String representing path to source file.
+		/// String representing path to Visual C# project file.
 		/// </param>
-		public CSharpSourceFile(string filePath)
-			: base(SourceFileExtension, filePath)
+		public CSharpProjectFile(string filePath)
+			: base(ProjectFileExtension, filePath, CSharpSourceFile.SourceFileExtension)
+		{
+		}
+
+		/// <summary>
+		/// Constructor for specifying project name.
+		/// </summary>
+		/// <param name="projectName">
+		/// String representing Visual C# project name.
+		/// </param>
+		/// <param name="filePath">
+		/// String representing path to Visual C# project file.
+		/// </param>
+		public CSharpProjectFile(string projectName, string filePath)
+			: base(projectName, ProjectFileExtension, filePath, CSharpSourceFile.SourceFileExtension)
 		{
 		}
 
 		////////////////////////////////////////////////////////////////////////
-		// Protected Methods
+		// Methods
 
 		/// <summary>
-		/// Read file.
+		/// Create instance of source file with given file path.
 		/// </summary>
-		protected override void ReadFile()
+		/// <param name="filePath">
+		/// String representing file path.
+		/// </param>
+		protected override CSharpSourceFile CreateSourceFile(string filePath)
 		{
-			// Not (yet) necessary to read source files.
+			return new CSharpSourceFile(filePath);
 		}
 	}
 }

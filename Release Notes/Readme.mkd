@@ -1,0 +1,22 @@
+﻿Releases
+========
+
+1.1 (1.1.0.0) - December 4, 2011
+--------------------------------
+
+- Added `Project` and `Source` namespaces that contain Visual Studio project files and source files respectively.
+- Added `ProjectFile` class to serve as base class for Visual Studio project files.
+- Added `SourceFile` class to serve as base class for Visual Studio source files.
+- Added support for Visual Basic project files and source files.
+- Project files no longer include auto-generated source files.
+- Added `VisualStudioFiles` class for managing multiple Visual Studio files of varying type. Useful for initializing Visual Studio files located in multiple provided file paths, including file paths containing wildcard characters.
+
+1.0.1 (1.0.1.0) - October 31, 2011
+----------------------------------
+
+- Non-Visual C# project files are now skipped when reading solution files in `SolutionFile` class.
+
+1.0 (1.0.0.0) - August 11, 2011
+-------------------------------
+
+- Initial release.

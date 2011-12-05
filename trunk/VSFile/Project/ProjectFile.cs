@@ -194,7 +194,7 @@ namespace VSFile.Project
 				if (filePath != null &&
 					filePath.EndsWith(SourceFileExtension, StringComparison.OrdinalIgnoreCase))
 				{
-					T sourceFile = CreateSourceFile(filePath);
+					T sourceFile = CreateSourceFile(GetFullFilePath(filePath));
 
 					m_sourceFiles.Add(sourceFile);
 				}

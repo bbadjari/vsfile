@@ -136,6 +136,11 @@ Releases
 
 The latest release of this software can be obtained from: <http://sourceforge.net/projects/vsfile>
 
+### 1.1.1 (1.1.1.0) - December 5, 2011 ###
+
+- Full file path is now used when creating source files in `ProjectFile` class.
+- Added NAnt build file.
+
 ### 1.1 (1.1.0.0) - December 4, 2011 ###
 
 - Added `Project` and `Source` namespaces that contain Visual Studio project files and source files respectively.

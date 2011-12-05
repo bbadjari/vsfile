@@ -1,6 +1,12 @@
 ﻿Releases
 ========
 
+1.1.1 (1.1.1.0) - December 5, 2011
+----------------------------------
+
+- Full file path is now used when creating source files in `ProjectFile` class.
+- Added NAnt build file.
+
 1.1 (1.1.0.0) - December 4, 2011
 --------------------------------
 

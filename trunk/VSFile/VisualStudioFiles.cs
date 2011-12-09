@@ -193,7 +193,7 @@ namespace VSFile
 		/// </param>
 		void Initialize(string filePath)
 		{
-			Debug.Assert(!string.IsNullOrEmpty(filePath));
+			Debug.Assert(!string.IsNullOrEmpty(filePath), "Invalid file path.");
 
 			string directoryPath = Path.GetDirectoryName(filePath);
 
@@ -234,8 +234,8 @@ namespace VSFile
 		/// </param>
 		void Initialize(string filePath, string fileExtension)
 		{
-			Debug.Assert(!string.IsNullOrEmpty(filePath));
-			Debug.Assert(!string.IsNullOrEmpty(fileExtension));
+			Debug.Assert(!string.IsNullOrEmpty(filePath), "Invalid file path.");
+			Debug.Assert(!string.IsNullOrEmpty(fileExtension), "Invalid file extension.");
 
 			switch (fileExtension)
 			{

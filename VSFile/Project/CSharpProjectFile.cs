@@ -76,6 +76,9 @@ namespace VSFile.Project
 		/// <param name="filePath">
 		/// String representing file path.
 		/// </param>
+		/// <returns>
+		/// Instance of source file with given file path.
+		/// </returns>
 		protected override CSharpSourceFile CreateSourceFile(string filePath)
 		{
 			return new CSharpSourceFile(filePath);

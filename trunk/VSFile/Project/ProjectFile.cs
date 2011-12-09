@@ -136,6 +136,9 @@ namespace VSFile.Project
 		/// <param name="filePath">
 		/// String representing file path.
 		/// </param>
+		/// <returns>
+		/// Instance of source file with given file path.
+		/// </returns>
 		protected abstract T CreateSourceFile(string filePath);
 
 		/// <summary>

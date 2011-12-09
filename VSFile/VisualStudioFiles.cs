@@ -156,7 +156,7 @@ namespace VSFile
 		/// <returns>
 		/// True if file path contains any wildcard characters, false otherwise.
 		/// </returns>
-		bool HasWildcard(string filePath)
+		static bool HasWildcard(string filePath)
 		{
 			if (!string.IsNullOrEmpty(filePath))
 			{
@@ -271,7 +271,7 @@ namespace VSFile
 		/// <returns>
 		/// True if file extension is supported, false otherwise.
 		/// </returns>
-		bool IsSupportedExtension(string fileExtension)
+		static bool IsSupportedExtension(string fileExtension)
 		{
 			if (!string.IsNullOrEmpty(fileExtension))
 			{

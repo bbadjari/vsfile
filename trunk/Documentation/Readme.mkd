@@ -86,7 +86,7 @@ The following is a description of all of the classes one needs to be familiar wi
 
 - Manages multiple Visual Studio files of varying type.
 - Used to initialize multiple Visual Studio files located in multiple file paths.
-- Supports file paths having wildcard characters in place of file names.
+- Supports file paths having wildcard characters (* or ?) in place of file names.
 - Supports searching recursively through file path subdirectories.
 - Supported Visual Studio files are not loaded when initialized.
 

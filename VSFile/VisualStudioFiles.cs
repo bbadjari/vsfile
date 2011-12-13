@@ -197,6 +197,10 @@ namespace VSFile
 
 			string directoryPath = Path.GetDirectoryName(filePath);
 
+			// Use current directory if no directory information in file path.
+			if (string.IsNullOrEmpty(directoryPath))
+				directoryPath = Directory.GetCurrentDirectory();
+
 			// Skip if any wildcard characters in directory portion of file path.
 			if (HasWildcard(directoryPath))
 				return;

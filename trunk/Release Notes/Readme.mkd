@@ -1,6 +1,11 @@
 ﻿Releases
 ========
 
+1.1.2 (1.1.2.0) - December 12, 2011
+-----------------------------------
+
+- Current directory now used when initializing files in `VisualStudioFiles` class if no directory information in given file path.
+
 1.1.1 (1.1.1.0) - December 5, 2011
 ----------------------------------
 

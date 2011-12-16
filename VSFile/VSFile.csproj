@@ -37,11 +37,13 @@
   <ItemGroup>
     <Compile Include="Project\BasicProjectFile.cs" />
     <Compile Include="Project\CSharpProjectFile.cs" />
+    <Compile Include="Project\FSharpProjectFile.cs" />
     <Compile Include="Source\BasicSourceFile.cs" />
     <Compile Include="Source\CSharpSourceFile.cs" />
     <Compile Include="Project\ProjectFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolutionFile.cs" />
+    <Compile Include="Source\FSharpSourceFile.cs" />
     <Compile Include="Source\SourceFile.cs" />
     <Compile Include="VisualStudioFile.cs" />
     <Compile Include="VisualStudioFiles.cs" />

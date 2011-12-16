@@ -64,6 +64,8 @@ namespace VSFile
 			BasicSourceFile.SourceFileExtension,
 			CSharpProjectFile.ProjectFileExtension,
 			CSharpSourceFile.SourceFileExtension,
+			FSharpProjectFile.ProjectFileExtension,
+			FSharpSourceFile.SourceFileExtension,
 			SolutionFile.SolutionFileExtension
 		};
 
@@ -97,6 +99,16 @@ namespace VSFile
 		/// Initialized Visual C# source files.
 		/// </summary>
 		List<CSharpSourceFile> m_cSharpSourceFiles;
+
+		/// <summary>
+		/// Initialized Visual F# project files.
+		/// </summary>
+		List<FSharpProjectFile> m_fSharpProjectFiles;
+
+		/// <summary>
+		/// Initialized Visual F# source files.
+		/// </summary>
+		List<FSharpSourceFile> m_fSharpSourceFiles;
 
 		/// <summary>
 		/// Option to use when searching for files.
@@ -138,6 +150,8 @@ namespace VSFile
 			m_basicSourceFiles = new List<BasicSourceFile>();
 			m_cSharpProjectFiles = new List<CSharpProjectFile>();
 			m_cSharpSourceFiles = new List<CSharpSourceFile>();
+			m_fSharpProjectFiles = new List<FSharpProjectFile>();
+			m_fSharpSourceFiles = new List<FSharpSourceFile>();
 			m_fileSearchOption = recursiveSearch ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 			m_solutionFiles = new List<SolutionFile>();
 
@@ -259,6 +273,14 @@ namespace VSFile
 					m_cSharpSourceFiles.Add(new CSharpSourceFile(filePath));
 
 					break;
+				case FSharpProjectFile.ProjectFileExtension:
+					m_fSharpProjectFiles.Add(new FSharpProjectFile(filePath));
+
+					break;
+				case FSharpSourceFile.SourceFileExtension:
+					m_fSharpSourceFiles.Add(new FSharpSourceFile(filePath));
+
+					break;
 				case SolutionFile.SolutionFileExtension:
 					m_solutionFiles.Add(new SolutionFile(filePath));
 
@@ -338,6 +360,30 @@ namespace VSFile
 		public IEnumerable<CSharpSourceFile> CSharpSourceFiles
 		{
 			get { return m_cSharpSourceFiles; }
+		}
+
+		/// <summary>
+		/// Get initialized Visual F# project files.
+		/// </summary>
+		/// <value>
+		/// Enumerable collection of FSharpProjectFile objects representing
+		/// initialized Visual F# project files.
+		/// </value>
+		public IEnumerable<FSharpProjectFile> FSharpProjectFiles
+		{
+			get { return m_fSharpProjectFiles; }
+		}
+
+		/// <summary>
+		/// Get initialized Visual F# source files.
+		/// </summary>
+		/// <value>
+		/// Enumerable collection of FSharpSourceFile objects representing
+		/// initialized Visual F# source files.
+		/// </value>
+		public IEnumerable<FSharpSourceFile> FSharpSourceFiles
+		{
+			get { return m_fSharpSourceFiles; }
 		}
 
 		/// <summary>

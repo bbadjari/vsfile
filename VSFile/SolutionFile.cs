@@ -137,6 +137,11 @@ namespace VSFile
 			/// Visual C# project type.
 			/// </summary>
 			public const string CSharp = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
+
+			/// <summary>
+			/// Visual F# project type.
+			/// </summary>
+			public const string FSharp = "F2A71F9B-5D33-465A-A702-920D77279786";
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -152,6 +157,11 @@ namespace VSFile
 		List<CSharpProjectFile> m_cSharpProjectFiles;
 
 		/// <summary>
+		/// Visual F# project files referenced in this solution file.
+		/// </summary>
+		List<FSharpProjectFile> m_fSharpProjectFiles;
+
+		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="filePath">
@@ -162,6 +172,7 @@ namespace VSFile
 		{
 			m_basicProjectFiles = new List<BasicProjectFile>();
 			m_cSharpProjectFiles = new List<CSharpProjectFile>();
+			m_fSharpProjectFiles = new List<FSharpProjectFile>();
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -216,6 +227,10 @@ namespace VSFile
 						m_cSharpProjectFiles.Add(new CSharpProjectFile(projectName, filePath));
 
 						break;
+					case ProjectTypeGuid.FSharp:
+						m_fSharpProjectFiles.Add(new FSharpProjectFile(projectName, filePath));
+
+						break;
 				}
 			}
 		}
@@ -264,6 +279,18 @@ namespace VSFile
 		public IEnumerable<CSharpProjectFile> CSharpProjectFiles
 		{
 			get { return m_cSharpProjectFiles; }
+		}
+
+		/// <summary>
+		/// Get Visual F# project files referenced in this solution file.
+		/// </summary>
+		/// <value>
+		/// Enumerable collection of FSharpProjectFile objects representing
+		/// Visual F# project files referenced in this solution file.
+		/// </value>
+		public IEnumerable<FSharpProjectFile> FSharpProjectFiles
+		{
+			get { return m_fSharpProjectFiles; }
 		}
 	}
 }

@@ -141,7 +141,7 @@ namespace VSFile
 		/// Get file extension.
 		/// </summary>
 		/// <value>
-		/// String representing extension of this Visual Studio file.
+		/// String representing file extension of this Visual Studio file.
 		/// </value>
 		public string FileExtension
 		{
@@ -152,7 +152,7 @@ namespace VSFile
 		/// Get file name.
 		/// </summary>
 		/// <value>
-		/// String representing name of this Visual Studio file.
+		/// String representing file name of this Visual Studio file.
 		/// </value>
 		public string FileName
 		{
@@ -160,10 +160,10 @@ namespace VSFile
 		}
 
 		/// <summary>
-		/// Get file name with no extension.
+		/// Get file name with no file extension.
 		/// </summary>
 		/// <value>
-		/// String representing name of this Visual Studio file with no extension.
+		/// String representing file name of this Visual Studio file with no file extension.
 		/// </value>
 		public string FileNameNoExtension
 		{
@@ -174,7 +174,7 @@ namespace VSFile
 		/// Get file path.
 		/// </summary>
 		/// <value>
-		/// String representing path to this Visual Studio file.
+		/// String representing file path to this Visual Studio file.
 		/// </value>
 		public string FilePath
 		{

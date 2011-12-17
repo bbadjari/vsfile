@@ -127,9 +127,9 @@ namespace VSFile
 		/// Constructor for specifying file paths.
 		/// </summary>
 		/// <param name="filePaths">
-		/// Array of strings representing file paths.
+		/// Enumerable collection of strings representing file paths.
 		/// </param>
-		public VisualStudioFiles(string[] filePaths)
+		public VisualStudioFiles(IEnumerable<string> filePaths)
 			: this(filePaths, false)
 		{
 		}
@@ -138,13 +138,13 @@ namespace VSFile
 		/// Constructor for specifying recursive search option.
 		/// </summary>
 		/// <param name="filePaths">
-		/// Array of strings representing file paths.
+		/// Enumerable collection of strings representing file paths.
 		/// </param>
 		/// <param name="recursiveSearch">
 		/// True if all subdirectories in given file paths are also to be
 		/// searched, false otherwise.
 		/// </param>
-		public VisualStudioFiles(string[] filePaths, bool recursiveSearch)
+		public VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch)
 		{
 			m_basicProjectFiles = new List<BasicProjectFile>();
 			m_basicSourceFiles = new List<BasicSourceFile>();
@@ -188,9 +188,9 @@ namespace VSFile
 		/// Initialize Visual Studio files at given paths.
 		/// </summary>
 		/// <param name="filePaths">
-		/// Array of strings representing file paths.
+		/// Enumerable collection of strings representing file paths.
 		/// </param>
-		void Initialize(string[] filePaths)
+		void Initialize(IEnumerable<string> filePaths)
 		{
 			if (filePaths == null)
 				throw new ArgumentNullException();

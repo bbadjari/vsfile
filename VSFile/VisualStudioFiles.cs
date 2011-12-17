@@ -40,22 +40,6 @@ namespace VSFile
 	public class VisualStudioFiles
 	{
 		/// <summary>
-		/// Wildcard characters contained in file paths.
-		/// </summary>
-		static class Wildcard
-		{
-			/// <summary>
-			/// Zero or more characters.
-			/// </summary>
-			public const string Asterisk = "*";
-
-			/// <summary>
-			/// Zero or one character.
-			/// </summary>
-			public const string Question = "?";
-		}
-
-		/// <summary>
 		/// Supported file extensions.
 		/// </summary>
 		static readonly string[] SupportedExtensions = new string[]

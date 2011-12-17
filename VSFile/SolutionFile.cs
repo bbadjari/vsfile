@@ -183,6 +183,8 @@ namespace VSFile
 		/// </summary>
 		protected override void ReadFile()
 		{
+			ClearFiles();
+
 			using (TextReader reader = new StreamReader(FilePath))
 			{
 				string inputLine;
@@ -233,6 +235,16 @@ namespace VSFile
 						break;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Clear referenced project files.
+		/// </summary>
+		void ClearFiles()
+		{
+			m_basicProjectFiles.Clear();
+			m_cSharpProjectFiles.Clear();
+			m_fSharpProjectFiles.Clear();
 		}
 
 		/// <summary>

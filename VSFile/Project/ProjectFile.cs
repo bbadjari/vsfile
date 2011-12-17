@@ -146,6 +146,8 @@ namespace VSFile.Project
 		/// </summary>
 		protected override void ReadFile()
 		{
+			ClearFiles();
+
 			XmlDocument document = new XmlDocument();
 
 			document.Load(FilePath);
@@ -202,6 +204,14 @@ namespace VSFile.Project
 					m_sourceFiles.Add(sourceFile);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Clear referenced source files.
+		/// </summary>
+		void ClearFiles()
+		{
+			m_sourceFiles.Clear();
 		}
 
 		////////////////////////////////////////////////////////////////////////

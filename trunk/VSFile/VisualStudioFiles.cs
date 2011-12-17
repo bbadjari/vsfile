@@ -53,15 +53,6 @@ namespace VSFile
 			SolutionFile.SolutionFileExtension
 		};
 
-		/// <summary>
-		/// Wildcard characters contained in file paths.
-		/// </summary>
-		static readonly string[] Wildcards = new string[]
-		{
-			Wildcard.Asterisk,
-			Wildcard.Question
-		};
-
 		////////////////////////////////////////////////////////////////////////
 
 		/// <summary>
@@ -146,29 +137,6 @@ namespace VSFile
 		// Methods
 
 		/// <summary>
-		/// Determine if given file path contains any wildcard characters.
-		/// </summary>
-		/// <param name="filePath">
-		/// String representing file path.
-		/// </param>
-		/// <returns>
-		/// True if file path contains any wildcard characters, false otherwise.
-		/// </returns>
-		static bool HasWildcard(string filePath)
-		{
-			if (!string.IsNullOrEmpty(filePath))
-			{
-				foreach (string wildcard in Wildcards)
-				{
-					if (filePath.Contains(wildcard))
-						return true;
-				}
-			}
-
-			return false;
-		}
-
-		/// <summary>
 		/// Initialize Visual Studio files at given paths.
 		/// </summary>
 		/// <param name="filePaths">
@@ -200,13 +168,13 @@ namespace VSFile
 				directoryPath = Directory.GetCurrentDirectory();
 
 			// Skip if any wildcard characters in directory portion of file path.
-			if (HasWildcard(directoryPath))
+			if (Wildcard.HasWildcard(directoryPath))
 				return;
 
 			string fileName = Path.GetFileName(filePath);
 
 			// Resolve any wildcard characters in file portion of file path.
-			if (HasWildcard(fileName))
+			if (Wildcard.HasWildcard(fileName))
 			{
 				string[] filePaths = Directory.GetFiles(directoryPath, fileName, FileSearchOption);
 

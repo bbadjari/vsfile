@@ -38,6 +38,7 @@
     <Compile Include="Project\BasicProjectFile.cs" />
     <Compile Include="Project\CSharpProjectFile.cs" />
     <Compile Include="Project\FSharpProjectFile.cs" />
+    <Compile Include="Project\WebSiteDirectory.cs" />
     <Compile Include="Source\BasicSourceFile.cs" />
     <Compile Include="Source\CSharpSourceFile.cs" />
     <Compile Include="Project\ProjectFile.cs" />

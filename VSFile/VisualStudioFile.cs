@@ -82,17 +82,17 @@ namespace VSFile
 		// Protected Methods
 
 		/// <summary>
-		/// Get full file path including given relative path.
+		/// Get full path combining directory path and given relative path.
 		/// </summary>
-		/// <param name="relativeFilePath">
-		/// String representing relative file path.
+		/// <param name="relativePath">
+		/// String representing relative path.
 		/// </param>
 		/// <returns>
-		/// String representing full file path.
+		/// String representing full path combining directory path and given relative path.
 		/// </returns>
-		protected string GetFullFilePath(string relativeFilePath)
+		protected string GetFullPath(string relativePath)
 		{
-			return Path.Combine(DirectoryPath, relativeFilePath);
+			return Path.Combine(DirectoryPath, relativePath);
 		}
 
 		/// <summary>

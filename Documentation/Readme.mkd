@@ -13,6 +13,9 @@ Features
 - Read Visual Basic source files (\*.vb) referenced in Visual Basic project files.
 - Read Visual C# project files (\*.csproj) referenced in Visual Studio solution files.
 - Read Visual C# source files (\*.cs) referenced in Visual C# project files.
+- Read Visual F# project files (\*.fsproj) referenced in Visual Studio solution files.
+- Read Visual F# source files (\*.fs) referenced in Visual F# project files.
+- Read Visual Basic/C# source files contained in ASP.NET web site directories.
 - Search for supported Visual Studio files using wildcard characters and recursive search.
 
 Requirements
@@ -39,7 +42,8 @@ The following is a description of all of the classes one needs to be familiar wi
 - Represents a Visual Studio solution file.
 - Subclasses the `VisualStudioFile` class.
 - File extension for this file is ".sln".
-- References all supported Visual Studio project files.
+- Used to resolve references to all supported Visual Studio project files.
+- Used to resolve references to ASP.NET web site directories.
 
 `ProjectFile`
 
@@ -82,6 +86,19 @@ The following is a description of all of the classes one needs to be familiar wi
 - Subclasses the `SourceFile` class.
 - File extension for this source file is ".cs".
 
+`FSharpProjectFile`
+
+- Represents a project file for the Visual F# .NET programming language.
+- Subclasses the `ProjectFile` class.
+- File extension for this project file is ".fsproj".
+- References Visual F# source files.
+
+`FSharpSourceFile`
+
+- Represents a source file written in the Visual F# .NET programming language.
+- Subclasses the `SourceFile` class.
+- File extension for this source file is ".fs".
+
 `VisualStudioFiles`
 
 - Manages multiple Visual Studio files of varying type.
@@ -89,6 +106,11 @@ The following is a description of all of the classes one needs to be familiar wi
 - Supports file paths having wildcard characters (* or ?) in place of file names.
 - Supports searching recursively through file path subdirectories.
 - Supported Visual Studio files are not loaded when initialized.
+
+`WebSiteDirectory`
+
+- Represents an ASP.NET web site directory containing files.
+- Used to locate all Visual Basic/C# source files contained in directory path and subdirectories.
 
 ### Example ###
 

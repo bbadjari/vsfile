@@ -1,6 +1,15 @@
 ﻿Releases
 ========
 
+1.2 (1.2.0.0) - December 21, 2011
+---------------------------------
+
+- Included generated XML documentation file.
+- Marked assembly to indicate Common Language Specification (CLS) compliance.
+- Added support for ASP.NET web site directories that contain source files.
+- Referenced files are now cleared whenever project files or solution file loaded (i.e. read).
+- Added support for Visual F# project files and source files.
+
 1.1.2 (1.1.2.0) - December 12, 2011
 -----------------------------------
 

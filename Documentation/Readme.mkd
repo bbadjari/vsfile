@@ -158,6 +158,10 @@ Releases
 
 The latest release of this software can be obtained from: <http://sourceforge.net/projects/vsfile>
 
+### 1.2.1 (1.2.1.0) - February 5, 2012 ###
+
+- Web site files in all subdirectories are now loaded in `WebSiteDirectory` class.
+
 ### 1.2 (1.2.0.0) - December 21, 2011 ###
 
 - Included generated XML documentation file.

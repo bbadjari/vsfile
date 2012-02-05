@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bernard Badjari")]
 [assembly: AssemblyProduct("VS File")]
-[assembly: AssemblyCopyright("Copyright (c) 2011 Bernard Badjari")]
+[assembly: AssemblyCopyright("Copyright (c) 2011-2012 Bernard Badjari")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

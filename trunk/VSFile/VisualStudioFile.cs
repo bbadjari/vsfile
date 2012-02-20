@@ -36,9 +36,24 @@ namespace VSFile
 	public abstract class VisualStudioFile
 	{
 		/// <summary>
+		/// Path to directory containing Visual Studio file.
+		/// </summary>
+		string m_directoryPath;
+
+		/// <summary>
 		/// File extension of Visual Studio file.
 		/// </summary>
 		string m_fileExtension;
+
+		/// <summary>
+		/// Name of Visual Studio file.
+		/// </summary>
+		string m_fileName;
+
+		/// <summary>
+		/// Name of Visual Studio file with no file extension.
+		/// </summary>
+		string m_fileNameNoExtension;
 
 		/// <summary>
 		/// File path to Visual Studio file.
@@ -59,7 +74,15 @@ namespace VSFile
 			if (string.IsNullOrEmpty(fileExtension) || string.IsNullOrEmpty(filePath))
 				throw new ArgumentException();
 
+			m_directoryPath = Path.GetDirectoryName(FilePath);
+
+			// Use current directory if no directory information in file path.
+			if (string.IsNullOrEmpty(m_directoryPath))
+				m_directoryPath = Directory.GetCurrentDirectory();
+
 			m_fileExtension = fileExtension;
+			m_fileName = Path.GetFileName(filePath);
+			m_fileNameNoExtension = Path.GetFileNameWithoutExtension(filePath);
 			m_filePath = filePath;
 		}
 
@@ -134,7 +157,7 @@ namespace VSFile
 		/// </value>
 		public string DirectoryPath
 		{
-			get { return Path.GetDirectoryName(FilePath); }
+			get { return m_directoryPath; }
 		}
 
 		/// <summary>
@@ -156,7 +179,7 @@ namespace VSFile
 		/// </value>
 		public string FileName
 		{
-			get { return Path.GetFileName(FilePath); }
+			get { return m_fileName; }
 		}
 
 		/// <summary>
@@ -167,7 +190,7 @@ namespace VSFile
 		/// </value>
 		public string FileNameNoExtension
 		{
-			get { return Path.GetFileNameWithoutExtension(FilePath); }
+			get { return m_fileNameNoExtension; }
 		}
 
 		/// <summary>

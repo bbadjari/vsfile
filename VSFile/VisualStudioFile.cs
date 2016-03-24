@@ -74,6 +74,9 @@ namespace VSFile
 			if (string.IsNullOrEmpty(fileExtension) || string.IsNullOrEmpty(filePath))
 				throw new ArgumentException();
 
+			// For unix.
+			filePath = filePath.Replace('\\', Path.DirectorySeparatorChar);
+
 			m_directoryPath = Path.GetDirectoryName(filePath);
 
 			// Use current directory if no directory information in file path.

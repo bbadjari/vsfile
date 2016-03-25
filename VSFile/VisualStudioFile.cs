@@ -36,6 +36,13 @@ namespace VSFile
 	public abstract class VisualStudioFile
 	{
 		/// <summary>
+		/// Directory separator character on Windows platform.
+		/// </summary>
+		const char WindowsDirectorySeparatorChar = '\\';
+
+		////////////////////////////////////////////////////////////////////////
+
+		/// <summary>
 		/// Path to directory containing Visual Studio file.
 		/// </summary>
 		string m_directoryPath;
@@ -73,6 +80,9 @@ namespace VSFile
 		{
 			if (string.IsNullOrEmpty(fileExtension) || string.IsNullOrEmpty(filePath))
 				throw new ArgumentException();
+
+			// Ensure platform-specific directory separator character used in file path.
+			filePath = filePath.Replace(WindowsDirectorySeparatorChar, Path.DirectorySeparatorChar);
 
 			m_directoryPath = Path.GetDirectoryName(filePath);
 

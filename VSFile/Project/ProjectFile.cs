@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using VSFile.Properties;
 using VSFile.Source;
 
 namespace VSFile.Project
@@ -107,7 +108,7 @@ namespace VSFile.Project
 			: base(fileExtension, filePath)
 		{
 			if (string.IsNullOrWhiteSpace(sourceFileExtension))
-				throw new ArgumentException();
+				throw new ArgumentException(ExceptionMessages.InvalidSourceFileExtension);
 
 			ProjectName = string.IsNullOrWhiteSpace(projectName) ? FileNameNoExtension : projectName;
 			SourceFileExtension = sourceFileExtension;

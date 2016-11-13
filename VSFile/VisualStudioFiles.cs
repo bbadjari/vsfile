@@ -119,7 +119,7 @@ namespace VSFile
 		private void Initialize(IEnumerable<string> filePaths)
 		{
 			if (filePaths == null)
-				throw new ArgumentNullException();
+				throw new ArgumentNullException("filePaths");
 			
 			foreach (string filePath in filePaths)
 				Initialize(filePath);

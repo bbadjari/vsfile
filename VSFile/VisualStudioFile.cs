@@ -27,6 +27,7 @@
 
 using System;
 using System.IO;
+using VSFile.Properties;
 
 namespace VSFile
 {
@@ -54,8 +55,11 @@ namespace VSFile
 		/// </param>
 		protected VisualStudioFile(string fileExtension, string filePath)
 		{
-			if (string.IsNullOrWhiteSpace(fileExtension) || string.IsNullOrWhiteSpace(filePath))
-				throw new ArgumentException();
+			if (string.IsNullOrWhiteSpace(fileExtension))
+				throw new ArgumentException(ExceptionMessages.InvalidFileExtension);
+
+			if (string.IsNullOrWhiteSpace(filePath))
+				throw new ArgumentException(ExceptionMessages.InvalidFilePath);
 
 			// Ensure platform-specific directory separator character used in file path.
 			filePath = filePath.Replace(WindowsDirectorySeparatorChar, Path.DirectorySeparatorChar);
@@ -114,7 +118,7 @@ namespace VSFile
 			string extension = Path.GetExtension(FilePath);
 
 			if (!extension.Equals(FileExtension, StringComparison.OrdinalIgnoreCase))
-				throw new IOException("Invalid file extension.");
+				throw new IOException(ExceptionMessages.InvalidFileExtension);
 		}
 
 		/// <summary>
@@ -123,7 +127,7 @@ namespace VSFile
 		private void CheckFilePath()
 		{
 			if (!File.Exists(FilePath))
-				throw new FileNotFoundException("File not found at path: " + FilePath);
+				throw new FileNotFoundException(string.Format(ExceptionMessages.FileNotFound, FilePath));
 		}
 
 		////////////////////////////////////////////////////////////////////////

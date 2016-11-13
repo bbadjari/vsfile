@@ -28,6 +28,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using VSFile.Properties;
 using VSFile.Source;
 
 namespace VSFile.Project
@@ -66,8 +67,11 @@ namespace VSFile.Project
 		/// </param>
 		public WebSiteDirectory(string name, string directoryPath)
 		{
-			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(directoryPath))
-				throw new ArgumentException();
+			if (string.IsNullOrWhiteSpace(name))
+				throw new ArgumentException(ExceptionMessages.InvalidName);
+
+			if (string.IsNullOrWhiteSpace(directoryPath))
+				throw new ArgumentException(ExceptionMessages.InvalidDirectoryPath);
 
 			basicSourceFiles = new List<BasicSourceFile>();
 			cSharpSourceFiles = new List<CSharpSourceFile>();
@@ -96,7 +100,7 @@ namespace VSFile.Project
 		private void CheckDirectoryPath()
 		{
 			if (!Directory.Exists(DirectoryPath))
-				throw new DirectoryNotFoundException("Directory not found at path: " + DirectoryPath);
+				throw new DirectoryNotFoundException(string.Format(ExceptionMessages.DirectoryNotFound, DirectoryPath));
 		}
 
 		/// <summary>

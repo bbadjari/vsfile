@@ -40,7 +40,7 @@ namespace VSFile.Project
 		/// <summary>
 		/// Supported web site file extensions.
 		/// </summary>
-		static readonly string[] SupportedExtensions = new string[]
+		private static readonly string[] SupportedExtensions = new string[]
 		{
 			BasicSourceFile.SourceFileExtension,
 			CSharpSourceFile.SourceFileExtension,
@@ -48,25 +48,12 @@ namespace VSFile.Project
 
 		////////////////////////////////////////////////////////////////////////
 
-		/// <summary>
-		/// Visual Basic source files contained in this web site.
-		/// </summary>
-		List<BasicSourceFile> m_basicSourceFiles;
+		private List<BasicSourceFile> basicSourceFiles;
 
-		/// <summary>
-		/// Visual C# source files contained in this web site.
-		/// </summary>
-		List<CSharpSourceFile> m_cSharpSourceFiles;
+		private List<CSharpSourceFile> cSharpSourceFiles;
 
-		/// <summary>
-		/// Path to directory containing web site files.
-		/// </summary>
-		string m_directoryPath;
-
-		/// <summary>
-		/// Web site name.
-		/// </summary>
-		string m_name;
+		////////////////////////////////////////////////////////////////////////
+		// Constructors
 
 		/// <summary>
 		/// Constructor.
@@ -79,17 +66,17 @@ namespace VSFile.Project
 		/// </param>
 		public WebSiteDirectory(string name, string directoryPath)
 		{
-			if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(directoryPath))
+			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(directoryPath))
 				throw new ArgumentException();
 
-			m_basicSourceFiles = new List<BasicSourceFile>();
-			m_cSharpSourceFiles = new List<CSharpSourceFile>();
-			m_directoryPath = directoryPath;
-			m_name = name;
+			basicSourceFiles = new List<BasicSourceFile>();
+			cSharpSourceFiles = new List<CSharpSourceFile>();
+			DirectoryPath = directoryPath;
+			Name = name;
 		}
 
 		////////////////////////////////////////////////////////////////////////
-		// Public Methods
+		// Methods
 
 		/// <summary>
 		/// Load web site files.
@@ -103,13 +90,10 @@ namespace VSFile.Project
 			LoadFiles();
 		}
 
-		////////////////////////////////////////////////////////////////////////
-		// Methods
-
 		/// <summary>
 		/// Throw exception if directory path is invalid.
 		/// </summary>
-		void CheckDirectoryPath()
+		private void CheckDirectoryPath()
 		{
 			if (!Directory.Exists(DirectoryPath))
 				throw new DirectoryNotFoundException("Directory not found at path: " + DirectoryPath);
@@ -118,16 +102,16 @@ namespace VSFile.Project
 		/// <summary>
 		/// Clear web site files.
 		/// </summary>
-		void ClearFiles()
+		private void ClearFiles()
 		{
-			m_basicSourceFiles.Clear();
-			m_cSharpSourceFiles.Clear();
+			basicSourceFiles.Clear();
+			cSharpSourceFiles.Clear();
 		}
 
 		/// <summary>
 		/// Load web site files.
 		/// </summary>
-		void LoadFiles()
+		private void LoadFiles()
 		{
 			List<string> filePaths = new List<string>();
 
@@ -140,8 +124,8 @@ namespace VSFile.Project
 
 			VisualStudioFiles files = new VisualStudioFiles(filePaths, true);
 
-			m_basicSourceFiles.AddRange(files.BasicSourceFiles);
-			m_cSharpSourceFiles.AddRange(files.CSharpSourceFiles);
+			basicSourceFiles.AddRange(files.BasicSourceFiles);
+			cSharpSourceFiles.AddRange(files.CSharpSourceFiles);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -156,7 +140,7 @@ namespace VSFile.Project
 		/// </value>
 		public IEnumerable<BasicSourceFile> BasicSourceFiles
 		{
-			get { return m_basicSourceFiles; }
+			get { return basicSourceFiles; }
 		}
 
 		/// <summary>
@@ -168,7 +152,7 @@ namespace VSFile.Project
 		/// </value>
 		public IEnumerable<CSharpSourceFile> CSharpSourceFiles
 		{
-			get { return m_cSharpSourceFiles; }
+			get { return cSharpSourceFiles; }
 		}
 
 		/// <summary>
@@ -177,10 +161,7 @@ namespace VSFile.Project
 		/// <value>
 		/// String representing path to directory containing web site files.
 		/// </value>
-		public string DirectoryPath
-		{
-			get { return m_directoryPath; }
-		}
+		public string DirectoryPath { get; private set; }
 
 		/// <summary>
 		/// Get web site name.
@@ -188,9 +169,6 @@ namespace VSFile.Project
 		/// <value>
 		/// String representing web site name.
 		/// </value>
-		public string Name
-		{
-			get { return m_name; }
-		}
+		public string Name { get; private set; }
 	}
 }

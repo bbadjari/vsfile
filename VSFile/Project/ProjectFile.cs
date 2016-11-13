@@ -44,7 +44,7 @@ namespace VSFile.Project
 		/// <summary>
 		/// XPath expressions used to select elements and attributes in project file.
 		/// </summary>
-		static class XPath
+		private static class XPath
 		{
 			public const string AutoGenElement = "msb:AutoGen";
 			public const string CompileElement = "/msb:Project/msb:ItemGroup/msb:Compile";
@@ -54,29 +54,16 @@ namespace VSFile.Project
 		/// <summary>
 		/// Namespace used in project file.
 		/// </summary>
-		const string Namespace = "http://schemas.microsoft.com/developer/msbuild/2003";
+		private const string Namespace = "http://schemas.microsoft.com/developer/msbuild/2003";
 
 		/// <summary>
 		/// Namespace prefix used in XPath expressions.
 		/// </summary>
-		const string NamespacePrefix = "msb";
+		private const string NamespacePrefix = "msb";
 
 		////////////////////////////////////////////////////////////////////////
 
-		/// <summary>
-		/// Name of project.
-		/// </summary>
-		string m_projectName;
-
-		/// <summary>
-		/// File extension of source files referenced in this project file.
-		/// </summary>
-		string m_sourceFileExtension;
-
-		/// <summary>
-		/// Source files referenced in this project file.
-		/// </summary>
-		List<T> m_sourceFiles;
+		private List<T> sourceFiles;
 
 		////////////////////////////////////////////////////////////////////////
 		// Constructors
@@ -119,16 +106,16 @@ namespace VSFile.Project
 			string sourceFileExtension)
 			: base(fileExtension, filePath)
 		{
-			if (string.IsNullOrEmpty(sourceFileExtension))
+			if (string.IsNullOrWhiteSpace(sourceFileExtension))
 				throw new ArgumentException();
 
-			m_projectName = projectName;
-			m_sourceFileExtension = sourceFileExtension;
-			m_sourceFiles = new List<T>();
+			ProjectName = string.IsNullOrWhiteSpace(projectName) ? FileNameNoExtension : projectName;
+			SourceFileExtension = sourceFileExtension;
+			sourceFiles = new List<T>();
 		}
 
 		////////////////////////////////////////////////////////////////////////
-		// Protected Methods
+		// Methods
 
 		/// <summary>
 		/// Create instance of source file with given file path.
@@ -162,9 +149,6 @@ namespace VSFile.Project
 				AddSourceFile(node, namespaceManager);
 		}
 
-		////////////////////////////////////////////////////////////////////////
-		// Methods
-
 		/// <summary>
 		/// Add source file contained within given XML node and namespace manager.
 		/// </summary>
@@ -174,7 +158,7 @@ namespace VSFile.Project
 		/// <param name="namespaceManager">
 		/// XmlNamespaceManager managing XML namespace used in project file.
 		/// </param>
-		void AddSourceFile(XmlNode node, XmlNamespaceManager namespaceManager)
+		private void AddSourceFile(XmlNode node, XmlNamespaceManager namespaceManager)
 		{
 			XmlNode childNode = node.SelectSingleNode(XPath.AutoGenElement, namespaceManager);
 
@@ -201,7 +185,7 @@ namespace VSFile.Project
 				{
 					T sourceFile = CreateSourceFile(GetFullPath(filePath));
 
-					m_sourceFiles.Add(sourceFile);
+					sourceFiles.Add(sourceFile);
 				}
 			}
 		}
@@ -209,9 +193,9 @@ namespace VSFile.Project
 		/// <summary>
 		/// Clear referenced source files.
 		/// </summary>
-		void ClearFiles()
+		private void ClearFiles()
 		{
-			m_sourceFiles.Clear();
+			sourceFiles.Clear();
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -223,17 +207,7 @@ namespace VSFile.Project
 		/// <value>
 		/// String representing project name.
 		/// </value>
-		public string ProjectName
-		{
-			get
-			{
-				// Set project name to file name with no extension if not already set.
-				if (string.IsNullOrEmpty(m_projectName))
-					m_projectName = FileNameNoExtension;
-
-				return m_projectName;
-			}
-		}
+		public string ProjectName { get; private set; }
 
 		/// <summary>
 		/// Get file extension of Visual Studio source files referenced in this project file.
@@ -241,10 +215,7 @@ namespace VSFile.Project
 		/// <value>
 		/// String representing Visual Studio source file extension.
 		/// </value>
-		public string SourceFileExtension
-		{
-			get { return m_sourceFileExtension; }
-		}
+		public string SourceFileExtension { get; private set; }
 
 		/// <summary>
 		/// Get Visual Studio source files referenced in this project file.
@@ -255,7 +226,7 @@ namespace VSFile.Project
 		/// </value>
 		public IEnumerable<T> SourceFiles
 		{
-			get { return m_sourceFiles; }
+			get { return sourceFiles; }
 		}
 	}
 }

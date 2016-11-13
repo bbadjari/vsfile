@@ -32,6 +32,9 @@ namespace VSFile.Source
 	/// </summary>
 	public abstract class SourceFile : VisualStudioFile
 	{
+		////////////////////////////////////////////////////////////////////////
+		// Constructors
+
 		/// <summary>
 		/// Constructor.
 		/// </summary>

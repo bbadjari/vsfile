@@ -47,7 +47,7 @@ namespace VSFile
 		/// <summary>
 		/// Wildcard characters.
 		/// </summary>
-		static readonly string[] Wildcards = new string[]
+		private static readonly string[] Wildcards = new string[]
 		{
 			Asterisk,
 			Question
@@ -67,7 +67,7 @@ namespace VSFile
 		/// </returns>
 		public static string AddAsterisk(string fileExtension)
 		{
-			Debug.Assert(!string.IsNullOrEmpty(fileExtension), "Invalid file extension.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(fileExtension), "Invalid file extension.");
 
 			return Asterisk + fileExtension;
 		}
@@ -83,7 +83,7 @@ namespace VSFile
 		/// </returns>
 		public static bool HasWildcard(string filePath)
 		{
-			if (!string.IsNullOrEmpty(filePath))
+			if (!string.IsNullOrWhiteSpace(filePath))
 			{
 				foreach (string wildcard in Wildcards)
 				{

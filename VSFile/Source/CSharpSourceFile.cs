@@ -37,6 +37,9 @@ namespace VSFile.Source
 		/// </summary>
 		public const string SourceFileExtension = ".cs";
 
+		////////////////////////////////////////////////////////////////////////
+		// Constructors
+
 		/// <summary>
 		/// Constructor.
 		/// </summary>

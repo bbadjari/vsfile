@@ -46,7 +46,7 @@ namespace VSFile
 		/// <summary>
 		/// Project tag contained in solution file.
 		/// </summary>
-		static class ProjectTag
+		private static class ProjectTag
 		{
 			/// <summary>
 			/// Regular expression used to obtain data in project tag.
@@ -83,7 +83,7 @@ namespace VSFile
 				/// <summary>
 				/// GUID patterns.
 				/// </summary>
-				static class Guid
+				private static class Guid
 				{
 					/// <summary>
 					/// Pattern used to match project type GUID.
@@ -98,23 +98,23 @@ namespace VSFile
 					/// <summary>
 					/// Beginning of GUID pattern.
 					/// </summary>
-					const string Begin = @"""{(?<";
+					private const string Begin = @"""{(?<";
 
 					/// <summary>
 					/// End of GUID pattern.
 					/// </summary>
-					const string End = @">[A-F\d-]+)}""";
+					private const string End = @">[A-F\d-]+)}""";
 				}
 
 				/// <summary>
 				/// Pattern used to match project name.
 				/// </summary>
-				const string Name = @"""(?<" + NameGroup + @">.+)""";
+				private const string Name = @"""(?<" + NameGroup + @">.+)""";
 
 				/// <summary>
 				/// Pattern used to match project path.
 				/// </summary>
-				const string Path = @"""(?<" + PathGroup + @">.+)""";
+				private const string Path = @"""(?<" + PathGroup + @">.+)""";
 			}
 
 			/// <summary>
@@ -126,7 +126,7 @@ namespace VSFile
 		/// <summary>
 		/// GUIDs used to identify types of projects.
 		/// </summary>
-		static class ProjectTypeGuid
+		private static class ProjectTypeGuid
 		{
 			/// <summary>
 			/// Visual Basic project type.
@@ -151,25 +151,16 @@ namespace VSFile
 
 		////////////////////////////////////////////////////////////////////////
 
-		/// <summary>
-		/// Visual Basic project files referenced in this solution file.
-		/// </summary>
-		List<BasicProjectFile> m_basicProjectFiles;
+		private List<BasicProjectFile> basicProjectFiles;
 
-		/// <summary>
-		/// Visual C# project files referenced in this solution file.
-		/// </summary>
-		List<CSharpProjectFile> m_cSharpProjectFiles;
+		private List<CSharpProjectFile> cSharpProjectFiles;
 
-		/// <summary>
-		/// Visual F# project files referenced in this solution file.
-		/// </summary>
-		List<FSharpProjectFile> m_fSharpProjectFiles;
+		private List<FSharpProjectFile> fSharpProjectFiles;
 
-		/// <summary>
-		/// ASP.NET web site directories referenced in this solution file.
-		/// </summary>
-		List<WebSiteDirectory> m_webSiteDirectories;
+		private List<WebSiteDirectory> webSiteDirectories;
+
+		////////////////////////////////////////////////////////////////////////
+		// Constructors
 
 		/// <summary>
 		/// Constructor.
@@ -180,14 +171,14 @@ namespace VSFile
 		public SolutionFile(string filePath)
 			: base(SolutionFileExtension, filePath)
 		{
-			m_basicProjectFiles = new List<BasicProjectFile>();
-			m_cSharpProjectFiles = new List<CSharpProjectFile>();
-			m_fSharpProjectFiles = new List<FSharpProjectFile>();
-			m_webSiteDirectories = new List<WebSiteDirectory>();
+			basicProjectFiles = new List<BasicProjectFile>();
+			cSharpProjectFiles = new List<CSharpProjectFile>();
+			fSharpProjectFiles = new List<FSharpProjectFile>();
+			webSiteDirectories = new List<WebSiteDirectory>();
 		}
 
 		////////////////////////////////////////////////////////////////////////
-		// Protected Methods
+		// Methods
 
 		/// <summary>
 		/// Read file.
@@ -209,16 +200,13 @@ namespace VSFile
 			}
 		}
 
-		////////////////////////////////////////////////////////////////////////
-		// Methods
-
 		/// <summary>
 		/// Add project given line of input from solution file.
 		/// </summary>
 		/// <param name="inputLine">
 		/// String representing line of input from solution file.
 		/// </param>
-		void AddProject(string inputLine)
+		private void AddProject(string inputLine)
 		{
 			Match match = Regex.Match(inputLine, ProjectTag.Regex.Pattern);
 
@@ -233,19 +221,19 @@ namespace VSFile
 				switch (projectTypeGuid)
 				{
 					case ProjectTypeGuid.Basic:
-						m_basicProjectFiles.Add(new BasicProjectFile(projectName, path));
+						basicProjectFiles.Add(new BasicProjectFile(projectName, path));
 
 						break;
 					case ProjectTypeGuid.CSharp:
-						m_cSharpProjectFiles.Add(new CSharpProjectFile(projectName, path));
+						cSharpProjectFiles.Add(new CSharpProjectFile(projectName, path));
 
 						break;
 					case ProjectTypeGuid.FSharp:
-						m_fSharpProjectFiles.Add(new FSharpProjectFile(projectName, path));
+						fSharpProjectFiles.Add(new FSharpProjectFile(projectName, path));
 
 						break;
 					case ProjectTypeGuid.WebSite:
-						m_webSiteDirectories.Add(new WebSiteDirectory(projectName, path));
+						webSiteDirectories.Add(new WebSiteDirectory(projectName, path));
 
 						break;
 				}
@@ -255,12 +243,12 @@ namespace VSFile
 		/// <summary>
 		/// Clear referenced project files.
 		/// </summary>
-		void ClearFiles()
+		private void ClearFiles()
 		{
-			m_basicProjectFiles.Clear();
-			m_cSharpProjectFiles.Clear();
-			m_fSharpProjectFiles.Clear();
-			m_webSiteDirectories.Clear();
+			basicProjectFiles.Clear();
+			cSharpProjectFiles.Clear();
+			fSharpProjectFiles.Clear();
+			webSiteDirectories.Clear();
 		}
 
 		/// <summary>
@@ -275,7 +263,7 @@ namespace VSFile
 		/// <returns>
 		/// String representing match value at given group name.
 		/// </returns>
-		static string GetMatchValue(Match match, string groupName)
+		private static string GetMatchValue(Match match, string groupName)
 		{
 			Group group = match.Groups[groupName];
 
@@ -294,7 +282,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<BasicProjectFile> BasicProjectFiles
 		{
-			get { return m_basicProjectFiles; }
+			get { return basicProjectFiles; }
 		}
 
 		/// <summary>
@@ -306,7 +294,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<CSharpProjectFile> CSharpProjectFiles
 		{
-			get { return m_cSharpProjectFiles; }
+			get { return cSharpProjectFiles; }
 		}
 
 		/// <summary>
@@ -318,7 +306,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<FSharpProjectFile> FSharpProjectFiles
 		{
-			get { return m_fSharpProjectFiles; }
+			get { return fSharpProjectFiles; }
 		}
 
 		/// <summary>
@@ -330,7 +318,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<WebSiteDirectory> WebSiteDirectories
 		{
-			get { return m_webSiteDirectories; }
+			get { return webSiteDirectories; }
 		}
 	}
 }

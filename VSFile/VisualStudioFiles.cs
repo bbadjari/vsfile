@@ -42,7 +42,7 @@ namespace VSFile
 		/// <summary>
 		/// Supported file extensions.
 		/// </summary>
-		static readonly string[] SupportedExtensions = new string[]
+		private static readonly string[] SupportedExtensions = new string[]
 		{
 			BasicProjectFile.ProjectFileExtension,
 			BasicSourceFile.SourceFileExtension,
@@ -55,45 +55,19 @@ namespace VSFile
 
 		////////////////////////////////////////////////////////////////////////
 
-		/// <summary>
-		/// Initialized Visual Basic project files.
-		/// </summary>
-		List<BasicProjectFile> m_basicProjectFiles;
+		private List<BasicProjectFile> basicProjectFiles;
 
-		/// <summary>
-		/// Initialized Visual Basic source files.
-		/// </summary>
-		List<BasicSourceFile> m_basicSourceFiles;
+		private List<BasicSourceFile> basicSourceFiles;
 
-		/// <summary>
-		/// Initialized Visual C# project files.
-		/// </summary>
-		List<CSharpProjectFile> m_cSharpProjectFiles;
+		private List<CSharpProjectFile> cSharpProjectFiles;
 
-		/// <summary>
-		/// Initialized Visual C# source files.
-		/// </summary>
-		List<CSharpSourceFile> m_cSharpSourceFiles;
+		private List<CSharpSourceFile> cSharpSourceFiles;
 
-		/// <summary>
-		/// Initialized Visual F# project files.
-		/// </summary>
-		List<FSharpProjectFile> m_fSharpProjectFiles;
+		private List<FSharpProjectFile> fSharpProjectFiles;
 
-		/// <summary>
-		/// Initialized Visual F# source files.
-		/// </summary>
-		List<FSharpSourceFile> m_fSharpSourceFiles;
+		private List<FSharpSourceFile> fSharpSourceFiles;
 
-		/// <summary>
-		/// Option to use when searching for files.
-		/// </summary>
-		SearchOption m_fileSearchOption;
-
-		/// <summary>
-		/// Initialized Visual Studio solution files.
-		/// </summary>
-		List<SolutionFile> m_solutionFiles;
+		private List<SolutionFile> solutionFiles;
 
 		////////////////////////////////////////////////////////////////////////
 		// Constructors
@@ -121,14 +95,14 @@ namespace VSFile
 		/// </param>
 		public VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch)
 		{
-			m_basicProjectFiles = new List<BasicProjectFile>();
-			m_basicSourceFiles = new List<BasicSourceFile>();
-			m_cSharpProjectFiles = new List<CSharpProjectFile>();
-			m_cSharpSourceFiles = new List<CSharpSourceFile>();
-			m_fSharpProjectFiles = new List<FSharpProjectFile>();
-			m_fSharpSourceFiles = new List<FSharpSourceFile>();
-			m_fileSearchOption = recursiveSearch ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-			m_solutionFiles = new List<SolutionFile>();
+			basicProjectFiles = new List<BasicProjectFile>();
+			basicSourceFiles = new List<BasicSourceFile>();
+			cSharpProjectFiles = new List<CSharpProjectFile>();
+			cSharpSourceFiles = new List<CSharpSourceFile>();
+			fSharpProjectFiles = new List<FSharpProjectFile>();
+			fSharpSourceFiles = new List<FSharpSourceFile>();
+			FileSearchOption = recursiveSearch ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+			solutionFiles = new List<SolutionFile>();
 
 			Initialize(filePaths);
 		}
@@ -142,7 +116,7 @@ namespace VSFile
 		/// <param name="filePaths">
 		/// Enumerable collection of strings representing file paths.
 		/// </param>
-		void Initialize(IEnumerable<string> filePaths)
+		private void Initialize(IEnumerable<string> filePaths)
 		{
 			if (filePaths == null)
 				throw new ArgumentNullException();
@@ -157,14 +131,14 @@ namespace VSFile
 		/// <param name="filePath">
 		/// String representing file path.
 		/// </param>
-		void Initialize(string filePath)
+		private void Initialize(string filePath)
 		{
-			Debug.Assert(!string.IsNullOrEmpty(filePath), "Invalid file path.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(filePath), "Invalid file path.");
 
 			string directoryPath = Path.GetDirectoryName(filePath);
 
 			// Use current directory if no directory information in file path.
-			if (string.IsNullOrEmpty(directoryPath))
+			if (string.IsNullOrWhiteSpace(directoryPath))
 				directoryPath = Directory.GetCurrentDirectory();
 
 			// Skip if any wildcard characters in directory portion of file path.
@@ -202,39 +176,39 @@ namespace VSFile
 		/// <param name="fileExtension">
 		/// String representing supported file extension.
 		/// </param>
-		void Initialize(string filePath, string fileExtension)
+		private void Initialize(string filePath, string fileExtension)
 		{
-			Debug.Assert(!string.IsNullOrEmpty(filePath), "Invalid file path.");
-			Debug.Assert(!string.IsNullOrEmpty(fileExtension), "Invalid file extension.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(filePath), "Invalid file path.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(fileExtension), "Invalid file extension.");
 
 			switch (fileExtension)
 			{
 				case BasicProjectFile.ProjectFileExtension:
-					m_basicProjectFiles.Add(new BasicProjectFile(filePath));
+					basicProjectFiles.Add(new BasicProjectFile(filePath));
 
 					break;
 				case BasicSourceFile.SourceFileExtension:
-					m_basicSourceFiles.Add(new BasicSourceFile(filePath));
+					basicSourceFiles.Add(new BasicSourceFile(filePath));
 
 					break;
 				case CSharpProjectFile.ProjectFileExtension:
-					m_cSharpProjectFiles.Add(new CSharpProjectFile(filePath));
+					cSharpProjectFiles.Add(new CSharpProjectFile(filePath));
 
 					break;
 				case CSharpSourceFile.SourceFileExtension:
-					m_cSharpSourceFiles.Add(new CSharpSourceFile(filePath));
+					cSharpSourceFiles.Add(new CSharpSourceFile(filePath));
 
 					break;
 				case FSharpProjectFile.ProjectFileExtension:
-					m_fSharpProjectFiles.Add(new FSharpProjectFile(filePath));
+					fSharpProjectFiles.Add(new FSharpProjectFile(filePath));
 
 					break;
 				case FSharpSourceFile.SourceFileExtension:
-					m_fSharpSourceFiles.Add(new FSharpSourceFile(filePath));
+					fSharpSourceFiles.Add(new FSharpSourceFile(filePath));
 
 					break;
 				case SolutionFile.SolutionFileExtension:
-					m_solutionFiles.Add(new SolutionFile(filePath));
+					solutionFiles.Add(new SolutionFile(filePath));
 
 					break;
 			}
@@ -249,9 +223,9 @@ namespace VSFile
 		/// <returns>
 		/// True if file extension is supported, false otherwise.
 		/// </returns>
-		static bool IsSupportedExtension(string fileExtension)
+		private static bool IsSupportedExtension(string fileExtension)
 		{
-			if (!string.IsNullOrEmpty(fileExtension))
+			if (!string.IsNullOrWhiteSpace(fileExtension))
 			{
 				foreach (string extension in SupportedExtensions)
 				{
@@ -264,7 +238,7 @@ namespace VSFile
 		}
 
 		////////////////////////////////////////////////////////////////////////
-		// Public Properties
+		// Properties
 
 		/// <summary>
 		/// Get initialized Visual Basic project files.
@@ -275,7 +249,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<BasicProjectFile> BasicProjectFiles
 		{
-			get { return m_basicProjectFiles; }
+			get { return basicProjectFiles; }
 		}
 
 		/// <summary>
@@ -287,7 +261,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<BasicSourceFile> BasicSourceFiles
 		{
-			get { return m_basicSourceFiles; }
+			get { return basicSourceFiles; }
 		}
 
 		/// <summary>
@@ -299,7 +273,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<CSharpProjectFile> CSharpProjectFiles
 		{
-			get { return m_cSharpProjectFiles; }
+			get { return cSharpProjectFiles; }
 		}
 
 		/// <summary>
@@ -311,7 +285,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<CSharpSourceFile> CSharpSourceFiles
 		{
-			get { return m_cSharpSourceFiles; }
+			get { return cSharpSourceFiles; }
 		}
 
 		/// <summary>
@@ -323,7 +297,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<FSharpProjectFile> FSharpProjectFiles
 		{
-			get { return m_fSharpProjectFiles; }
+			get { return fSharpProjectFiles; }
 		}
 
 		/// <summary>
@@ -335,7 +309,7 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<FSharpSourceFile> FSharpSourceFiles
 		{
-			get { return m_fSharpSourceFiles; }
+			get { return fSharpSourceFiles; }
 		}
 
 		/// <summary>
@@ -347,22 +321,16 @@ namespace VSFile
 		/// </value>
 		public IEnumerable<SolutionFile> SolutionFiles
 		{
-			get { return m_solutionFiles; }
+			get { return solutionFiles; }
 		}
 
-		////////////////////////////////////////////////////////////////////////
-		// Properties
-
 		/// <summary>
-		/// Get option to use when searching for files.
+		/// Get/set option to use when searching for files.
 		/// </summary>
 		/// <value>
 		/// SearchOption enumeration value specifying whether to search all
 		/// subdirectories for files or only current directory.
 		/// </value>
-		SearchOption FileSearchOption
-		{
-			get { return m_fileSearchOption; }
-		}
+		private SearchOption FileSearchOption { get; set; }
 	}
 }

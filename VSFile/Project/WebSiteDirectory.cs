@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.IO;
 using VSFile.Properties;
 using VSFile.Source;
+using VSFile.System;
 
 namespace VSFile.Project
 {
@@ -66,6 +67,23 @@ namespace VSFile.Project
 		/// String representing path to directory containing web site files.
 		/// </param>
 		public WebSiteDirectory(string name, string directoryPath)
+			: this(name, directoryPath, new FileSystem())
+		{
+		}
+
+		/// <summary>
+		/// Internal constructor.
+		/// </summary>
+		/// <param name="name">
+		/// String representing web site name.
+		/// </param>
+		/// <param name="directoryPath">
+		/// String representing path to directory containing web site files.
+		/// </param>
+		/// <param name="fileSystem">
+		/// IFileSystem instance representing file system.
+		/// </param>
+		internal WebSiteDirectory(string name, string directoryPath, IFileSystem fileSystem)
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				throw new ArgumentException(ExceptionMessages.InvalidName);
@@ -73,9 +91,13 @@ namespace VSFile.Project
 			if (string.IsNullOrWhiteSpace(directoryPath))
 				throw new ArgumentException(ExceptionMessages.InvalidDirectoryPath);
 
+			if (fileSystem == null)
+				throw new ArgumentNullException("fileSystem");
+
 			basicSourceFiles = new List<BasicSourceFile>();
 			cSharpSourceFiles = new List<CSharpSourceFile>();
 			DirectoryPath = directoryPath;
+			FileSystem = fileSystem;
 			Name = name;
 		}
 
@@ -99,7 +121,7 @@ namespace VSFile.Project
 		/// </summary>
 		private void CheckDirectoryPath()
 		{
-			if (!Directory.Exists(DirectoryPath))
+			if (!FileSystem.DirectoryExists(DirectoryPath))
 				throw new DirectoryNotFoundException(string.Format(ExceptionMessages.DirectoryNotFound, DirectoryPath));
 		}
 
@@ -174,5 +196,13 @@ namespace VSFile.Project
 		/// String representing web site name.
 		/// </value>
 		public string Name { get; private set; }
+
+		/// <summary>
+		/// Get/set file system.
+		/// </summary>
+		/// <value>
+		/// IFileSystem instance representing file system.
+		/// </value>
+		private IFileSystem FileSystem { get; set; }
 	}
 }

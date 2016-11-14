@@ -31,6 +31,7 @@ using System.Diagnostics;
 using System.IO;
 using VSFile.Project;
 using VSFile.Source;
+using VSFile.System;
 
 namespace VSFile
 {
@@ -94,7 +95,28 @@ namespace VSFile
 		/// searched, false otherwise.
 		/// </param>
 		public VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch)
+			: this(filePaths, recursiveSearch, new FileSystem())
 		{
+		}
+
+		/// <summary>
+		/// Internal constructor.
+		/// </summary>
+		/// <param name="filePaths">
+		/// Enumerable collection of strings representing file paths.
+		/// </param>
+		/// <param name="recursiveSearch">
+		/// True if all subdirectories in given file paths are also to be
+		/// searched, false otherwise.
+		/// </param>
+		/// <param name="fileSystem">
+		/// IFileSystem instance representing file system.
+		/// </param>
+		internal VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch, IFileSystem fileSystem)
+		{
+			if (fileSystem == null)
+				throw new ArgumentNullException("fileSystem");
+
 			basicProjectFiles = new List<BasicProjectFile>();
 			basicSourceFiles = new List<BasicSourceFile>();
 			cSharpProjectFiles = new List<CSharpProjectFile>();
@@ -102,6 +124,7 @@ namespace VSFile
 			fSharpProjectFiles = new List<FSharpProjectFile>();
 			fSharpSourceFiles = new List<FSharpSourceFile>();
 			FileSearchOption = recursiveSearch ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+			FileSystem = fileSystem;
 			solutionFiles = new List<SolutionFile>();
 
 			Initialize(filePaths);
@@ -139,7 +162,7 @@ namespace VSFile
 
 			// Use current directory if no directory information in file path.
 			if (string.IsNullOrWhiteSpace(directoryPath))
-				directoryPath = Directory.GetCurrentDirectory();
+				directoryPath = FileSystem.GetCurrentDirectory();
 
 			// Skip if any wildcard characters in directory portion of file path.
 			if (Wildcard.HasWildcard(directoryPath))
@@ -150,7 +173,7 @@ namespace VSFile
 			// Resolve any wildcard characters in file portion of file path.
 			if (Wildcard.HasWildcard(fileName))
 			{
-				string[] filePaths = Directory.GetFiles(directoryPath, fileName, FileSearchOption);
+				string[] filePaths = FileSystem.GetFiles(directoryPath, fileName, FileSearchOption);
 
 				Initialize(filePaths);
 
@@ -332,5 +355,13 @@ namespace VSFile
 		/// subdirectories for files or only current directory.
 		/// </value>
 		private SearchOption FileSearchOption { get; set; }
+
+		/// <summary>
+		/// Get/set file system.
+		/// </summary>
+		/// <value>
+		/// IFileSystem instance representing file system.
+		/// </value>
+		private IFileSystem FileSystem { get; set; }
 	}
 }

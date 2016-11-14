@@ -28,6 +28,7 @@
 using System;
 using System.IO;
 using VSFile.Properties;
+using VSFile.System;
 
 namespace VSFile
 {
@@ -45,6 +46,45 @@ namespace VSFile
 		// Constructors
 
 		/// <summary>
+		/// Internal constructor.
+		/// </summary>
+		/// <param name="fileExtension">
+		/// String representing file extension of Visual Studio file.
+		/// </param>
+		/// <param name="filePath">
+		/// String representing file path to Visual Studio file.
+		/// </param>
+		/// <param name="fileSystem">
+		/// IFileSystem instance representing file system.
+		/// </param>
+		internal VisualStudioFile(string fileExtension, string filePath, IFileSystem fileSystem)
+		{
+			if (string.IsNullOrWhiteSpace(fileExtension))
+				throw new ArgumentException(ExceptionMessages.InvalidFileExtension);
+
+			if (string.IsNullOrWhiteSpace(filePath))
+				throw new ArgumentException(ExceptionMessages.InvalidFilePath);
+
+			if (fileSystem == null)
+				throw new ArgumentNullException("fileSystem");
+
+			// Ensure platform-specific directory separator character used in file path.
+			filePath = filePath.Replace(WindowsDirectorySeparatorChar, Path.DirectorySeparatorChar);
+
+			DirectoryPath = Path.GetDirectoryName(filePath);
+
+			// Use current directory if no directory information in file path.
+			if (string.IsNullOrWhiteSpace(DirectoryPath))
+				DirectoryPath = fileSystem.GetCurrentDirectory();
+
+			FileExtension = fileExtension;
+			FileName = Path.GetFileName(filePath);
+			FileNameNoExtension = Path.GetFileNameWithoutExtension(filePath);
+			FilePath = filePath;
+			FileSystem = fileSystem;
+		}
+
+		/// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="fileExtension">
@@ -54,26 +94,8 @@ namespace VSFile
 		/// String representing file path to Visual Studio file.
 		/// </param>
 		protected VisualStudioFile(string fileExtension, string filePath)
+			: this(fileExtension, filePath, new FileSystem())
 		{
-			if (string.IsNullOrWhiteSpace(fileExtension))
-				throw new ArgumentException(ExceptionMessages.InvalidFileExtension);
-
-			if (string.IsNullOrWhiteSpace(filePath))
-				throw new ArgumentException(ExceptionMessages.InvalidFilePath);
-
-			// Ensure platform-specific directory separator character used in file path.
-			filePath = filePath.Replace(WindowsDirectorySeparatorChar, Path.DirectorySeparatorChar);
-
-			DirectoryPath = Path.GetDirectoryName(filePath);
-
-			// Use current directory if no directory information in file path.
-			if (string.IsNullOrWhiteSpace(DirectoryPath))
-				DirectoryPath = Directory.GetCurrentDirectory();
-
-			FileExtension = fileExtension;
-			FileName = Path.GetFileName(filePath);
-			FileNameNoExtension = Path.GetFileNameWithoutExtension(filePath);
-			FilePath = filePath;
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -126,7 +148,7 @@ namespace VSFile
 		/// </summary>
 		private void CheckFilePath()
 		{
-			if (!File.Exists(FilePath))
+			if (!FileSystem.FileExists(FilePath))
 				throw new FileNotFoundException(string.Format(ExceptionMessages.FileNotFound, FilePath));
 		}
 
@@ -172,5 +194,13 @@ namespace VSFile
 		/// String representing file path to this Visual Studio file.
 		/// </value>
 		public string FilePath { get; private set; }
+
+		/// <summary>
+		/// Get/set file system.
+		/// </summary>
+		/// <value>
+		/// IFileSystem instance representing file system.
+		/// </value>
+		private IFileSystem FileSystem { get; set; }
 	}
 }

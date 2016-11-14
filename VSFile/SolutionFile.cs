@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using VSFile.Project;
+using VSFile.System;
 
 namespace VSFile
 {
@@ -169,11 +170,29 @@ namespace VSFile
 		/// String representing path to solution file.
 		/// </param>
 		public SolutionFile(string filePath)
+			: this(filePath, new TextFileReaderFactory())
+		{
+		}
+
+		/// <summary>
+		/// Internal constructor.
+		/// </summary>
+		/// <param name="filePath">
+		/// String representing path to solution file.
+		/// </param>
+		/// <param name="textFileReaderFactory">
+		/// ITextFileReaderFactory instance representing text file reader factory.
+		/// </param>
+		internal SolutionFile(string filePath, ITextFileReaderFactory textFileReaderFactory)
 			: base(SolutionFileExtension, filePath)
 		{
+			if (textFileReaderFactory == null)
+				throw new ArgumentNullException("textFileReaderFactory");
+
 			basicProjectFiles = new List<BasicProjectFile>();
 			cSharpProjectFiles = new List<CSharpProjectFile>();
 			fSharpProjectFiles = new List<FSharpProjectFile>();
+			TextFileReaderFactory = textFileReaderFactory;
 			webSiteDirectories = new List<WebSiteDirectory>();
 		}
 
@@ -187,12 +206,12 @@ namespace VSFile
 		{
 			ClearFiles();
 
-			using (TextReader reader = new StreamReader(FilePath))
+			using (ITextFileReader textFileReader = TextFileReaderFactory.Create(FilePath))
 			{
 				string inputLine;
 
 				// Read entire solution file.
-				while ((inputLine = reader.ReadLine()) != null)
+				while ((inputLine = textFileReader.ReadLine()) != null)
 				{
 					if (inputLine.StartsWith(ProjectTag.Begin, StringComparison.Ordinal))
 						AddProject(inputLine);
@@ -320,5 +339,13 @@ namespace VSFile
 		{
 			get { return webSiteDirectories; }
 		}
+
+		/// <summary>
+		/// Get/set text file reader factory.
+		/// </summary>
+		/// <value>
+		/// ITextFileReaderFactory instance representing text file reader factory.
+		/// </value>
+		private ITextFileReaderFactory TextFileReaderFactory { get; set; }
 	}
 }

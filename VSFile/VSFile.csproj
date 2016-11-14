@@ -34,8 +34,14 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="System\FileSystem.cs" />
+    <Compile Include="System\ITextFileReader.cs" />
+    <Compile Include="System\IFileSystem.cs" />
+    <Compile Include="System\ITextFileReaderFactory.cs" />
+    <Compile Include="System\IXmlFileReader.cs" />
     <Compile Include="Properties\ExceptionMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -52,6 +58,9 @@
     <Compile Include="SolutionFile.cs" />
     <Compile Include="Source\FSharpSourceFile.cs" />
     <Compile Include="Source\SourceFile.cs" />
+    <Compile Include="System\TextFileReader.cs" />
+    <Compile Include="System\TextFileReaderFactory.cs" />
+    <Compile Include="System\XmlFileReader.cs" />
     <Compile Include="VisualStudioFile.cs" />
     <Compile Include="VisualStudioFiles.cs" />
     <Compile Include="Wildcard.cs" />

@@ -8,11 +8,6 @@ namespace VSFile.System
 	internal interface ITextFileReader : IDisposable
 	{
 		/// <summary>
-		/// Release resources.
-		/// </summary>
-		void Dispose();
-
-		/// <summary>
 		/// Read current line in text file.
 		/// </summary>
 		/// <returns>

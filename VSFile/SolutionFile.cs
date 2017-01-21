@@ -170,7 +170,7 @@ namespace VSFile
 		/// String representing path to solution file.
 		/// </param>
 		public SolutionFile(string filePath)
-			: this(filePath, new TextFileReaderFactory())
+			: this(filePath, new FileSystem(), new TextFileReaderFactory())
 		{
 		}
 
@@ -180,11 +180,14 @@ namespace VSFile
 		/// <param name="filePath">
 		/// String representing path to solution file.
 		/// </param>
+		/// <param name="fileSystem">
+		/// IFileSystem instance representing file system.
+		/// </param>
 		/// <param name="textFileReaderFactory">
 		/// ITextFileReaderFactory instance representing text file reader factory.
 		/// </param>
-		internal SolutionFile(string filePath, ITextFileReaderFactory textFileReaderFactory)
-			: base(SolutionFileExtension, filePath)
+		internal SolutionFile(string filePath, IFileSystem fileSystem, ITextFileReaderFactory textFileReaderFactory)
+			: base(SolutionFileExtension, filePath, fileSystem)
 		{
 			if (textFileReaderFactory == null)
 				throw new ArgumentNullException("textFileReaderFactory");

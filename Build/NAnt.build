@@ -3,7 +3,7 @@
 	<description>NAnt build file for the VS File library.</description>
 
 	<property name="package.directory" value="." overwrite="false" />
-	<property name="release.directory" value="VSFile\bin\Release\" />
+	<property name="release.directory" value="VSFile.Tests\bin\Release\" readonly="true" />
 	<property name="assembly.file.path" value="${release.directory}\VSFile.dll" readonly="true" />
 	<property name="version" value="${assemblyname::get-version(assemblyname::get-assembly-name(assembly.file.path))}" dynamic="true" readonly="true" />
 
@@ -17,7 +17,7 @@
 		<zip zipfile="${package.directory}\vsfile_${version}_bin.zip">
 			<fileset basedir="${release.directory}">
 				<include name="*" />
-				<include name="..\..\..\Documentation\*.mkd" />
+				<include name="..\..\..\Readme.mkd" />
 				<exclude name="*.pdb" />
 			</fileset>
 		</zip>
@@ -26,13 +26,25 @@
 	<target name="package.source" depends="build" description="Package source files for release.">
 		<zip zipfile="${package.directory}\vsfile_${version}_src.zip">
 			<fileset>
+				<include name=".nuget\NuGet.config" />
+				<include name=".nuget\NuGet.targets" />
 				<include name="Build\*.build" />
-				<include name="Documentation\*.mkd" />
+				<include name="Packages\*.config" />
 				<include name="VSFile\Project\*.cs" />
 				<include name="VSFile\Properties\*.cs" />
+				<include name="VSFile\Properties\*.resx" />
 				<include name="VSFile\Source\*.cs" />
+				<include name="VSFile\System\*.cs" />
 				<include name="VSFile\*.cs" />
 				<include name="VSFile\VSFile.csproj" />
+				<include name="VSFile.Tests\Fake\*.cs" />
+				<include name="VSFile.Tests\Properties\*.cs" />
+				<include name="VSFile.Tests\Properties\*.resx" />
+				<include name="VSFile.Tests\Resources\*.*" />
+				<include name="VSFile.Tests\Unit\*.cs" />
+				<include name="VSFile.Tests\Packages.config" />
+				<include name="VSFile.Tests\VSFile.Tests.csproj" />
+				<include name="Readme.mkd" />
 				<include name="VSFile.sln" />
 			</fileset>
 		</zip>

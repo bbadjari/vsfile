@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using VSFile.Source;
+using VSFile.System;
 
 namespace VSFile.Project
 {
@@ -49,7 +50,7 @@ namespace VSFile.Project
 		/// String representing path to Visual C# project file.
 		/// </param>
 		public CSharpProjectFile(string filePath)
-			: base(ProjectFileExtension, filePath, CSharpSourceFile.SourceFileExtension)
+			: this(null, filePath)
 		{
 		}
 
@@ -64,6 +65,26 @@ namespace VSFile.Project
 		/// </param>
 		public CSharpProjectFile(string projectName, string filePath)
 			: base(projectName, ProjectFileExtension, filePath, CSharpSourceFile.SourceFileExtension)
+		{
+		}
+
+		/// <summary>
+		/// Internal constructor.
+		/// </summary>
+		/// <param name="projectName">
+		/// String representing Visual C# project name.
+		/// </param>
+		/// <param name="filePath">
+		/// String representing path to Visual C# project file.
+		/// </param>
+		/// <param name="xmlFileReader">
+		/// IXmlFileReader instance representing XML file reader.
+		/// </param>
+		/// <param name="fileSystem">
+		/// IFileSystem instance representing file system.
+		/// </param>
+		internal CSharpProjectFile(string projectName, string filePath, IXmlFileReader xmlFileReader, IFileSystem fileSystem)
+			: base(projectName, ProjectFileExtension, filePath, CSharpSourceFile.SourceFileExtension, xmlFileReader, fileSystem)
 		{
 		}
 

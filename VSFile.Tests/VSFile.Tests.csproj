@@ -47,8 +47,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fake\FakeXmlFileReader.cs" />
     <Compile Include="Properties\EmbeddedFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -60,6 +63,7 @@
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Fake\FakeTextFileReader.cs" />
+    <Compile Include="Unit\CSharpProjectFileTests.cs" />
     <Compile Include="Unit\FakeTextFileReaderTests.cs" />
     <Compile Include="Unit\SolutionFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

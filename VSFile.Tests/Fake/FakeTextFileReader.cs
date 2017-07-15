@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System;
+using System.Diagnostics;
 using VSFile.System;
 using VSFile.Tests.Properties;
 
@@ -36,6 +37,15 @@ namespace VSFile.Tests.Fake
 	/// </summary>
 	internal class FakeTextFileReader : ITextFileReader
 	{
+		/// <summary>
+		/// Newline string representations in files.
+		/// </summary>
+		private static class NewLine
+		{
+			public const string NonUnix = "\r\n";
+			public const string Unix = "\n";
+		}
+
 		////////////////////////////////////////////////////////////////////////
 		// Constructors
 
@@ -50,8 +60,9 @@ namespace VSFile.Tests.Fake
 			if (string.IsNullOrWhiteSpace(fileContents))
 				throw new ArgumentException(ExceptionMessages.InvalidFileContents, "fileContents");
 
-			FileContents = fileContents;
-			ReadStartIndex = 0;
+			CurrentLineNumber = 0;
+
+			SplitContents(fileContents);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -73,37 +84,42 @@ namespace VSFile.Tests.Fake
 		/// </returns>
 		public string ReadLine()
 		{
-			if (ReadStartIndex > FileContents.Length)
+			if (CurrentLineNumber == FileLines.Length)
 				return null;
 
-			int newLineIndex = FileContents.IndexOf(Environment.NewLine, ReadStartIndex);
+			return FileLines[CurrentLineNumber++];
+		}
 
-			int readLength = newLineIndex >= 0 ? newLineIndex - ReadStartIndex : FileContents.Length - ReadStartIndex;
+		/// <summary>
+		/// Split given file contents into separate lines.
+		/// </summary>
+		/// <param name="fileContents">
+		/// String representing file contents.
+		/// </param>
+		private void SplitContents(string fileContents)
+		{
+			Debug.Assert(!string.IsNullOrWhiteSpace(fileContents), "Invalid file contents.");
 
-			string currentLine = FileContents.Substring(ReadStartIndex, readLength);
-
-			ReadStartIndex += readLength + Environment.NewLine.Length;
-
-			return currentLine;
+			FileLines = fileContents.Split(new string[] { NewLine.NonUnix, NewLine.Unix }, StringSplitOptions.None);
 		}
 
 		////////////////////////////////////////////////////////////////////////
 		// Properties
 
 		/// <summary>
-		/// Get/set file contents.
+		/// Get/set current line number in file.
 		/// </summary>
 		/// <value>
-		/// String representing file contents.
+		/// Integer representing current line number in file.
 		/// </value>
-		private string FileContents { get; set; }
+		private int CurrentLineNumber { get; set; }
 
 		/// <summary>
-		/// Get/set index in file contents to start reading from.
+		/// Get/set separated lines in file.
 		/// </summary>
 		/// <value>
-		/// Integer representing index in file contents to start reading from.
+		/// Array of strings representing separated lines in file.
 		/// </value>
-		private int ReadStartIndex { get; set; }
+		private string[] FileLines { get; set; }
 	}
 }

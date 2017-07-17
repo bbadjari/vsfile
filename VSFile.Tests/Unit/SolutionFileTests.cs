@@ -59,15 +59,15 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
-			MockFileSystem = new Mock<IFileSystem>();
-			MockTextFileReaderFactory = new Mock<ITextFileReaderFactory>();
+			Mock<IFileSystem> mockFileSystem = new Mock<IFileSystem>();
+			Mock<ITextFileReaderFactory> mockTextFileReaderFactory = new Mock<ITextFileReaderFactory>();
 
-			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
-			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
+			mockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
+			mockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 
-			MockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(EmbeddedFiles.SolutionFile));
+			mockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(EmbeddedFiles.SolutionFile));
 
-			SolutionFile = new SolutionFile(FilePath, MockFileSystem.Object, MockTextFileReaderFactory.Object);
+			SolutionFile = new SolutionFile(FilePath, mockFileSystem.Object, mockTextFileReaderFactory.Object);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -260,22 +260,6 @@ namespace VSFile.Tests.Unit
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Properties
-
-		/// <summary>
-		/// Get/set mock file system.
-		/// </summary>
-		/// <value>
-		/// Mock<IFileSystem> representing mock file system.
-		/// </value>
-		private Mock<IFileSystem> MockFileSystem { get; set; }
-
-		/// <summary>
-		/// Get/set mock text file reader factory.
-		/// </summary>
-		/// <value>
-		/// Mock<ITextFileReaderFactory> representing mock text file reader factory.
-		/// </value>
-		private Mock<ITextFileReaderFactory> MockTextFileReaderFactory { get; set; }
 
 		/// <summary>
 		/// Get/set solution file.

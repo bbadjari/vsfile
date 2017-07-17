@@ -62,12 +62,12 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
-			MockFileSystem = new Mock<IFileSystem>();
+			Mock<IFileSystem> mockFileSystem = new Mock<IFileSystem>();
 
-			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
-			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
+			mockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
+			mockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 
-			CSharpProjectFile = new CSharpProjectFile(ProjectName, FilePath, new FakeXmlFileReader(EmbeddedFiles.CSharpProjectFile), MockFileSystem.Object);
+			CSharpProjectFile = new CSharpProjectFile(ProjectName, FilePath, new FakeXmlFileReader(EmbeddedFiles.CSharpProjectFile), mockFileSystem.Object);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -259,13 +259,5 @@ namespace VSFile.Tests.Unit
 		/// CSharpProjectFile representing Visual C# project file.
 		/// </value>
 		private CSharpProjectFile CSharpProjectFile { get; set; }
-
-		/// <summary>
-		/// Get/set mock file system.
-		/// </summary>
-		/// <value>
-		/// Mock<IFileSystem> representing mock file system.
-		/// </value>
-		private Mock<IFileSystem> MockFileSystem { get; set; }
 	}
 }

@@ -67,6 +67,7 @@
     <Compile Include="Unit\FakeTextFileReaderTests.cs" />
     <Compile Include="Unit\SolutionFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\WebSiteDirectoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Packages.config" />

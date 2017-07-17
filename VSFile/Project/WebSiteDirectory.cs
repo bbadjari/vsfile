@@ -148,7 +148,7 @@ namespace VSFile.Project
 				filePaths.Add(filePath);
 			}
 
-			VisualStudioFiles files = new VisualStudioFiles(filePaths, true);
+			VisualStudioFiles files = new VisualStudioFiles(filePaths, true, FileSystem);
 
 			basicSourceFiles.AddRange(files.BasicSourceFiles);
 			cSharpSourceFiles.AddRange(files.CSharpSourceFiles);

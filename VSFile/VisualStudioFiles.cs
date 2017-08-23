@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using VSFile.Project;
+using VSFile.Properties;
 using VSFile.Source;
 using VSFile.System;
 
@@ -156,7 +157,8 @@ namespace VSFile
 		/// </param>
 		private void Initialize(string filePath)
 		{
-			Debug.Assert(!string.IsNullOrWhiteSpace(filePath), "Invalid file path.");
+			if (string.IsNullOrWhiteSpace(filePath))
+				throw new ArgumentException(ExceptionMessages.InvalidFilePath);
 
 			string directoryPath = Path.GetDirectoryName(filePath);
 
@@ -203,6 +205,9 @@ namespace VSFile
 		{
 			Debug.Assert(!string.IsNullOrWhiteSpace(filePath), "Invalid file path.");
 			Debug.Assert(!string.IsNullOrWhiteSpace(fileExtension), "Invalid file extension.");
+
+			if (!FileSystem.FileExists(filePath))
+				throw new FileNotFoundException(string.Format(ExceptionMessages.FileNotFound, filePath));
 
 			switch (fileExtension)
 			{

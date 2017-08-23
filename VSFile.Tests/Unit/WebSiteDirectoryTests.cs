@@ -64,6 +64,7 @@ namespace VSFile.Tests.Unit
 			Mock<IFileSystem> mockFileSystem = new Mock<IFileSystem>();
 
 			mockFileSystem.Setup(fileSystem => fileSystem.DirectoryExists(DirectoryPath)).Returns(true);
+			mockFileSystem.Setup(fileSystem => fileSystem.FileExists(It.IsAny<string>())).Returns(true);
 			mockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 			mockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, BasicSourceSearchPattern, SearchOption.AllDirectories)).Returns(new string[] { });
 			mockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, CSharpSourceSearchPattern, SearchOption.AllDirectories)).Returns(new string[] { CSharpSourceFileName });

@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Moq;
 using NUnit.Framework;
 using VSFile.Project;
@@ -62,12 +63,12 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
-			Mock<IFileSystem> mockFileSystem = new Mock<IFileSystem>();
+			MockFileSystem = new Mock<IFileSystem>();
 
-			mockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
-			mockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
+			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 
-			CSharpProjectFile = new CSharpProjectFile(ProjectName, FilePath, new FakeXmlFileReader(EmbeddedFiles.CSharpProjectFile), mockFileSystem.Object);
+			CSharpProjectFile = new CSharpProjectFile(ProjectName, FilePath, new FakeXmlFileReader(EmbeddedFiles.CSharpProjectFile), MockFileSystem.Object);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -149,6 +150,36 @@ namespace VSFile.Tests.Unit
 		public void Load()
 		{
 			Assert.DoesNotThrow(() => CSharpProjectFile.Load());
+		}
+
+		/// <summary>
+		/// Test Load() method with non-existent file path.
+		/// </summary>
+		[Test]
+		public void LoadWithNonExistentFilePath()
+		{
+			const string NonExistentFilePath = "NonExistentFile.xxx";
+
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(NonExistentFilePath)).Returns(false);
+
+			CSharpProjectFile = new CSharpProjectFile(ProjectName, NonExistentFilePath, new FakeXmlFileReader(EmbeddedFiles.CSharpProjectFile), MockFileSystem.Object);
+
+			Assert.Throws<FileNotFoundException>(() => CSharpProjectFile.Load());
+		}
+
+		/// <summary>
+		/// Test Load() method with wrong file extension.
+		/// </summary>
+		[Test]
+		public void LoadWithWrongFileExtension()
+		{
+			const string FilePathWithWrongFileExtension = "CSharpProjectFile.xxx";
+
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePathWithWrongFileExtension)).Returns(true);
+
+			CSharpProjectFile = new CSharpProjectFile(ProjectName, FilePathWithWrongFileExtension, new FakeXmlFileReader(EmbeddedFiles.CSharpProjectFile), MockFileSystem.Object);
+
+			Assert.Throws<IOException>(() => CSharpProjectFile.Load());
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -259,5 +290,13 @@ namespace VSFile.Tests.Unit
 		/// CSharpProjectFile representing Visual C# project file.
 		/// </value>
 		private CSharpProjectFile CSharpProjectFile { get; set; }
+
+		/// <summary>
+		/// Get/set mock file system.
+		/// </summary>
+		/// <value>
+		/// Mock<IFileSystem> representing mock file system.
+		/// </value>
+		private Mock<IFileSystem> MockFileSystem { get; set; }
 	}
 }

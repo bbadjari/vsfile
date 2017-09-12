@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Moq;
 using NUnit.Framework;
 using VSFile.Project;
@@ -59,15 +60,15 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
-			Mock<IFileSystem> mockFileSystem = new Mock<IFileSystem>();
-			Mock<ITextFileReaderFactory> mockTextFileReaderFactory = new Mock<ITextFileReaderFactory>();
+			MockFileSystem = new Mock<IFileSystem>();
+			MockTextFileReaderFactory = new Mock<ITextFileReaderFactory>();
 
-			mockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
-			mockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
+			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 
-			mockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(EmbeddedFiles.SolutionFile));
+			MockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(EmbeddedFiles.SolutionFile));
 
-			SolutionFile = new SolutionFile(FilePath, mockFileSystem.Object, mockTextFileReaderFactory.Object);
+			SolutionFile = new SolutionFile(FilePath, MockFileSystem.Object, MockTextFileReaderFactory.Object);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -116,6 +117,36 @@ namespace VSFile.Tests.Unit
 		public void Load()
 		{
 			Assert.DoesNotThrow(() => SolutionFile.Load());
+		}
+
+		/// <summary>
+		/// Test Load() method with non-existent file path.
+		/// </summary>
+		[Test]
+		public void LoadWithNonExistentFilePath()
+		{
+			const string NonExistentFilePath = "NonExistentFile.xxx";
+
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(NonExistentFilePath)).Returns(false);
+
+			SolutionFile = new SolutionFile(NonExistentFilePath, MockFileSystem.Object, MockTextFileReaderFactory.Object);
+
+			Assert.Throws<FileNotFoundException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
+		/// Test Load() method with wrong file extension.
+		/// </summary>
+		[Test]
+		public void LoadWithWrongFileExtension()
+		{
+			const string FilePathWithWrongFileExtension = "SolutionFile.xxx";
+
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePathWithWrongFileExtension)).Returns(true);
+
+			SolutionFile = new SolutionFile(FilePathWithWrongFileExtension, MockFileSystem.Object, MockTextFileReaderFactory.Object);
+
+			Assert.Throws<IOException>(() => SolutionFile.Load());
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -260,6 +291,22 @@ namespace VSFile.Tests.Unit
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Properties
+
+		/// <summary>
+		/// Get/set mock file system.
+		/// </summary>
+		/// <value>
+		/// Mock<IFileSystem> representing mock file system.
+		/// </value>
+		private Mock<IFileSystem> MockFileSystem { get; set; }
+
+		/// <summary>
+		/// Get/set mock text file reader factory.
+		/// </summary>
+		/// <value>
+		/// Mock<ITextFileReaderFactory> representing mock text file reader factory.
+		/// </value>
+		private Mock<ITextFileReaderFactory> MockTextFileReaderFactory { get; set; }
 
 		/// <summary>
 		/// Get/set solution file.

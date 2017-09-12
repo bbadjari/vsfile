@@ -61,15 +61,15 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
-			Mock<IFileSystem> mockFileSystem = new Mock<IFileSystem>();
+			MockFileSystem = new Mock<IFileSystem>();
 
-			mockFileSystem.Setup(fileSystem => fileSystem.DirectoryExists(DirectoryPath)).Returns(true);
-			mockFileSystem.Setup(fileSystem => fileSystem.FileExists(It.IsAny<string>())).Returns(true);
-			mockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
-			mockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, BasicSourceSearchPattern, SearchOption.AllDirectories)).Returns(new string[] { });
-			mockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, CSharpSourceSearchPattern, SearchOption.AllDirectories)).Returns(new string[] { CSharpSourceFileName });
+			MockFileSystem.Setup(fileSystem => fileSystem.DirectoryExists(DirectoryPath)).Returns(true);
+			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(It.IsAny<string>())).Returns(true);
+			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
+			MockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, BasicSourceSearchPattern, SearchOption.AllDirectories)).Returns(new string[] { });
+			MockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, CSharpSourceSearchPattern, SearchOption.AllDirectories)).Returns(new string[] { CSharpSourceFileName });
 
-			WebSiteDirectory = new WebSiteDirectory(Name, DirectoryPath, mockFileSystem.Object);
+			WebSiteDirectory = new WebSiteDirectory(Name, DirectoryPath, MockFileSystem.Object);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -153,6 +153,21 @@ namespace VSFile.Tests.Unit
 			Assert.DoesNotThrow(() => WebSiteDirectory.Load());
 		}
 
+		/// <summary>
+		/// Test Load() method with non-existent directory path.
+		/// </summary>
+		[Test]
+		public void LoadWithNonExistentDirectoryPath()
+		{
+			const string NonExistentDirectoryPath = "...";
+
+			MockFileSystem.Setup(fileSystem => fileSystem.DirectoryExists(NonExistentDirectoryPath)).Returns(false);
+
+			WebSiteDirectory = new WebSiteDirectory(Name, NonExistentDirectoryPath, MockFileSystem.Object);
+
+			Assert.Throws<DirectoryNotFoundException>(() => WebSiteDirectory.Load());
+		}
+
 		////////////////////////////////////////////////////////////////////////
 		// Properties
 
@@ -226,6 +241,14 @@ namespace VSFile.Tests.Unit
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Properties
+
+		/// <summary>
+		/// Get/set mock file system.
+		/// </summary>
+		/// <value>
+		/// Mock<IFileSystem> representing mock file system.
+		/// </value>
+		private Mock<IFileSystem> MockFileSystem { get; set; }
 
 		/// <summary>
 		/// Get/set ASP.NET web site directory.

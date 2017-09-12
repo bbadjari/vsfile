@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System.Diagnostics;
+using System.Linq;
 
 namespace VSFile
 {
@@ -83,16 +84,10 @@ namespace VSFile
 		/// </returns>
 		public static bool HasWildcard(string filePath)
 		{
-			if (!string.IsNullOrWhiteSpace(filePath))
-			{
-				foreach (string wildcard in Wildcards)
-				{
-					if (filePath.Contains(wildcard))
-						return true;
-				}
-			}
+			if (string.IsNullOrWhiteSpace(filePath))
+				return false;
 
-			return false;
+			return Wildcards.Any(wildcard => filePath.Contains(wildcard));
 		}
 	}
 }

@@ -267,7 +267,7 @@ namespace VSFile.Tests.Unit
 
 			Assert.AreEqual(SourceFileName, sourceFileEnumerator.Current.FileName);
 
-			// Ensure no more source files exist.
+			// Ensure no more source files exist and any auto-generated files ignored.
 			Assert.IsFalse(sourceFileEnumerator.MoveNext());
 		}
 

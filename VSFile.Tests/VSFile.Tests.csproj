@@ -95,6 +95,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\CSharpProjectFile.csproj" />
     <EmbeddedResource Include="Resources\CSharpSourceFile.cs" />
+    <EmbeddedResource Include="Resources\ResourcesFile.resx" />
+    <EmbeddedResource Include="Resources\ResourcesFile.Designer.cs" />
     <EmbeddedResource Include="Resources\SolutionFile.sln" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

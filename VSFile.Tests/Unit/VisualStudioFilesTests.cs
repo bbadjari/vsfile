@@ -43,11 +43,19 @@ namespace VSFile.Tests.Unit
 	[TestFixture]
 	public class VisualStudioFilesTests
 	{
+		private const string BasicProjectFileName = "BasicProjectFile.vbproj";
+
+		private const string BasicSourceFileName = "BasicSourceFile.vb";
+
 		private const string CSharpProjectFileName = "CSharpProjectFile.csproj";
 
 		private const string CSharpSourceFileName = "CSharpSourceFile.cs";
 
 		private const string DirectoryPath = ".";
+
+		private const string FSharpProjectFileName = "FSharpProjectFile.fsproj";
+
+		private const string FSharpSourceFileName = "FSharpSourceFile.fs";
 
 		private const string SolutionFileName = "SolutionFile.sln";
 
@@ -67,6 +75,26 @@ namespace VSFile.Tests.Unit
 			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 
 			Create();
+		}
+
+		/// <summary>
+		/// Add Visual Basic project files to file paths and mock file system.
+		/// </summary>
+		private void AddBasicProjectFiles()
+		{
+			const string SearchPattern = "*.vbproj";
+
+			AddFiles(SearchPattern, BasicProjectFileName);
+		}
+
+		/// <summary>
+		/// Add Visual Basic source files to file paths and mock file system.
+		/// </summary>
+		private void AddBasicSourceFiles()
+		{
+			const string SearchPattern = "*.vb";
+
+			AddFiles(SearchPattern, BasicSourceFileName);
 		}
 
 		/// <summary>
@@ -106,6 +134,26 @@ namespace VSFile.Tests.Unit
 			FilePaths.Add(searchPattern);
 
 			MockFileSystem.Setup(fileSystem => fileSystem.GetFiles(DirectoryPath, searchPattern, SearchOption.AllDirectories)).Returns(new string[] { fileName });
+		}
+
+		/// <summary>
+		/// Add Visual F# project files to file paths and mock file system.
+		/// </summary>
+		private void AddFSharpProjectFiles()
+		{
+			const string SearchPattern = "*.fsproj";
+
+			AddFiles(SearchPattern, FSharpProjectFileName);
+		}
+
+		/// <summary>
+		/// Add Visual F# source files to file paths and mock file system.
+		/// </summary>
+		private void AddFSharpSourceFiles()
+		{
+			const string SearchPattern = "*.fs";
+
+			AddFiles(SearchPattern, FSharpSourceFileName);
 		}
 
 		/// <summary>
@@ -240,12 +288,58 @@ namespace VSFile.Tests.Unit
 		// Properties
 
 		/// <summary>
+		/// Test BasicProjectFiles property when Visual Basic project files found.
+		/// </summary>
+		[Test]
+		public void BasicProjectFilesWhenFound()
+		{
+			AddBasicProjectFiles();
+
+			Create();
+
+			CollectionAssert.IsNotEmpty(VisualStudioFiles.BasicProjectFiles);
+
+			IEnumerator<BasicProjectFile> projectFileEnumerator = VisualStudioFiles.BasicProjectFiles.GetEnumerator();
+
+			// Ensure project file exists.
+			Assert.IsTrue(projectFileEnumerator.MoveNext());
+
+			Assert.AreEqual(BasicProjectFileName, projectFileEnumerator.Current.FileName);
+
+			// Ensure no more project files exist.
+			Assert.IsFalse(projectFileEnumerator.MoveNext());
+		}
+
+		/// <summary>
 		/// Test BasicProjectFiles property when no Visual Basic project files found.
 		/// </summary>
 		[Test]
 		public void BasicProjectFilesWhenNoneFound()
 		{
 			CollectionAssert.IsEmpty(VisualStudioFiles.BasicProjectFiles);
+		}
+
+		/// <summary>
+		/// Test BasicSourceFiles property when Visual Basic source files found.
+		/// </summary>
+		[Test]
+		public void BasicSourceFilesWhenFound()
+		{
+			AddBasicSourceFiles();
+
+			Create();
+
+			CollectionAssert.IsNotEmpty(VisualStudioFiles.BasicSourceFiles);
+
+			IEnumerator<BasicSourceFile> sourceFileEnumerator = VisualStudioFiles.BasicSourceFiles.GetEnumerator();
+
+			// Ensure source file exists.
+			Assert.IsTrue(sourceFileEnumerator.MoveNext());
+
+			Assert.AreEqual(BasicSourceFileName, sourceFileEnumerator.Current.FileName);
+
+			// Ensure no more source files exist.
+			Assert.IsFalse(sourceFileEnumerator.MoveNext());
 		}
 
 		/// <summary>
@@ -322,12 +416,58 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
+		/// Test FSharpProjectFiles property when Visual F# project files found.
+		/// </summary>
+		[Test]
+		public void FSharpProjectFilesWhenFound()
+		{
+			AddFSharpProjectFiles();
+
+			Create();
+
+			CollectionAssert.IsNotEmpty(VisualStudioFiles.FSharpProjectFiles);
+
+			IEnumerator<FSharpProjectFile> projectFileEnumerator = VisualStudioFiles.FSharpProjectFiles.GetEnumerator();
+
+			// Ensure project file exists.
+			Assert.IsTrue(projectFileEnumerator.MoveNext());
+
+			Assert.AreEqual(FSharpProjectFileName, projectFileEnumerator.Current.FileName);
+
+			// Ensure no more project files exist.
+			Assert.IsFalse(projectFileEnumerator.MoveNext());
+		}
+
+		/// <summary>
 		/// Test FSharpProjectFiles property when no Visual F# project files found.
 		/// </summary>
 		[Test]
 		public void FSharpProjectFilesWhenNoneFound()
 		{
 			CollectionAssert.IsEmpty(VisualStudioFiles.FSharpProjectFiles);
+		}
+
+		/// <summary>
+		/// Test FSharpSourceFiles property when Visual F# source files found.
+		/// </summary>
+		[Test]
+		public void FSharpSourceFilesWhenFound()
+		{
+			AddFSharpSourceFiles();
+
+			Create();
+
+			CollectionAssert.IsNotEmpty(VisualStudioFiles.FSharpSourceFiles);
+
+			IEnumerator<FSharpSourceFile> sourceFileEnumerator = VisualStudioFiles.FSharpSourceFiles.GetEnumerator();
+
+			// Ensure source file exists.
+			Assert.IsTrue(sourceFileEnumerator.MoveNext());
+
+			Assert.AreEqual(FSharpSourceFileName, sourceFileEnumerator.Current.FileName);
+
+			// Ensure no more source files exist.
+			Assert.IsFalse(sourceFileEnumerator.MoveNext());
 		}
 
 		/// <summary>

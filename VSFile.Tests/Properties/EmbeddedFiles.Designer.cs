@@ -69,6 +69,33 @@ namespace VSFile.Tests.Properties {
         ///    &lt;Platform Condition=&quot; &apos;$(Platform)&apos; == &apos;&apos; &quot;&gt;AnyCPU&lt;/Platform&gt;
         ///    [rest of string was truncated]&quot;;.
         /// </summary>
+        internal static string BasicProjectFile {
+            get {
+                return ResourceManager.GetString("BasicProjectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public Class BasicSourceFile
+        ///
+        ///End Class
+        ///.
+        /// </summary>
+        internal static string BasicSourceFile {
+            get {
+                return ResourceManager.GetString("BasicSourceFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Project ToolsVersion=&quot;12.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+        ///  &lt;Import Project=&quot;$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props&quot; Condition=&quot;Exists(&apos;$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props&apos;)&quot; /&gt;
+        ///  &lt;PropertyGroup&gt;
+        ///    &lt;Configuration Condition=&quot; &apos;$(Configuration)&apos; == &apos;&apos; &quot;&gt;Debug&lt;/Configuration&gt;
+        ///    &lt;Platform Condition=&quot; &apos;$(Platform)&apos; == &apos;&apos; &quot;&gt;AnyCPU&lt;/Platform&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
         internal static string CSharpProjectFile {
             get {
                 return ResourceManager.GetString("CSharpProjectFile", resourceCulture);
@@ -80,9 +107,9 @@ namespace VSFile.Tests.Properties {
         ///
         ///namespace CSharpProjectFile
         ///{
-        ///    public class CSharpSourceFile
-        ///    {
-        ///    }
+        ///	public class CSharpSourceFile
+        ///	{
+        ///	}
         ///}
         ///.
         /// </summary>
@@ -93,19 +120,41 @@ namespace VSFile.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Project ToolsVersion=&quot;12.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+        ///  &lt;Import Project=&quot;$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props&quot; Condition=&quot;Exists(&apos;$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props&apos;)&quot; /&gt;
+        ///  &lt;PropertyGroup&gt;
+        ///    &lt;Configuration Condition=&quot; &apos;$(Configuration)&apos; == &apos;&apos; &quot;&gt;Debug&lt;/Configuration&gt;
+        ///    &lt;Platform Condition=&quot; &apos;$(Platform)&apos; == &apos;&apos; &quot;&gt;AnyCPU&lt;/Platform&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FSharpProjectFile {
+            get {
+                return ResourceManager.GetString("FSharpProjectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to module FSharpSourceFile
+        ///.
+        /// </summary>
+        internal static string FSharpSourceFile {
+            get {
+                return ResourceManager.GetString("FSharpSourceFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///Microsoft Visual Studio Solution File, Format Version 12.00
         ///# Visual Studio 2013
         ///VisualStudioVersion = 12.0.40629.0
         ///MinimumVisualStudioVersion = 10.0.40219.1
+        ///Project(&quot;{F184B08F-C81C-45F6-A57F-5ABD9991F28F}&quot;) = &quot;BasicProjectFile&quot;, &quot;BasicProjectFile.vbproj&quot;, &quot;{719BD374-47FE-4078-B07E-FB9DF49274BB}&quot;
+        ///EndProject
         ///Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;CSharpProjectFile&quot;, &quot;CSharpProjectFile.csproj&quot;, &quot;{906335D9-9DAB-4D38-ACF7-42C57FE07EC9}&quot;
         ///EndProject
-        ///Global
-        ///	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        ///		Debug|Any CPU = Debug|Any CPU
-        ///		Release|Any CPU = Release|Any CPU
-        ///	EndGlobalSection
-        ///	GlobalSection(ProjectConfigurationPlatforms)  [rest of string was truncated]&quot;;.
+        ///Project(&quot;{F2A71F9B-5D33-465A-A702-920D77 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SolutionFile {
             get {

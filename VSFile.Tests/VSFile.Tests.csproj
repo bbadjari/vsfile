@@ -63,8 +63,10 @@
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="Fake\FakeTextFileReader.cs" />
+    <Compile Include="Unit\BasicProjectFileTests.cs" />
     <Compile Include="Unit\CSharpProjectFileTests.cs" />
     <Compile Include="Unit\FakeTextFileReaderTests.cs" />
+    <Compile Include="Unit\FSharpProjectFileTests.cs" />
     <Compile Include="Unit\SolutionFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\VisualStudioFilesTests.cs" />
@@ -93,8 +95,12 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\BasicProjectFile.vbproj" />
+    <EmbeddedResource Include="Resources\BasicSourceFile.vb" />
     <EmbeddedResource Include="Resources\CSharpProjectFile.csproj" />
     <EmbeddedResource Include="Resources\CSharpSourceFile.cs" />
+    <EmbeddedResource Include="Resources\FSharpProjectFile.fsproj" />
+    <EmbeddedResource Include="Resources\FSharpSourceFile.fs" />
     <EmbeddedResource Include="Resources\ResourcesFile.resx" />
     <EmbeddedResource Include="Resources\ResourcesFile.Designer.cs" />
     <EmbeddedResource Include="Resources\SolutionFile.sln" />

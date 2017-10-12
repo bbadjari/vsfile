@@ -158,9 +158,21 @@ namespace VSFile.Tests.Unit
 		[Test]
 		public void BasicProjectFilesWhenFileLoaded()
 		{
+			const string ProjectName = "BasicProjectFile";
+
 			SolutionFile.Load();
 
-			CollectionAssert.IsEmpty(SolutionFile.BasicProjectFiles);
+			CollectionAssert.IsNotEmpty(SolutionFile.BasicProjectFiles);
+
+			IEnumerator<BasicProjectFile> projectFileEnumerator = SolutionFile.BasicProjectFiles.GetEnumerator();
+
+			// Ensure project file exists.
+			Assert.IsTrue(projectFileEnumerator.MoveNext());
+
+			Assert.AreEqual(ProjectName, projectFileEnumerator.Current.ProjectName);
+
+			// Ensure no more project files exist.
+			Assert.IsFalse(projectFileEnumerator.MoveNext());
 		}
 
 		/// <summary>
@@ -255,9 +267,21 @@ namespace VSFile.Tests.Unit
 		[Test]
 		public void FSharpProjectFilesWhenFileLoaded()
 		{
+			const string ProjectName = "FSharpProjectFile";
+
 			SolutionFile.Load();
 
-			CollectionAssert.IsEmpty(SolutionFile.FSharpProjectFiles);
+			CollectionAssert.IsNotEmpty(SolutionFile.FSharpProjectFiles);
+
+			IEnumerator<FSharpProjectFile> projectFileEnumerator = SolutionFile.FSharpProjectFiles.GetEnumerator();
+
+			// Ensure project file exists.
+			Assert.IsTrue(projectFileEnumerator.MoveNext());
+
+			Assert.AreEqual(ProjectName, projectFileEnumerator.Current.ProjectName);
+
+			// Ensure no more project files exist.
+			Assert.IsFalse(projectFileEnumerator.MoveNext());
 		}
 
 		/// <summary>

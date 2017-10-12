@@ -118,11 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BasicProjectFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BasicProjectFile.vbproj;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="BasicSourceFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BasicSourceFile.vb;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="CSharpProjectFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CSharpProjectFile.csproj;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CSharpSourceFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CSharpSourceFile.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FSharpProjectFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FSharpProjectFile.fsproj;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="FSharpSourceFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FSharpSourceFile.fs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="SolutionFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SolutionFile.sln;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

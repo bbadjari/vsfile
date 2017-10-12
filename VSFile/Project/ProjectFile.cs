@@ -124,25 +124,7 @@ namespace VSFile.Project
 		}
 
 		/// <summary>
-		/// Constructor for specifying file path.
-		/// </summary>
-		/// <param name="fileExtension">
-		/// String representing file extension of Visual Studio project file.
-		/// </param>
-		/// <param name="filePath">
-		/// String representing path to Visual Studio project file.
-		/// </param>
-		/// <param name="sourceFileExtension">
-		/// String representing file extension of Visual Studio source files
-		/// referenced in this Visual Studio project file.
-		/// </param>
-		protected ProjectFile(string fileExtension, string filePath, string sourceFileExtension)
-			: this(null, fileExtension, filePath, sourceFileExtension)
-		{
-		}
-
-		/// <summary>
-		/// Constructor for specifying project name.
+		/// Constructor.
 		/// </summary>
 		/// <param name="projectName">
 		/// String representing Visual Studio project name.

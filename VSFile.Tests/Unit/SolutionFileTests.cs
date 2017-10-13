@@ -299,9 +299,21 @@ namespace VSFile.Tests.Unit
 		[Test]
 		public void WebSiteDirectoriesWhenFileLoaded()
 		{
+			const string WebSiteName = "WebSite";
+
 			SolutionFile.Load();
 
-			CollectionAssert.IsEmpty(SolutionFile.WebSiteDirectories);
+			CollectionAssert.IsNotEmpty(SolutionFile.WebSiteDirectories);
+
+			IEnumerator<WebSiteDirectory> webSiteDirectoryEnumerator = SolutionFile.WebSiteDirectories.GetEnumerator();
+
+			// Ensure web site directory exists.
+			Assert.IsTrue(webSiteDirectoryEnumerator.MoveNext());
+
+			Assert.AreEqual(WebSiteName, webSiteDirectoryEnumerator.Current.Name);
+
+			// Ensure no more web site directories exist.
+			Assert.IsFalse(webSiteDirectoryEnumerator.MoveNext());
 		}
 
 		/// <summary>

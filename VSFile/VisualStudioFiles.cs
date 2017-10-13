@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using VSFile.Project;
 using VSFile.Properties;
 using VSFile.Source;
@@ -144,7 +145,7 @@ namespace VSFile
 		{
 			if (filePaths == null)
 				throw new ArgumentNullException("filePaths");
-			
+
 			foreach (string filePath in filePaths)
 				Initialize(filePath);
 		}
@@ -253,16 +254,10 @@ namespace VSFile
 		/// </returns>
 		private static bool IsSupportedExtension(string fileExtension)
 		{
-			if (!string.IsNullOrWhiteSpace(fileExtension))
-			{
-				foreach (string extension in SupportedExtensions)
-				{
-					if (fileExtension.Equals(extension, StringComparison.CurrentCultureIgnoreCase))
-						return true;
-				}
-			}
+			if (string.IsNullOrWhiteSpace(fileExtension))
+				return false;
 
-			return false;
+			return SupportedExtensions.Any(extension => fileExtension.Equals(extension, StringComparison.CurrentCultureIgnoreCase));
 		}
 
 		////////////////////////////////////////////////////////////////////////

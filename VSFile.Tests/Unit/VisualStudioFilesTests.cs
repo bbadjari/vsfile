@@ -34,13 +34,14 @@ using NUnit.Framework;
 using VSFile.Project;
 using VSFile.Source;
 using VSFile.System;
+using VSFile.Tests.Category;
 
 namespace VSFile.Tests.Unit
 {
 	/// <summary>
 	/// Unit tests for VisualStudioFiles class.
 	/// </summary>
-	[TestFixture]
+	[TestFixture, Unit]
 	public class VisualStudioFilesTests
 	{
 		private const string BasicProjectFileName = "BasicProjectFile.vbproj";

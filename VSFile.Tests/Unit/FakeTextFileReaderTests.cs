@@ -27,6 +27,7 @@
 
 using System;
 using NUnit.Framework;
+using VSFile.Tests.Category;
 using VSFile.Tests.Fake;
 
 namespace VSFile.Tests.Unit
@@ -34,7 +35,7 @@ namespace VSFile.Tests.Unit
 	/// <summary>
 	/// Unit tests for FakeTextFileReader class.
 	/// </summary>
-	[TestFixture]
+	[TestFixture, Unit]
 	public class FakeTextFileReaderTests
 	{
 		/// <summary>

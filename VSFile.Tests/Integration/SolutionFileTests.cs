@@ -25,35 +25,34 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using Moq;
 using NUnit.Framework;
 using VSFile.Project;
-using VSFile.System;
 using VSFile.Tests.Category;
-using VSFile.Tests.Fake;
 using VSFile.Tests.Properties;
 
-namespace VSFile.Tests.Unit
+namespace VSFile.Tests.Integration
 {
 	/// <summary>
-	/// Unit tests for SolutionFile class.
+	/// Integration tests for SolutionFile class.
 	/// </summary>
-	[TestFixture, Unit]
+	[TestFixture, Integration]
 	public class SolutionFileTests
 	{
-		private const string DirectoryPath = "";
-
-		private const string FileExtension = ".sln";
-
-		private const string FileNameNoExtension = "SolutionFile";
-
-		private const string FilePath = DirectoryPath + FileNameNoExtension + FileExtension;
+		private const string FileName = "SolutionFile.sln";
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Methods
+
+		/// <summary>
+		/// Called after each test executed.
+		/// </summary>
+		[TearDown]
+		public void AfterTest()
+		{
+			File.Delete(FilePath);
+		}
 
 		/// <summary>
 		/// Called before each test executed.
@@ -61,51 +60,9 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
-			MockFileSystem = new Mock<IFileSystem>();
-			MockTextFileReaderFactory = new Mock<ITextFileReaderFactory>();
+			File.WriteAllText(FilePath, EmbeddedFiles.SolutionFile);
 
-			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
-			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
-
-			MockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(EmbeddedFiles.SolutionFile));
-
-			SolutionFile = new SolutionFile(FilePath, MockFileSystem.Object, MockTextFileReaderFactory.Object);
-		}
-
-		////////////////////////////////////////////////////////////////////////
-		// Constructors
-
-		/// <summary>
-		/// Test constructor specifying empty file path.
-		/// </summary>
-		[Test]
-		public void WithEmptyFilePath()
-		{
-			const string EmptyFilePath = "";
-
-			Assert.Throws<ArgumentException>(() => new SolutionFile(EmptyFilePath));
-		}
-
-		/// <summary>
-		/// Test constructor specifying no file path.
-		/// </summary>
-		[Test]
-		public void WithNoFilePath()
-		{
-			const string NoFilePath = null;
-
-			Assert.Throws<ArgumentException>(() => new SolutionFile(NoFilePath));
-		}
-
-		/// <summary>
-		/// Test constructor specifying white-space file path.
-		/// </summary>
-		[Test]
-		public void WithWhiteSpaceFilePath()
-		{
-			const string WhiteSpaceFilePath = " ";
-
-			Assert.Throws<ArgumentException>(() => new SolutionFile(WhiteSpaceFilePath));
+			SolutionFile = new SolutionFile(FilePath);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -118,36 +75,6 @@ namespace VSFile.Tests.Unit
 		public void Load()
 		{
 			Assert.DoesNotThrow(() => SolutionFile.Load());
-		}
-
-		/// <summary>
-		/// Test Load() method with non-existent file path.
-		/// </summary>
-		[Test]
-		public void LoadWithNonExistentFilePath()
-		{
-			const string NonExistentFilePath = "NonExistentFile.xxx";
-
-			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(NonExistentFilePath)).Returns(false);
-
-			SolutionFile = new SolutionFile(NonExistentFilePath, MockFileSystem.Object, MockTextFileReaderFactory.Object);
-
-			Assert.Throws<FileNotFoundException>(() => SolutionFile.Load());
-		}
-
-		/// <summary>
-		/// Test Load() method with wrong file extension.
-		/// </summary>
-		[Test]
-		public void LoadWithWrongFileExtension()
-		{
-			const string FilePathWithWrongFileExtension = "SolutionFile.xxx";
-
-			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePathWithWrongFileExtension)).Returns(true);
-
-			SolutionFile = new SolutionFile(FilePathWithWrongFileExtension, MockFileSystem.Object, MockTextFileReaderFactory.Object);
-
-			Assert.Throws<IOException>(() => SolutionFile.Load());
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -177,15 +104,6 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
-		/// Test BasicProjectFiles property when solution file not loaded.
-		/// </summary>
-		[Test]
-		public void BasicProjectFilesWhenFileNotLoaded()
-		{
-			CollectionAssert.IsEmpty(SolutionFile.BasicProjectFiles);
-		}
-
-		/// <summary>
 		/// Test CSharpProjectFiles property when solution file loaded.
 		/// </summary>
 		[Test]
@@ -206,60 +124,6 @@ namespace VSFile.Tests.Unit
 
 			// Ensure no more project files exist.
 			Assert.IsFalse(projectFileEnumerator.MoveNext());
-		}
-
-		/// <summary>
-		/// Test CSharpProjectFiles property when solution file not loaded.
-		/// </summary>
-		[Test]
-		public void CSharpProjectFilesWhenFileNotLoaded()
-		{
-			CollectionAssert.IsEmpty(SolutionFile.CSharpProjectFiles);
-		}
-
-		/// <summary>
-		/// Test DirectoryPath property.
-		/// </summary>
-		[Test]
-		public void DirectoryPathProperty()
-		{
-			Assert.AreEqual(DirectoryPath, SolutionFile.DirectoryPath);
-		}
-
-		/// <summary>
-		/// Test FileExtension property.
-		/// </summary>
-		[Test]
-		public void FileExtensionProperty()
-		{
-			Assert.AreEqual(FileExtension, SolutionFile.FileExtension);
-		}
-
-		/// <summary>
-		/// Test FileName property.
-		/// </summary>
-		[Test]
-		public void FileNameProperty()
-		{
-			Assert.AreEqual(FilePath, SolutionFile.FileName);
-		}
-
-		/// <summary>
-		/// Test FileNameNoExtension property.
-		/// </summary>
-		[Test]
-		public void FileNameNoExtensionProperty()
-		{
-			Assert.AreEqual(FileNameNoExtension, SolutionFile.FileNameNoExtension);
-		}
-
-		/// <summary>
-		/// Test FilePath property.
-		/// </summary>
-		[Test]
-		public void FilePathProperty()
-		{
-			Assert.AreEqual(FilePath, SolutionFile.FilePath);
 		}
 
 		/// <summary>
@@ -286,15 +150,6 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
-		/// Test FSharpProjectFiles property when solution file not loaded.
-		/// </summary>
-		[Test]
-		public void FSharpProjectFilesWhenFileNotLoaded()
-		{
-			CollectionAssert.IsEmpty(SolutionFile.FSharpProjectFiles);
-		}
-
-		/// <summary>
 		/// Test WebSiteDirectories property when solution file loaded.
 		/// </summary>
 		[Test]
@@ -317,33 +172,19 @@ namespace VSFile.Tests.Unit
 			Assert.IsFalse(webSiteDirectoryEnumerator.MoveNext());
 		}
 
-		/// <summary>
-		/// Test WebSiteDirectories property when solution file not loaded.
-		/// </summary>
-		[Test]
-		public void WebSiteDirectoriesWhenFileNotLoaded()
-		{
-			CollectionAssert.IsEmpty(SolutionFile.WebSiteDirectories);
-		}
-
 		////////////////////////////////////////////////////////////////////////
 		// Helper Properties
 
 		/// <summary>
-		/// Get/set mock file system.
+		/// Get solution file path.
 		/// </summary>
 		/// <value>
-		/// Mock<IFileSystem> representing mock file system.
+		/// String representing solution file path.
 		/// </value>
-		private Mock<IFileSystem> MockFileSystem { get; set; }
-
-		/// <summary>
-		/// Get/set mock text file reader factory.
-		/// </summary>
-		/// <value>
-		/// Mock<ITextFileReaderFactory> representing mock text file reader factory.
-		/// </value>
-		private Mock<ITextFileReaderFactory> MockTextFileReaderFactory { get; set; }
+		private string FilePath
+		{
+			get { return Path.Combine(Path.GetTempPath(), FileName); }
+		}
 
 		/// <summary>
 		/// Get/set solution file.

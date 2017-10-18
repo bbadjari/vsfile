@@ -33,6 +33,7 @@ using NUnit.Framework;
 using VSFile.Project;
 using VSFile.Source;
 using VSFile.System;
+using VSFile.Tests.Category;
 using VSFile.Tests.Fake;
 using VSFile.Tests.Properties;
 
@@ -41,7 +42,7 @@ namespace VSFile.Tests.Unit
 	/// <summary>
 	/// Unit tests for FSharpProjectFile class.
 	/// </summary>
-	[TestFixture]
+	[TestFixture, Unit]
 	public class FSharpProjectFileTests
 	{
 		private const string DirectoryPath = "";

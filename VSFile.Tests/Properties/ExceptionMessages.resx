@@ -120,4 +120,7 @@
   <data name="InvalidFileContents" xml:space="preserve">
     <value>Invalid file contents.</value>
   </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>Invalid file name.</value>
+  </data>
 </root>

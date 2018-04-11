@@ -54,6 +54,8 @@
     <Compile Include="Category\IntegrationAttribute.cs" />
     <Compile Include="Category\UnitAttribute.cs" />
     <Compile Include="Fake\FakeXmlFileReader.cs" />
+    <Compile Include="Integration\IntegrationTestFixture.cs" />
+    <Compile Include="Integration\CSharpProjectFileTests.cs" />
     <Compile Include="Integration\SolutionFileTests.cs" />
     <Compile Include="Properties\EmbeddedFiles.Designer.cs">
       <AutoGen>True</AutoGen>

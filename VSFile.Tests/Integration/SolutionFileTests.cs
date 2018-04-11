@@ -26,10 +26,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System.Collections.Generic;
-using System.IO;
 using NUnit.Framework;
 using VSFile.Project;
-using VSFile.Tests.Category;
 using VSFile.Tests.Properties;
 
 namespace VSFile.Tests.Integration
@@ -37,30 +35,30 @@ namespace VSFile.Tests.Integration
 	/// <summary>
 	/// Integration tests for SolutionFile class.
 	/// </summary>
-	[TestFixture, Integration]
-	public class SolutionFileTests
+	public class SolutionFileTests : IntegrationTestFixture
 	{
 		private const string FileName = "SolutionFile.sln";
+
+		////////////////////////////////////////////////////////////////////////
+		// Helper Constructors
+
+		/// <summary>
+		/// Constructor.
+		/// </summary>
+		public SolutionFileTests()
+			: base(FileName, EmbeddedFiles.SolutionFile)
+		{
+		}
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Methods
 
 		/// <summary>
-		/// Called after each test executed.
-		/// </summary>
-		[TearDown]
-		public void AfterTest()
-		{
-			File.Delete(FilePath);
-		}
-
-		/// <summary>
 		/// Called before each test executed.
 		/// </summary>
-		[SetUp]
-		public void BeforeTest()
+		public override void BeforeTest()
 		{
-			File.WriteAllText(FilePath, EmbeddedFiles.SolutionFile);
+			base.BeforeTest();
 
 			SolutionFile = new SolutionFile(FilePath);
 		}
@@ -174,17 +172,6 @@ namespace VSFile.Tests.Integration
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Properties
-
-		/// <summary>
-		/// Get solution file path.
-		/// </summary>
-		/// <value>
-		/// String representing solution file path.
-		/// </value>
-		private string FilePath
-		{
-			get { return Path.Combine(Path.GetTempPath(), FileName); }
-		}
 
 		/// <summary>
 		/// Get/set solution file.

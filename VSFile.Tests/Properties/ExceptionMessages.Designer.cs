@@ -68,5 +68,14 @@ namespace VSFile.Tests.Properties {
                 return ResourceManager.GetString("InvalidFileContents", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid file name..
+        /// </summary>
+        internal static string InvalidFileName {
+            get {
+                return ResourceManager.GetString("InvalidFileName", resourceCulture);
+            }
+        }
     }
 }

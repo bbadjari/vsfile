@@ -34,10 +34,10 @@ using VSFile.Tests.Properties;
 namespace VSFile.Tests.Integration
 {
 	/// <summary>
-	/// Represents an integration test fixture.
+	/// Represents an integration test fixture for single file.
 	/// </summary>
 	[TestFixture, Integration]
-	public abstract class IntegrationTestFixture
+	public abstract class FileIntegrationTestFixture
 	{
 		////////////////////////////////////////////////////////////////////////
 		// Constructors
@@ -51,7 +51,7 @@ namespace VSFile.Tests.Integration
 		/// <param name="fileContents">
 		/// String representing file contents.
 		/// </param>
-		protected IntegrationTestFixture(string fileName, string fileContents)
+		protected FileIntegrationTestFixture(string fileName, string fileContents)
 		{
 			if (string.IsNullOrWhiteSpace(fileName))
 				throw new ArgumentException(ExceptionMessages.InvalidFileName, "fileName");

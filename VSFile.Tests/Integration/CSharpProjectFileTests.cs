@@ -36,7 +36,7 @@ namespace VSFile.Tests.Integration
 	/// <summary>
 	/// Integration tests for CSharpProjectFile class.
 	/// </summary>
-	public class CSharpProjectFileTests : IntegrationTestFixture
+	public class CSharpProjectFileTests : FileIntegrationTestFixture
 	{
 		private const string FileName = "CSharpProjectFile.csproj";
 

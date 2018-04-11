@@ -35,7 +35,7 @@ namespace VSFile.Tests.Integration
 	/// <summary>
 	/// Integration tests for SolutionFile class.
 	/// </summary>
-	public class SolutionFileTests : IntegrationTestFixture
+	public class SolutionFileTests : FileIntegrationTestFixture
 	{
 		private const string FileName = "SolutionFile.sln";
 

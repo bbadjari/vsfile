@@ -57,6 +57,7 @@
     <Compile Include="Integration\FileIntegrationTestFixture.cs" />
     <Compile Include="Integration\CSharpProjectFileTests.cs" />
     <Compile Include="Integration\SolutionFileTests.cs" />
+    <Compile Include="Integration\VisualStudioFilesTests.cs" />
     <Compile Include="Properties\EmbeddedFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

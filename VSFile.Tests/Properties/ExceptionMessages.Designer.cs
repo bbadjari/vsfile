@@ -61,6 +61,15 @@ namespace VSFile.Tests.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid directory path..
+        /// </summary>
+        internal static string InvalidDirectoryPath {
+            get {
+                return ResourceManager.GetString("InvalidDirectoryPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid file contents..
         /// </summary>
         internal static string InvalidFileContents {

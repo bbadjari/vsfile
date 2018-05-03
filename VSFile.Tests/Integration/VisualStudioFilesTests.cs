@@ -26,12 +26,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using NUnit.Framework;
 using VSFile.Project;
 using VSFile.Source;
-using VSFile.Tests.Category;
 using VSFile.Tests.Properties;
 
 namespace VSFile.Tests.Integration
@@ -39,33 +37,10 @@ namespace VSFile.Tests.Integration
 	/// <summary>
 	/// Integration tests for VisualStudioFiles class.
 	/// </summary>
-	[TestFixture, Integration]
-	public class VisualStudioFilesTests
+	public class VisualStudioFilesTests : DirectoryIntegrationTestFixture
 	{
-		private const string DirectoryName = "VSFile.Tests.Integration";
-
 		////////////////////////////////////////////////////////////////////////
 		// Helper Methods
-
-		/// <summary>
-		/// Called after each test executed.
-		/// </summary>
-		[TearDown]
-		public void AfterTest()
-		{
-			Directory.Delete(DirectoryPath, true);
-		}
-
-		/// <summary>
-		/// Called before each test executed.
-		/// </summary>
-		[SetUp]
-		public void BeforeTest()
-		{
-			DirectoryPath = Path.Combine(Path.GetTempPath(), DirectoryName);
-
-			Directory.CreateDirectory(DirectoryPath);
-		}
 
 		/// <summary>
 		/// Create instance of class being tested.
@@ -75,23 +50,6 @@ namespace VSFile.Tests.Integration
 			string[] filePaths = new string[] { Path.Combine(DirectoryPath, Wildcard.Asterisk) };
 
 			VisualStudioFiles = new VisualStudioFiles(filePaths, false);
-		}
-
-		/// <summary>
-		/// Write file with given file name and file contents.
-		/// </summary>
-		/// <param name="fileName">
-		/// String representing file name.
-		/// </param>
-		/// <param name="fileContents">
-		/// String representing file contents.
-		/// </param>
-		private void WriteFile(string fileName, string fileContents)
-		{
-			Debug.Assert(!string.IsNullOrWhiteSpace(fileName), "Invalid file name.");
-			Debug.Assert(!string.IsNullOrWhiteSpace(fileContents), "Invalid file contents.");
-
-			File.WriteAllText(Path.Combine(DirectoryPath, fileName), fileContents);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -354,14 +312,6 @@ namespace VSFile.Tests.Integration
 
 		////////////////////////////////////////////////////////////////////////
 		// Helper Properties
-
-		/// <summary>
-		/// Get/set directory path.
-		/// </summary>
-		/// <value>
-		/// String representing directory path.
-		/// </value>
-		private string DirectoryPath { get; set; }
 
 		/// <summary>
 		/// Get/set Visual Studio files.

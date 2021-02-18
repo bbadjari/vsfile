@@ -115,6 +115,24 @@ namespace VSFile.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid solution file..
+        /// </summary>
+        internal static string InvalidSolutionFile {
+            get {
+                return ResourceManager.GetString("InvalidSolutionFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid solution file header..
+        /// </summary>
+        internal static string InvalidSolutionFileHeader {
+            get {
+                return ResourceManager.GetString("InvalidSolutionFileHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid source file extension..
         /// </summary>
         internal static string InvalidSourceFileExtension {

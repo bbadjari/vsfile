@@ -135,6 +135,12 @@
   <data name="InvalidName" xml:space="preserve">
     <value>Invalid name.</value>
   </data>
+  <data name="InvalidSolutionFile" xml:space="preserve">
+    <value>Invalid solution file.</value>
+  </data>
+  <data name="InvalidSolutionFileHeader" xml:space="preserve">
+    <value>Invalid solution file header.</value>
+  </data>
   <data name="InvalidSourceFileExtension" xml:space="preserve">
     <value>Invalid source file extension.</value>
   </data>

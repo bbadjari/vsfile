@@ -263,6 +263,19 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
+		/// Test FormatVersion property when solution file loaded.
+		/// </summary>
+		[Test]
+		public void FormatVersionWhenFileLoaded()
+		{
+			const int FormatVersion = 12;
+
+			SolutionFile.Load();
+
+			Assert.AreEqual(FormatVersion, SolutionFile.FormatVersion);
+		}
+
+		/// <summary>
 		/// Test FSharpProjectFiles property when solution file loaded.
 		/// </summary>
 		[Test]

@@ -30,6 +30,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using VSFile.Project;
+using VSFile.Properties;
+using VSFile.Solution;
 using VSFile.System;
 
 namespace VSFile
@@ -211,9 +213,11 @@ namespace VSFile
 
 			using (ITextFileReader textFileReader = TextFileReaderFactory.Create(FilePath))
 			{
+				ReadHeader(textFileReader);
+
 				string inputLine;
 
-				// Read entire solution file.
+				// Read rest of solution file.
 				while ((inputLine = textFileReader.ReadLine()) != null)
 				{
 					if (inputLine.StartsWith(ProjectTag.Begin, StringComparison.Ordinal))
@@ -292,6 +296,37 @@ namespace VSFile
 			return group.Value;
 		}
 
+		/// <summary>
+		/// Read file header.
+		/// </summary>
+		/// <param name="textFileReader">
+		/// ITextFileReader instance representing text file reader.
+		/// </param>
+		private void ReadHeader(ITextFileReader textFileReader)
+		{
+			// Header expected to be contained on one of first two lines of solution file.
+			const int MaximumLinesToRead = 2;
+
+			bool hasNoHeader = true;
+
+			for (int line = 0; line < MaximumLinesToRead; line++)
+			{
+				string inputLine = textFileReader.ReadLine();
+
+				if (SolutionFileHeader.HasHeader(inputLine))
+				{
+					FormatVersion = SolutionFileHeader.GetFormatVersion(inputLine);
+
+					hasNoHeader = false;
+
+					break;
+				}
+			}
+
+			if (hasNoHeader)
+				throw new FileFormatException(ExceptionMessages.InvalidSolutionFile);
+		}
+
 		////////////////////////////////////////////////////////////////////////
 		// Properties
 
@@ -318,6 +353,14 @@ namespace VSFile
 		{
 			get { return cSharpProjectFiles; }
 		}
+
+		/// <summary>
+		/// Get solution file format version.
+		/// </summary>
+		/// <value>
+		/// Integer representing solution file format version.
+		/// </value>
+		public int FormatVersion { get; private set; }
 
 		/// <summary>
 		/// Get Visual F# project files referenced in this solution file.

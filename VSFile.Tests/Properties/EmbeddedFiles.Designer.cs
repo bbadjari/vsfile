@@ -161,5 +161,40 @@ namespace VSFile.Tests.Properties {
                 return ResourceManager.GetString("SolutionFile", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Microsoft Visual Studio Solution File, Format Version 
+        ///# Visual Studio 2013
+        ///VisualStudioVersion = 12.0.40629.0
+        ///MinimumVisualStudioVersion = 10.0.40219.1
+        ///Project(&quot;{F184B08F-C81C-45F6-A57F-5ABD9991F28F}&quot;) = &quot;BasicProjectFile&quot;, &quot;BasicProjectFile.vbproj&quot;, &quot;{719BD374-47FE-4078-B07E-FB9DF49274BB}&quot;
+        ///EndProject
+        ///Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;CSharpProjectFile&quot;, &quot;CSharpProjectFile.csproj&quot;, &quot;{906335D9-9DAB-4D38-ACF7-42C57FE07EC9}&quot;
+        ///EndProject
+        ///Project(&quot;{F2A71F9B-5D33-465A-A702-920D7727978 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SolutionFileInvalidHeader {
+            get {
+                return ResourceManager.GetString("SolutionFileInvalidHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///# Visual Studio 2013
+        ///VisualStudioVersion = 12.0.40629.0
+        ///MinimumVisualStudioVersion = 10.0.40219.1
+        ///Project(&quot;{F184B08F-C81C-45F6-A57F-5ABD9991F28F}&quot;) = &quot;BasicProjectFile&quot;, &quot;BasicProjectFile.vbproj&quot;, &quot;{719BD374-47FE-4078-B07E-FB9DF49274BB}&quot;
+        ///EndProject
+        ///Project(&quot;{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}&quot;) = &quot;CSharpProjectFile&quot;, &quot;CSharpProjectFile.csproj&quot;, &quot;{906335D9-9DAB-4D38-ACF7-42C57FE07EC9}&quot;
+        ///EndProject
+        ///Project(&quot;{F2A71F9B-5D33-465A-A702-920D77279786}&quot;) = &quot;FSharpProjectFile&quot;, &quot;FSharpProjectFile.fsproj&quot;,  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SolutionFileNoHeader {
+            get {
+                return ResourceManager.GetString("SolutionFileNoHeader", resourceCulture);
+            }
+        }
     }
 }

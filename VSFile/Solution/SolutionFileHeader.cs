@@ -27,6 +27,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using VSFile.Properties;
 
 namespace VSFile.Solution
@@ -62,7 +63,7 @@ namespace VSFile.Solution
 			Version version;
 
 			if (!Version.TryParse(versionInHeader, out version))
-				throw new ArgumentException(ExceptionMessages.InvalidSolutionFileHeader);
+				throw new FileFormatException(ExceptionMessages.InvalidSolutionFileHeader);
 
 			return version.Major;
 		}

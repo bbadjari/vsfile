@@ -61,13 +61,24 @@ namespace VSFile.Tests.Unit
 		[SetUp]
 		public void BeforeTest()
 		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFile);
+		}
+
+		/// <summary>
+		/// Create solution file with given file contents. 
+		/// </summary>
+		/// <param name="fileContents">
+		/// String representing solution file contents.
+		/// </param>
+		private void CreateSolutionFile(string fileContents)
+		{
 			MockFileSystem = new Mock<IFileSystem>();
 			MockTextFileReaderFactory = new Mock<ITextFileReaderFactory>();
 
 			MockFileSystem.Setup(fileSystem => fileSystem.FileExists(FilePath)).Returns(true);
 			MockFileSystem.Setup(fileSystem => fileSystem.GetCurrentDirectory()).Returns(DirectoryPath);
 
-			MockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(EmbeddedFiles.SolutionFile));
+			MockTextFileReaderFactory.Setup(factory => factory.Create(It.IsAny<string>())).Returns(new FakeTextFileReader(fileContents));
 
 			SolutionFile = new SolutionFile(FilePath, MockFileSystem.Object, MockTextFileReaderFactory.Object);
 		}
@@ -273,6 +284,28 @@ namespace VSFile.Tests.Unit
 			SolutionFile.Load();
 
 			Assert.AreEqual(FormatVersion, SolutionFile.FormatVersion);
+		}
+
+		/// <summary>
+		/// Test FormatVersion property when solution file with invalid header loaded.
+		/// </summary>
+		[Test]
+		public void FormatVersionWhenFileWithInvalidHeaderLoaded()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileInvalidHeader);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
+		/// Test FormatVersion property when solution file with no header loaded.
+		/// </summary>
+		[Test]
+		public void FormatVersionWhenFileWithNoHeaderLoaded()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileNoHeader);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
 		}
 
 		/// <summary>

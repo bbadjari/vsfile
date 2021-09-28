@@ -29,14 +29,20 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using VSFile.Properties;
+using VSFile.System;
 
 namespace VSFile.Solution
 {
 	/// <summary>
-	/// Represents the header contained in a Visual Studio solution file.
+	/// Reads the header contained in a Visual Studio solution file.
 	/// </summary>
-	internal static class SolutionFileHeader
+	internal static class SolutionFileHeaderReader
 	{
+		/// <summary>
+		/// Header expected to be contained on one of first two lines of solution file.
+		/// </summary>
+		private const int MaximumLinesToRead = 2;
+
 		/// <summary>
 		/// Header prefix.
 		/// </summary>
@@ -44,6 +50,38 @@ namespace VSFile.Solution
 
 		////////////////////////////////////////////////////////////////////////
 		// Methods
+
+		/// <summary>
+		/// Read header in solution file and return format version.
+		/// </summary>
+		/// <param name="textFileReader">
+		/// ITextFileReader instance representing text file reader.
+		/// </param>
+		/// <returns>
+		/// Integer representing format version.
+		/// </returns>
+		public static int Read(ITextFileReader textFileReader)
+		{
+			string inputLine = null;
+			bool hasNoHeader = true;
+
+			for (int line = 0; line < MaximumLinesToRead; line++)
+			{
+				inputLine = textFileReader.ReadLine();
+
+				if (HasHeader(inputLine))
+				{
+					hasNoHeader = false;
+
+					break;
+				}
+			}
+
+			if (hasNoHeader)
+				throw new FileFormatException(ExceptionMessages.InvalidSolutionFile);
+
+			return GetFormatVersion(inputLine);
+		}
 
 		/// <summary>
 		/// Get format version from given input line.
@@ -54,7 +92,7 @@ namespace VSFile.Solution
 		/// <returns>
 		/// Integer representing format version.
 		/// </returns>
-		public static int GetFormatVersion(string inputLine)
+		private static int GetFormatVersion(string inputLine)
 		{
 			Debug.Assert(HasHeader(inputLine), "Invalid file header.");
 
@@ -77,7 +115,7 @@ namespace VSFile.Solution
 		/// <returns>
 		/// True if input line contains header, false otherwise.
 		/// </returns>
-		public static bool HasHeader(string inputLine)
+		private static bool HasHeader(string inputLine)
 		{
 			return string.IsNullOrWhiteSpace(inputLine) ? false : inputLine.StartsWith(Prefix, StringComparison.Ordinal);
 		}

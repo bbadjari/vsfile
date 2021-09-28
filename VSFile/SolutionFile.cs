@@ -27,9 +27,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using VSFile.Project;
-using VSFile.Properties;
 using VSFile.Solution;
 using VSFile.System;
 
@@ -132,7 +130,7 @@ namespace VSFile
 
 			using (ITextFileReader textFileReader = TextFileReaderFactory.Create(FilePath))
 			{
-				ReadHeader(textFileReader);
+				FormatVersion = SolutionFileHeaderReader.Read(textFileReader);
 
 				// Read rest of solution file.
 				while (textFileReader.HasText())
@@ -189,37 +187,6 @@ namespace VSFile
 			cSharpProjectFiles.Clear();
 			fSharpProjectFiles.Clear();
 			webSiteDirectories.Clear();
-		}
-
-		/// <summary>
-		/// Read file header.
-		/// </summary>
-		/// <param name="textFileReader">
-		/// ITextFileReader instance representing text file reader.
-		/// </param>
-		private void ReadHeader(ITextFileReader textFileReader)
-		{
-			// Header expected to be contained on one of first two lines of solution file.
-			const int MaximumLinesToRead = 2;
-
-			bool hasNoHeader = true;
-
-			for (int line = 0; line < MaximumLinesToRead; line++)
-			{
-				string inputLine = textFileReader.ReadLine();
-
-				if (SolutionFileHeader.HasHeader(inputLine))
-				{
-					FormatVersion = SolutionFileHeader.GetFormatVersion(inputLine);
-
-					hasNoHeader = false;
-
-					break;
-				}
-			}
-
-			if (hasNoHeader)
-				throw new FileFormatException(ExceptionMessages.InvalidSolutionFile);
 		}
 
 		////////////////////////////////////////////////////////////////////////

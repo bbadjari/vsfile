@@ -89,6 +89,33 @@ namespace VSFile.Tests.Unit
 		// Methods
 
 		/// <summary>
+		/// Test HasText() method specifying file contents containing one line.
+		/// </summary>
+		[Test]
+		public void HasTextWithOneLineFileContents()
+		{
+			const string FileContents = FakeTextFile.Line1;
+
+			FakeTextFileReader reader = new FakeTextFileReader(FileContents);
+
+			Assert.IsTrue(reader.HasText());
+		}
+
+		/// <summary>
+		/// Test HasText() method specifying file contents containing two lines.
+		/// </summary>
+		[Test]
+		public void HasTextWithTwoLineFileContents()
+		{
+			// Should be treated as constants.
+			string FileContents = FakeTextFile.Line1 + Environment.NewLine + FakeTextFile.Line2;
+
+			FakeTextFileReader reader = new FakeTextFileReader(FileContents);
+
+			Assert.IsTrue(reader.HasText());
+		}
+
+		/// <summary>
 		/// Test ReadLine() method specifying file contents containing one line.
 		/// </summary>
 		[Test]

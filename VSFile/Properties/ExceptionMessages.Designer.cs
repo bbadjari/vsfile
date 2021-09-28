@@ -133,6 +133,15 @@ namespace VSFile.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid solution file project reference..
+        /// </summary>
+        internal static string InvalidSolutionFileProjectReference {
+            get {
+                return ResourceManager.GetString("InvalidSolutionFileProjectReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid source file extension..
         /// </summary>
         internal static string InvalidSourceFileExtension {

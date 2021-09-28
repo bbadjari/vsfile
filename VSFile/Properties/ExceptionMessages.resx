@@ -141,6 +141,9 @@
   <data name="InvalidSolutionFileHeader" xml:space="preserve">
     <value>Invalid solution file header.</value>
   </data>
+  <data name="InvalidSolutionFileProjectReference" xml:space="preserve">
+    <value>Invalid solution file project reference.</value>
+  </data>
   <data name="InvalidSourceFileExtension" xml:space="preserve">
     <value>Invalid source file extension.</value>
   </data>

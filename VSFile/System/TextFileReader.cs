@@ -33,6 +33,19 @@ namespace VSFile.System
 		}
 
 		/// <summary>
+		/// Determine whether there is text to read from file; that is, end of file not reached.
+		/// </summary>
+		/// <returns>
+		/// True if there is text to read from file, false otherwise.
+		/// </returns>
+		public bool HasText()
+		{
+			const int NoMoreCharacters = -1;
+
+			return TextReader.Peek() != NoMoreCharacters;
+		}
+
+		/// <summary>
 		/// Read current line in text file.
 		/// </summary>
 		/// <returns>

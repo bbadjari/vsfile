@@ -77,6 +77,17 @@ namespace VSFile.Tests.Fake
 		}
 
 		/// <summary>
+		/// Determine whether there is text to read from file; that is, end of file not reached.
+		/// </summary>
+		/// <returns>
+		/// True if there is text to read from file, false otherwise.
+		/// </returns>
+		public bool HasText()
+		{
+			return FileLines != null && CurrentLineNumber < FileLines.Length;
+		}
+
+		/// <summary>
 		/// Read current line in text file.
 		/// </summary>
 		/// <returns>

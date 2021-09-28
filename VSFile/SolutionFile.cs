@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using VSFile.Project;
 using VSFile.Properties;
 using VSFile.Solution;
@@ -45,86 +44,6 @@ namespace VSFile
 		/// File extension of solution file.
 		/// </summary>
 		public const string SolutionFileExtension = ".sln";
-
-		/// <summary>
-		/// Project tag contained in solution file.
-		/// </summary>
-		private static class ProjectTag
-		{
-			/// <summary>
-			/// Regular expression used to obtain data in project tag.
-			/// </summary>
-			public static class Regex
-			{
-				/// <summary>
-				/// Group used to match project name.
-				/// </summary>
-				public const string NameGroup = "Name";
-
-				/// <summary>
-				/// Group used to match project path.
-				/// </summary>
-				public const string PathGroup = "Path";
-
-				/// <summary>
-				/// Pattern used to match project GUIDs, name and path.
-				/// </summary>
-				public const string Pattern = "^" + Begin + @"\(" +
-					Guid.TypeGuid + @"\) = " + Name + ", " + Path + ", " +
-					Guid.UniqueGuid + "$";
-
-				/// <summary>
-				/// Group used to match project type GUID.
-				/// </summary>
-				public const string TypeGuidGroup = "TypeGUID";
-
-				/// <summary>
-				/// Group used to match project unique GUID.
-				/// </summary>
-				public const string UniqueGuidGroup = "UniqueGUID";
-
-				/// <summary>
-				/// GUID patterns.
-				/// </summary>
-				private static class Guid
-				{
-					/// <summary>
-					/// Pattern used to match project type GUID.
-					/// </summary>
-					public const string TypeGuid = Begin + TypeGuidGroup + End;
-
-					/// <summary>
-					/// Pattern used to match project unique GUID.
-					/// </summary>
-					public const string UniqueGuid = Begin + UniqueGuidGroup + End;
-
-					/// <summary>
-					/// Beginning of GUID pattern.
-					/// </summary>
-					private const string Begin = @"""{(?<";
-
-					/// <summary>
-					/// End of GUID pattern.
-					/// </summary>
-					private const string End = @">[A-F\d-]+)}""";
-				}
-
-				/// <summary>
-				/// Pattern used to match project name.
-				/// </summary>
-				private const string Name = @"""(?<" + NameGroup + @">.+)""";
-
-				/// <summary>
-				/// Pattern used to match project path.
-				/// </summary>
-				private const string Path = @"""(?<" + PathGroup + @">.+)""";
-			}
-
-			/// <summary>
-			/// Beginning of project tag.
-			/// </summary>
-			public const string Begin = "Project";
-		}
 
 		/// <summary>
 		/// GUIDs used to identify types of projects.
@@ -215,54 +134,49 @@ namespace VSFile
 			{
 				ReadHeader(textFileReader);
 
-				string inputLine;
-
 				// Read rest of solution file.
-				while ((inputLine = textFileReader.ReadLine()) != null)
+				while (textFileReader.HasText())
 				{
-					if (inputLine.StartsWith(ProjectTag.Begin, StringComparison.Ordinal))
-						AddProject(inputLine);
+					SolutionFileProject project = new SolutionFileProject();
+
+					project.Read(textFileReader);
+
+					AddProject(project);
 				}
 			}
 		}
 
 		/// <summary>
-		/// Add project given line of input from solution file.
+		/// Add given project from solution file.
 		/// </summary>
-		/// <param name="inputLine">
-		/// String representing line of input from solution file.
+		/// <param name="project">
+		/// SolutionFileProject representing project reference in solution file.
 		/// </param>
-		private void AddProject(string inputLine)
+		private void AddProject(SolutionFileProject project)
 		{
-			Match match = Regex.Match(inputLine, ProjectTag.Regex.Pattern);
+			if (!project.IsValid)
+				return;
 
-			if (match.Success)
+			string path = GetFullPath(project.Path);
+
+			switch (project.TypeGuid)
 			{
-				string projectName = GetMatchValue(match, ProjectTag.Regex.NameGroup);
-				string projectTypeGuid = GetMatchValue(match, ProjectTag.Regex.TypeGuidGroup);
-				string relativePath = GetMatchValue(match, ProjectTag.Regex.PathGroup);
+				case ProjectTypeGuid.Basic:
+					basicProjectFiles.Add(new BasicProjectFile(project.Name, path));
 
-				string path = GetFullPath(relativePath);
+					break;
+				case ProjectTypeGuid.CSharp:
+					cSharpProjectFiles.Add(new CSharpProjectFile(project.Name, path));
 
-				switch (projectTypeGuid)
-				{
-					case ProjectTypeGuid.Basic:
-						basicProjectFiles.Add(new BasicProjectFile(projectName, path));
+					break;
+				case ProjectTypeGuid.FSharp:
+					fSharpProjectFiles.Add(new FSharpProjectFile(project.Name, path));
 
-						break;
-					case ProjectTypeGuid.CSharp:
-						cSharpProjectFiles.Add(new CSharpProjectFile(projectName, path));
+					break;
+				case ProjectTypeGuid.WebSite:
+					webSiteDirectories.Add(new WebSiteDirectory(project.Name, path));
 
-						break;
-					case ProjectTypeGuid.FSharp:
-						fSharpProjectFiles.Add(new FSharpProjectFile(projectName, path));
-
-						break;
-					case ProjectTypeGuid.WebSite:
-						webSiteDirectories.Add(new WebSiteDirectory(projectName, path));
-
-						break;
-				}
+					break;
 			}
 		}
 
@@ -275,25 +189,6 @@ namespace VSFile
 			cSharpProjectFiles.Clear();
 			fSharpProjectFiles.Clear();
 			webSiteDirectories.Clear();
-		}
-
-		/// <summary>
-		/// Get match value at given group name.
-		/// </summary>
-		/// <param name="match">
-		/// Match representing regular expression match results.
-		/// </param>
-		/// <param name="groupName">
-		/// String representing name of group to match in given match results.
-		/// </param>
-		/// <returns>
-		/// String representing match value at given group name.
-		/// </returns>
-		private static string GetMatchValue(Match match, string groupName)
-		{
-			Group group = match.Groups[groupName];
-
-			return group.Value;
 		}
 
 		/// <summary>

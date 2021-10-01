@@ -116,6 +116,7 @@
     <EmbeddedResource Include="Resources\SolutionFile.sln" />
     <EmbeddedResource Include="Resources\SolutionFileNoHeader.sln" />
     <EmbeddedResource Include="Resources\SolutionFileInvalidHeader.sln" />
+    <EmbeddedResource Include="Resources\SolutionFileInvalidProject.sln" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

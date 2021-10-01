@@ -143,6 +143,17 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
+		/// Test Load() method with solution file containing invalid project reference.
+		/// </summary>
+		[Test]
+		public void LoadWithInvalidProject()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileInvalidProject);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
 		/// Test Load() method with solution file containing no header.
 		/// </summary>
 		[Test]

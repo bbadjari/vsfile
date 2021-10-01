@@ -132,6 +132,28 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
+		/// Test Load() method with solution file containing invalid header.
+		/// </summary>
+		[Test]
+		public void LoadWithInvalidHeader()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileInvalidHeader);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
+		/// Test Load() method with solution file containing no header.
+		/// </summary>
+		[Test]
+		public void LoadWithNoHeader()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileNoHeader);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
 		/// Test Load() method with non-existent file path.
 		/// </summary>
 		[Test]
@@ -284,28 +306,6 @@ namespace VSFile.Tests.Unit
 			SolutionFile.Load();
 
 			Assert.AreEqual(FormatVersion, SolutionFile.FormatVersion);
-		}
-
-		/// <summary>
-		/// Test FormatVersion property when solution file with invalid header loaded.
-		/// </summary>
-		[Test]
-		public void FormatVersionWhenFileWithInvalidHeaderLoaded()
-		{
-			CreateSolutionFile(EmbeddedFiles.SolutionFileInvalidHeader);
-
-			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
-		}
-
-		/// <summary>
-		/// Test FormatVersion property when solution file with no header loaded.
-		/// </summary>
-		[Test]
-		public void FormatVersionWhenFileWithNoHeaderLoaded()
-		{
-			CreateSolutionFile(EmbeddedFiles.SolutionFileNoHeader);
-
-			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
 		}
 
 		/// <summary>

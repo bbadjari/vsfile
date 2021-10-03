@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Solution\SolutionFileHeaderReader.cs" />
     <Compile Include="Solution\SolutionFileProject.cs" />
+    <Compile Include="Solution\SolutionFileProjectReader.cs" />
     <Compile Include="System\FileSystem.cs" />
     <Compile Include="System\ITextFileReader.cs" />
     <Compile Include="System\IFileSystem.cs" />

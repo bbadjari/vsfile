@@ -25,11 +25,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using VSFile.Properties;
-using VSFile.System;
+using System.Diagnostics;
 
 namespace VSFile.Solution
 {
@@ -39,175 +35,43 @@ namespace VSFile.Solution
 	internal class SolutionFileProject
 	{
 		/// <summary>
-		/// Regular expression used to obtain data in project reference header.
+		/// No project reference.
 		/// </summary>
-		private static class Header
-		{
-			/// <summary>
-			/// Group used to match project name.
-			/// </summary>
-			public const string NameGroup = "Name";
-
-			/// <summary>
-			/// Group used to match project path.
-			/// </summary>
-			public const string PathGroup = "Path";
-
-			/// <summary>
-			/// Pattern used to match project GUIDs, name and path.
-			/// </summary>
-			public const string Pattern = "^" + Begin + @"\(" + Guid.TypeGuid + @"\) = " + Name + ", " + Path + ", " + Guid.UniqueGuid + "$";
-
-			/// <summary>
-			/// Group used to match project type GUID.
-			/// </summary>
-			public const string TypeGuidGroup = "TypeGUID";
-
-			/// <summary>
-			/// Group used to match project unique GUID.
-			/// </summary>
-			public const string UniqueGuidGroup = "UniqueGUID";
-
-			/// <summary>
-			/// GUID patterns.
-			/// </summary>
-			private static class Guid
-			{
-				/// <summary>
-				/// Pattern used to match project type GUID.
-				/// </summary>
-				public const string TypeGuid = Begin + TypeGuidGroup + End;
-
-				/// <summary>
-				/// Pattern used to match project unique GUID.
-				/// </summary>
-				public const string UniqueGuid = Begin + UniqueGuidGroup + End;
-
-				/// <summary>
-				/// Beginning of GUID pattern.
-				/// </summary>
-				private const string Begin = @"""{(?<";
-
-				/// <summary>
-				/// End of GUID pattern.
-				/// </summary>
-				private const string End = @">[A-F\d-]+)}""";
-			}
-
-			/// <summary>
-			/// Pattern used to match project name.
-			/// </summary>
-			private const string Name = @"""(?<" + NameGroup + @">.+)""";
-
-			/// <summary>
-			/// Pattern used to match project path.
-			/// </summary>
-			private const string Path = @"""(?<" + PathGroup + @">.+)""";
-		}
-
-		/// <summary>
-		/// Beginning of project reference.
-		/// </summary>
-		private const string Begin = "Project";
-
-		/// <summary>
-		/// End of project reference.
-		/// </summary>
-		private const string End = "EndProject";
+		public const SolutionFileProject None = null;
 
 		////////////////////////////////////////////////////////////////////////
-		// Methods
+		// Constructors
 
 		/// <summary>
-		/// Read project reference in solution file.
+		/// Constructor.
 		/// </summary>
-		/// <param name="textFileReader">
-		/// ITextFileReader instance representing text file reader.
+		/// <param name="name">
+		/// String representing project name.
 		/// </param>
-		public void Read(ITextFileReader textFileReader)
+		/// <param name="path">
+		/// String representing project relative path.
+		/// </param>
+		/// <param name="typeGuid">
+		/// String representing project type GUID.
+		/// </param>
+		/// <param name="uniqueGuid">
+		/// String representing project unique GUID.
+		/// </param>
+		public SolutionFileProject(string name, string path, string typeGuid, string uniqueGuid)
 		{
-			if (textFileReader == null)
-				throw new ArgumentNullException("textFileReader");
+			Debug.Assert(!string.IsNullOrWhiteSpace(name), "Invalid name.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(path), "Invalid path.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(typeGuid), "Invalid type GUID.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(uniqueGuid), "Invalid unique GUID.");
 
-			bool hasNoBegin = true;
-			bool hasNoEnd = true;
-
-			while (textFileReader.HasText())
-			{
-				string inputLine = textFileReader.ReadLine();
-
-				if (inputLine.StartsWith(Begin, StringComparison.Ordinal))
-				{
-					hasNoBegin = false;
-
-					SetValues(inputLine);
-				}
-				else if (inputLine.Equals(End, StringComparison.Ordinal))
-				{
-					hasNoEnd = false;
-
-					break;
-				}
-			}
-
-			if (hasNoBegin ^ hasNoEnd)
-				throw new FileFormatException(ExceptionMessages.InvalidSolutionFileProjectReference);
-
-			IsValid = !hasNoBegin && !hasNoEnd;
-		}
-
-		/// <summary>
-		/// Get match value at given group name.
-		/// </summary>
-		/// <param name="match">
-		/// Match representing regular expression match results.
-		/// </param>
-		/// <param name="groupName">
-		/// String representing name of group to match in given match results.
-		/// </param>
-		/// <returns>
-		/// String representing match value at given group name.
-		/// </returns>
-		private static string GetMatchValue(Match match, string groupName)
-		{
-			Group group = match.Groups[groupName];
-
-			return group.Value;
-		}
-
-		/// <summary>
-		/// Set project reference values given line of input from solution file.
-		/// </summary>
-		/// <param name="inputLine">
-		/// String representing line of input from solution file.
-		/// </param>
-		private void SetValues(string inputLine)
-		{
-			Match match = Regex.Match(inputLine, Header.Pattern);
-
-			if (match.Success)
-			{
-				Name = GetMatchValue(match, Header.NameGroup);
-				Path = GetMatchValue(match, Header.PathGroup);
-				TypeGuid = GetMatchValue(match, Header.TypeGuidGroup);
-				UniqueGuid = GetMatchValue(match, Header.UniqueGuidGroup);
-			}
-			else
-			{
-				throw new FileFormatException(ExceptionMessages.InvalidSolutionFileProjectReference);
-			}
+			Name = name;
+			Path = path;
+			TypeGuid = typeGuid;
+			UniqueGuid = uniqueGuid;
 		}
 
 		////////////////////////////////////////////////////////////////////////
 		// Properties
-
-		/// <summary>
-		/// Determine whether project reference valid.
-		/// </summary>
-		/// <value>
-		/// True if project reference valid, false otherwise.
-		/// </value>
-		public bool IsValid { get; private set; }
 
 		/// <summary>
 		/// Get project name.

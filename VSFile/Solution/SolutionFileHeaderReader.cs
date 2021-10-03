@@ -62,6 +62,9 @@ namespace VSFile.Solution
 		/// </returns>
 		public static int Read(ITextFileReader textFileReader)
 		{
+			if (textFileReader == null)
+				throw new ArgumentNullException(nameof(textFileReader));
+
 			string inputLine = null;
 			bool hasNoHeader = true;
 

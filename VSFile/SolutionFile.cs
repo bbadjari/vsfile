@@ -135,9 +135,7 @@ namespace VSFile
 				// Read rest of solution file.
 				while (textFileReader.HasText())
 				{
-					SolutionFileProject project = new SolutionFileProject();
-
-					project.Read(textFileReader);
+					SolutionFileProject project = SolutionFileProjectReader.Read(textFileReader);
 
 					AddProject(project);
 				}
@@ -152,7 +150,7 @@ namespace VSFile
 		/// </param>
 		private void AddProject(SolutionFileProject project)
 		{
-			if (!project.IsValid)
+			if (project == SolutionFileProject.None)
 				return;
 
 			string path = GetFullPath(project.Path);

@@ -28,13 +28,13 @@ jobs:
           uses: NuGet/setup-nuget@v1.0.5
 
         - name: Restore Packages
-          run: nuget restore ${SOLUTION_FILE}
+          run: nuget restore %SOLUTION_FILE%
 
         - name: Build Solution
-          run: dotnet build --configuration ${CONFIGURATION} ${SOLUTION_FILE}
+          run: dotnet build --configuration %CONFIGURATION% %SOLUTION_FILE%
 
         - name: Install NUnit.ConsoleRunner Package
-          run: nuget install package NUnit.ConsoleRunner -Version ${CONSOLE_RUNNER_VERSION}
+          run: nuget install package NUnit.ConsoleRunner -Version %CONSOLE_RUNNER_VERSION%
 
         - name: Run NUnit Tests
-          run: Packages\NUnit.ConsoleRunner.${CONSOLE_RUNNER_VERSION}\tools\nunit3-console.exe ${TEST_PROJECT}\bin\${CONFIGURATION}\${TEST_PROJECT}.dll
+          run: Packages\NUnit.ConsoleRunner.%CONSOLE_RUNNER_VERSION%\tools\nunit3-console.exe %TEST_PROJECT%\bin\%CONFIGURATION%\%TEST_PROJECT%.dll

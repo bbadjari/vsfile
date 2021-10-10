@@ -117,7 +117,7 @@ namespace VSFile
 		internal VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch, IFileSystem fileSystem)
 		{
 			if (fileSystem == null)
-				throw new ArgumentNullException("fileSystem");
+				throw new ArgumentNullException(nameof(fileSystem));
 
 			basicProjectFiles = new List<BasicProjectFile>();
 			basicSourceFiles = new List<BasicSourceFile>();
@@ -144,7 +144,7 @@ namespace VSFile
 		private void Initialize(IEnumerable<string> filePaths)
 		{
 			if (filePaths == null)
-				throw new ArgumentNullException("filePaths");
+				throw new ArgumentNullException(nameof(filePaths));
 
 			foreach (string filePath in filePaths)
 				Initialize(filePath);

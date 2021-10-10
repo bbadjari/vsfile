@@ -109,7 +109,7 @@ namespace VSFile
 			: base(SolutionFileExtension, filePath, fileSystem)
 		{
 			if (textFileReaderFactory == null)
-				throw new ArgumentNullException("textFileReaderFactory");
+				throw new ArgumentNullException(nameof(textFileReaderFactory));
 
 			basicProjectFiles = new List<BasicProjectFile>();
 			cSharpProjectFiles = new List<CSharpProjectFile>();

@@ -115,7 +115,7 @@ namespace VSFile.Project
 				throw new ArgumentException(ExceptionMessages.InvalidSourceFileExtension);
 
 			if (xmlFileReader == null)
-				throw new ArgumentNullException("xmlFileReader");
+				throw new ArgumentNullException(nameof(xmlFileReader));
 
 			ProjectName = string.IsNullOrWhiteSpace(projectName) ? FileNameNoExtension : projectName;
 			SourceFileExtension = sourceFileExtension;

@@ -66,7 +66,7 @@ namespace VSFile
 				throw new ArgumentException(ExceptionMessages.InvalidFilePath);
 
 			if (fileSystem == null)
-				throw new ArgumentNullException("fileSystem");
+				throw new ArgumentNullException(nameof(fileSystem));
 
 			// Ensure platform-specific directory separator character used in file path.
 			filePath = filePath.Replace(WindowsDirectorySeparatorChar, Path.DirectorySeparatorChar);

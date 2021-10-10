@@ -92,7 +92,7 @@ namespace VSFile.Project
 				throw new ArgumentException(ExceptionMessages.InvalidDirectoryPath);
 
 			if (fileSystem == null)
-				throw new ArgumentNullException("fileSystem");
+				throw new ArgumentNullException(nameof(fileSystem));
 
 			basicSourceFiles = new List<BasicSourceFile>();
 			cSharpSourceFiles = new List<CSharpSourceFile>();

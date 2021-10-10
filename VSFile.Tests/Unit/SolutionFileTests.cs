@@ -180,6 +180,17 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
+		/// Test Load() method with solution file containing project reference mismatch.
+		/// </summary>
+		[Test]
+		public void LoadWithProjectMismatch()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileProjectMismatch);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
 		/// Test Load() method with wrong file extension.
 		/// </summary>
 		[Test]

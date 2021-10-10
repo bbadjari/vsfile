@@ -210,5 +210,20 @@ namespace VSFile.Tests.Properties {
                 return ResourceManager.GetString("SolutionFileNoHeader", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Microsoft Visual Studio Solution File, Format Version 12.00
+        ///# Visual Studio 2013
+        ///VisualStudioVersion = 12.0.40629.0
+        ///MinimumVisualStudioVersion = 10.0.40219.1
+        ///Project(&quot;{F184B08F-C81C-45F6-A57F-5ABD9991F28F}&quot;) = &quot;BasicProjectFile&quot;, &quot;BasicProjectFile.vbproj&quot;, &quot;{XYZ}&quot;
+        ///EndProject
+        /// </summary>
+        internal static string SolutionFileProjectMismatch {
+            get {
+                return ResourceManager.GetString("SolutionFileProjectMismatch", resourceCulture);
+            }
+        }
     }
 }

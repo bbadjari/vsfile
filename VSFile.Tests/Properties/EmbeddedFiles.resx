@@ -148,4 +148,7 @@
   <data name="SolutionFileNoHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SolutionFileNoHeader.sln;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="SolutionFileProjectMismatch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SolutionFileProjectMismatch.sln;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

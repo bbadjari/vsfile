@@ -31,7 +31,7 @@ jobs:
           run: nuget restore $SOLUTION_FILE
 
         - name: Build Solution
-          run: dotnet build $SOLUTION_FILE --configuration $CONFIGURATION
+          run: dotnet build --configuration $CONFIGURATION $SOLUTION_FILE
 
         - name: Install NUnit.ConsoleRunner Package
           run: nuget install package NUnit.ConsoleRunner -Version $CONSOLE_RUNNER_VERSION

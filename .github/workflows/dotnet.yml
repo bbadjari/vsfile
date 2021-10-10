@@ -37,4 +37,4 @@ jobs:
           run: nuget install NUnit.ConsoleRunner -Version ${env:CONSOLE_RUNNER_VERSION}
 
         - name: Run NUnit Tests
-          run: Packages\NUnit.ConsoleRunner.${env:CONSOLE_RUNNER_VERSION}\tools\nunit3-console.exe ${env:TEST_PROJECT}\bin\${env:CONFIGURATION}\${env:TEST_PROJECT}.dll
+          run: NUnit.ConsoleRunner.${env:CONSOLE_RUNNER_VERSION}\tools\nunit3-console.exe ${env:TEST_PROJECT}\bin\${env:CONFIGURATION}\${env:TEST_PROJECT}.dll

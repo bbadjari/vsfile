@@ -1,0 +1,40 @@
+name: GitHub Action For .NET Framework
+
+on:
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
+
+jobs:
+    build-then-test:
+        runs-on: windows-latest
+
+        env:
+            CONFIGURATION: Release
+            CONSOLE_RUNNER_VERSION: 3.12.0
+            SOLUTION_FILE: VSFile.sln
+            TEST_PROJECT: VSFile.Tests
+
+        steps:
+        - uses: actions/checkout@v2
+
+        - name: Setup .NET Framework 4.5
+          uses: actions/setup-dotnet@v1
+          with:
+              dotnet-version: 4.5.x
+
+        - name: Setup NuGet
+          uses: NuGet/setup-nuget@v1.0.5
+
+        - name: Restore Packages
+          run: nuget restore $SOLUTION_FILE
+
+        - name: Build Solution
+          run: dotnet build $SOLUTION_FILE --configuration $CONFIGURATION
+
+        - name: Install NUnit.ConsoleRunner Package
+          run: nuget install package NUnit.ConsoleRunner -Version $CONSOLE_RUNNER_VERSION
+
+        - name: Run NUnit Tests
+          run: Packages\NUnit.ConsoleRunner.$CONSOLE_RUNNER_VERSION\tools\nunit3-console.exe $TEST_PROJECT\bin\$CONFIGURATION\$TEST_PROJECT.dll

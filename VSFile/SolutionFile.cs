@@ -43,32 +43,6 @@ namespace VSFile
 		/// </summary>
 		public const string SolutionFileExtension = ".sln";
 
-		/// <summary>
-		/// GUIDs used to identify types of projects.
-		/// </summary>
-		private static class ProjectTypeGuid
-		{
-			/// <summary>
-			/// Visual Basic project type.
-			/// </summary>
-			public const string Basic = "F184B08F-C81C-45F6-A57F-5ABD9991F28F";
-
-			/// <summary>
-			/// Visual C# project type.
-			/// </summary>
-			public const string CSharp = "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC";
-
-			/// <summary>
-			/// Visual F# project type.
-			/// </summary>
-			public const string FSharp = "F2A71F9B-5D33-465A-A702-920D77279786";
-
-			/// <summary>
-			/// ASP.NET web site project type.
-			/// </summary>
-			public const string WebSite = "E24C65DC-7377-472B-9ABA-BC803B73C61A";
-		}
-
 		////////////////////////////////////////////////////////////////////////
 
 		private List<BasicProjectFile> basicProjectFiles;

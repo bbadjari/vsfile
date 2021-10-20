@@ -39,6 +39,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Project\ProjectTypeGuid.cs" />
     <Compile Include="Solution\SolutionFileHeaderReader.cs" />
     <Compile Include="Solution\SolutionFileProject.cs" />
     <Compile Include="Solution\SolutionFileProjectReader.cs" />

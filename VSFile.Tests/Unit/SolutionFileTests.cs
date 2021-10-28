@@ -368,6 +368,7 @@ namespace VSFile.Tests.Unit
 		[Test]
 		public void WebSiteDirectoriesWhenFileLoaded()
 		{
+			const string WebSiteDirectoryPath = @"WebSite\";
 			const string WebSiteName = "WebSite";
 
 			SolutionFile.Load();
@@ -379,6 +380,7 @@ namespace VSFile.Tests.Unit
 			// Ensure web site directory exists.
 			Assert.IsTrue(webSiteDirectoryEnumerator.MoveNext());
 
+			Assert.AreEqual(WebSiteDirectoryPath, webSiteDirectoryEnumerator.Current.DirectoryPath);
 			Assert.AreEqual(WebSiteName, webSiteDirectoryEnumerator.Current.Name);
 
 			// Ensure no more web site directories exist.

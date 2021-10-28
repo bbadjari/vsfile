@@ -115,6 +115,15 @@ namespace VSFile.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid project type GUID..
+        /// </summary>
+        internal static string InvalidProjectTypeGuid {
+            get {
+                return ResourceManager.GetString("InvalidProjectTypeGuid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid solution file..
         /// </summary>
         internal static string InvalidSolutionFile {

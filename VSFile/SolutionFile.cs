@@ -109,7 +109,7 @@ namespace VSFile
 				// Read rest of solution file.
 				while (textFileReader.HasText())
 				{
-					SolutionFileProject project = SolutionFileProjectReader.Read(textFileReader);
+					SolutionFileProject project = SolutionFileProjectReader.Read(textFileReader, FormatVersion);
 
 					AddProject(project);
 				}

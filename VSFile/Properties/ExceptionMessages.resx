@@ -135,6 +135,9 @@
   <data name="InvalidName" xml:space="preserve">
     <value>Invalid name.</value>
   </data>
+  <data name="InvalidProjectTypeGuid" xml:space="preserve">
+    <value>Invalid project type GUID.</value>
+  </data>
   <data name="InvalidSolutionFile" xml:space="preserve">
     <value>Invalid solution file.</value>
   </data>

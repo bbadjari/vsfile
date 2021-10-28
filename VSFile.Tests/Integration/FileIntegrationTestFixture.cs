@@ -59,9 +59,10 @@ namespace VSFile.Tests.Integration
 			if (string.IsNullOrWhiteSpace(fileContents))
 				throw new ArgumentException(ExceptionMessages.InvalidFileContents, "fileContents");
 
+			DirectoryPath = Path.GetTempPath();
 			FileContents = fileContents;
 			FileName = fileName;
-			FilePath = Path.Combine(Path.GetTempPath(), fileName);
+			FilePath = Path.Combine(DirectoryPath, fileName);
 		}
 
 		////////////////////////////////////////////////////////////////////////
@@ -87,6 +88,14 @@ namespace VSFile.Tests.Integration
 
 		////////////////////////////////////////////////////////////////////////
 		// Properties
+
+		/// <summary>
+		/// Get directory path.
+		/// </summary>
+		/// <value>
+		/// String representing directory path.
+		/// </value>
+		protected string DirectoryPath { get; private set; }
 
 		/// <summary>
 		/// Get file path.

@@ -125,10 +125,13 @@ namespace VSFile.Solution
 		/// <param name="textFileReader">
 		/// ITextFileReader instance representing text file reader.
 		/// </param>
+		/// <param name="formatVersion">
+		/// Integer representing solution file format version.
+		/// </param>
 		/// <returns>
 		/// SolutionFileProject representing project reference in solution file.
 		/// </returns>
-		public static SolutionFileProject Read(ITextFileReader textFileReader)
+		public static SolutionFileProject Read(ITextFileReader textFileReader, int formatVersion)
 		{
 			if (textFileReader == null)
 				throw new ArgumentNullException(nameof(textFileReader));
@@ -146,7 +149,7 @@ namespace VSFile.Solution
 				{
 					hasNoBegin = false;
 
-					project = GetProject(inputLine);
+					project = GetProject(inputLine, textFileReader, formatVersion);
 				}
 				else if (inputLine.Equals(End, StringComparison.Ordinal))
 				{
@@ -185,17 +188,24 @@ namespace VSFile.Solution
 		}
 
 		/// <summary>
-		/// Get project reference from given line of input from solution file.
+		/// Get project reference from solution file.
 		/// </summary>
 		/// <param name="inputLine">
 		/// String representing line of input from solution file.
 		/// </param>
+		/// <param name="textFileReader">
+		/// ITextFileReader instance representing text file reader.
+		/// </param>
+		/// <param name="formatVersion">
+		/// Integer representing solution file format version.
+		/// </param>
 		/// <returns>
 		/// SolutionFileProject representing project reference in solution file.
 		/// </returns>
-		private static SolutionFileProject GetProject(string inputLine)
+		private static SolutionFileProject GetProject(string inputLine, ITextFileReader textFileReader, int formatVersion)
 		{
 			Debug.Assert(!string.IsNullOrWhiteSpace(inputLine), "Invalid input line.");
+			Debug.Assert(textFileReader != null, "Invalid text file reader.");
 
 			SolutionFileProject project = SolutionFileProject.None;
 
@@ -204,9 +214,10 @@ namespace VSFile.Solution
 			if (match.Success)
 			{
 				string name = GetMatchValue(match, Header.NameGroup);
-				string path = GetMatchValue(match, Header.PathGroup);
 				string typeGuid = GetMatchValue(match, Header.TypeGuidGroup);
 				string uniqueGuid = GetMatchValue(match, Header.UniqueGuidGroup);
+
+				string path = GetProjectPath(match, typeGuid, textFileReader, formatVersion);
 
 				project = new SolutionFileProject(name, path, typeGuid, uniqueGuid);
 			}
@@ -216,6 +227,40 @@ namespace VSFile.Solution
 			}
 
 			return project;
+		}
+
+		/// <summary>
+		/// Get project relative path.
+		/// </summary>
+		/// <param name="headerMatch">
+		/// Match representing regular expression match results for project reference header.
+		/// </param>
+		/// <param name="typeGuid">
+		/// String representing project type GUID.
+		/// </param>
+		/// <param name="textFileReader">
+		/// ITextFileReader instance representing text file reader.
+		/// </param>
+		/// <param name="formatVersion">
+		/// Integer representing solution file format version.
+		/// </param>
+		/// <returns>
+		/// String representing project relative path.
+		/// </returns>
+		private static string GetProjectPath(Match headerMatch, string typeGuid, ITextFileReader textFileReader, int formatVersion)
+		{
+			Debug.Assert(headerMatch != null, "Invalid match.");
+			Debug.Assert(!string.IsNullOrWhiteSpace(typeGuid), "Invalid type GUID.");
+			Debug.Assert(textFileReader != null, "Invalid text file reader.");
+
+			string path = GetMatchValue(headerMatch, Header.PathGroup);
+
+			ISolutionFileProjectPathResolver pathResolver = SolutionFileProjectPathResolverFactory.Create(typeGuid, textFileReader, formatVersion);
+
+			if (pathResolver != SolutionFileProjectPathResolverFactory.NoPathResolver)
+				path = pathResolver.GetPath();
+
+			return path;
 		}
 	}
 }

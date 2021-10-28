@@ -26,6 +26,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 using System.Collections.Generic;
+using System.IO;
 using NUnit.Framework;
 using VSFile.Project;
 using VSFile.Tests.Properties;
@@ -168,6 +169,9 @@ namespace VSFile.Tests.Integration
 		{
 			const string WebSiteName = "WebSite";
 
+			// Should be treated as constants.
+			string webSiteDirectoryPath = Path.Combine(DirectoryPath, @"WebSite\");
+
 			SolutionFile.Load();
 
 			CollectionAssert.IsNotEmpty(SolutionFile.WebSiteDirectories);
@@ -177,6 +181,7 @@ namespace VSFile.Tests.Integration
 			// Ensure web site directory exists.
 			Assert.IsTrue(webSiteDirectoryEnumerator.MoveNext());
 
+			Assert.AreEqual(webSiteDirectoryPath, webSiteDirectoryEnumerator.Current.DirectoryPath);
 			Assert.AreEqual(WebSiteName, webSiteDirectoryEnumerator.Current.Name);
 
 			// Ensure no more web site directories exist.

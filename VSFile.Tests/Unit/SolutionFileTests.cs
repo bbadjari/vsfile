@@ -191,6 +191,17 @@ namespace VSFile.Tests.Unit
 		}
 
 		/// <summary>
+		/// Test Load() method with solution file containing web site reference missing relative path.
+		/// </summary>
+		[Test]
+		public void LoadWithWebSiteMissingPath()
+		{
+			CreateSolutionFile(EmbeddedFiles.SolutionFileWebSiteMissingPath);
+
+			Assert.Throws<FileFormatException>(() => SolutionFile.Load());
+		}
+
+		/// <summary>
 		/// Test Load() method with wrong file extension.
 		/// </summary>
 		[Test]

@@ -118,6 +118,7 @@
     <EmbeddedResource Include="Resources\SolutionFileInvalidHeader.sln" />
     <EmbeddedResource Include="Resources\SolutionFileInvalidProject.sln" />
     <EmbeddedResource Include="Resources\SolutionFileProjectMismatch.sln" />
+    <EmbeddedResource Include="Resources\SolutionFileWebSiteMissingPath.sln" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

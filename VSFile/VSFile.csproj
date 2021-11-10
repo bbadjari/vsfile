@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="Project\ProjectTypeGuid.cs" />
     <Compile Include="Solution\ISolutionFileProjectPathResolver.cs" />
+    <Compile Include="Solution\SolutionFileFormatVersion.cs" />
     <Compile Include="Solution\SolutionFileHeaderReader.cs" />
     <Compile Include="Solution\SolutionFileProject.cs" />
+    <Compile Include="Solution\SolutionFileProjectAttribute.cs" />
     <Compile Include="Solution\SolutionFileProjectPathResolverFactory.cs" />
     <Compile Include="Solution\SolutionFileProjectReader.cs" />
     <Compile Include="Solution\SolutionFileWebSitePathResolver.cs" />

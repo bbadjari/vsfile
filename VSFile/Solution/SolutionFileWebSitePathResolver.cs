@@ -28,6 +28,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using VSFile.Project;
 using VSFile.Properties;
 using VSFile.System;
 
@@ -36,6 +37,7 @@ namespace VSFile.Solution
 	/// <summary>
 	/// Resolves relative paths for ASP.NET web sites referenced in Visual Studio solution files.
 	/// </summary>
+	[SolutionFileProject(ProjectTypeGuid.WebSite, SolutionFileFormatVersion.VisualStudio2012)]
 	internal class SolutionFileWebSitePathResolver : ISolutionFileProjectPathResolver
 	{
 		/// <summary>
@@ -80,36 +82,25 @@ namespace VSFile.Solution
 		private const string RelativePathKey = "SlnRelativePath";
 
 		////////////////////////////////////////////////////////////////////////
-		// Constructors
-
-		/// <summary>
-		/// Constructor.
-		/// </summary>
-		/// <param name="textFileReader">
-		/// ITextFileReader instance representing text file reader.
-		/// </param>
-		public SolutionFileWebSitePathResolver(ITextFileReader textFileReader)
-		{
-			if (textFileReader == null)
-				throw new ArgumentNullException(nameof(textFileReader));
-
-			TextFileReader = textFileReader;
-		}
-
-		////////////////////////////////////////////////////////////////////////
 		// Methods
 
 		/// <summary>
 		/// Get project relative path in solution file.
 		/// </summary>
+		/// <param name="textFileReader">
+		/// ITextFileReader instance representing text file reader.
+		/// </param>
 		/// <returns>
 		/// String representing project relative path.
 		/// </returns>
-		public string GetPath()
+		public string GetPath(ITextFileReader textFileReader)
 		{
-			while (TextFileReader.HasText())
+			if (textFileReader == null)
+				throw new ArgumentNullException(nameof(textFileReader));
+
+			while (textFileReader.HasText())
 			{
-				string inputLine = TextFileReader.ReadLine().Trim();
+				string inputLine = textFileReader.ReadLine().Trim();
 
 				if (inputLine == End)
 					break;
@@ -127,16 +118,5 @@ namespace VSFile.Solution
 
 			throw new FileFormatException(ExceptionMessages.InvalidSolutionFileProjectReference);
 		}
-
-		////////////////////////////////////////////////////////////////////////
-		// Properties
-
-		/// <summary>
-		/// Get/set text file reader.
-		/// </summary>
-		/// <value>
-		/// ITextFileReader instance representing text file reader.
-		/// </value>
-		private ITextFileReader TextFileReader { get; set; }
 	}
 }

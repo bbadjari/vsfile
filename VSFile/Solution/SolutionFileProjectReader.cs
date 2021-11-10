@@ -255,10 +255,10 @@ namespace VSFile.Solution
 
 			string path = GetMatchValue(headerMatch, Header.PathGroup);
 
-			ISolutionFileProjectPathResolver pathResolver = SolutionFileProjectPathResolverFactory.Create(typeGuid, textFileReader, formatVersion);
+			ISolutionFileProjectPathResolver pathResolver = SolutionFileProjectPathResolverFactory.Create(typeGuid, formatVersion);
 
 			if (pathResolver != SolutionFileProjectPathResolverFactory.NoPathResolver)
-				path = pathResolver.GetPath();
+				path = pathResolver.GetPath(textFileReader);
 
 			return path;
 		}

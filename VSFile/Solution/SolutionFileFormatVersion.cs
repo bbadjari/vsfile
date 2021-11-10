@@ -25,24 +25,27 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-using VSFile.System;
-
 namespace VSFile.Solution
 {
 	/// <summary>
-	/// Visual Studio solution file project reference path resolver contract.
+	/// Visual Studio solution file format versions.
 	/// </summary>
-	internal interface ISolutionFileProjectPathResolver
+	internal static class SolutionFileFormatVersion
 	{
 		/// <summary>
-		/// Get project relative path in solution file.
+		/// Minimum format version.
 		/// </summary>
-		/// <param name="textFileReader">
-		/// ITextFileReader instance representing text file reader.
-		/// </param>
-		/// <returns>
-		/// String representing project relative path.
-		/// </returns>
-		string GetPath(ITextFileReader textFileReader);
+		public const int Minimum = VisualStudio2002;
+
+		public const int VisualStudio2002 = 7;
+		public const int VisualStudio2003 = 8;
+		public const int VisualStudio2005 = 9;
+		public const int VisualStudio2008 = 10;
+		public const int VisualStudio2010 = 11;
+
+		/// <summary>
+		/// Format version used in Visual Studio 2012 and later versions.
+		/// </summary>
+		public const int VisualStudio2012 = 12;
 	}
 }

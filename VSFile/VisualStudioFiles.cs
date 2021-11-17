@@ -76,18 +76,7 @@ namespace VSFile
 		// Constructors
 
 		/// <summary>
-		/// Constructor for specifying file paths.
-		/// </summary>
-		/// <param name="filePaths">
-		/// Enumerable collection of strings representing file paths.
-		/// </param>
-		public VisualStudioFiles(IEnumerable<string> filePaths)
-			: this(filePaths, false)
-		{
-		}
-
-		/// <summary>
-		/// Constructor for specifying recursive search option.
+		/// Constructor.
 		/// </summary>
 		/// <param name="filePaths">
 		/// Enumerable collection of strings representing file paths.
@@ -96,7 +85,7 @@ namespace VSFile
 		/// True if all subdirectories in given file paths are also to be
 		/// searched, false otherwise.
 		/// </param>
-		public VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch)
+		public VisualStudioFiles(IEnumerable<string> filePaths, bool recursiveSearch = false)
 			: this(filePaths, recursiveSearch, new FileSystem())
 		{
 		}
@@ -254,10 +243,7 @@ namespace VSFile
 		/// </returns>
 		private static bool IsSupportedExtension(string fileExtension)
 		{
-			if (string.IsNullOrWhiteSpace(fileExtension))
-				return false;
-
-			return SupportedExtensions.Any(extension => fileExtension.Equals(extension, StringComparison.CurrentCultureIgnoreCase));
+			return SupportedExtensions.Any(extension => extension.Equals(fileExtension, StringComparison.CurrentCultureIgnoreCase));
 		}
 
 		////////////////////////////////////////////////////////////////////////

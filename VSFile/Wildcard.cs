@@ -84,10 +84,7 @@ namespace VSFile
 		/// </returns>
 		public static bool HasWildcard(string filePath)
 		{
-			if (string.IsNullOrWhiteSpace(filePath))
-				return false;
-
-			return Wildcards.Any(wildcard => filePath.Contains(wildcard));
+			return !string.IsNullOrWhiteSpace(filePath) && Wildcards.Any(wildcard => filePath.Contains(wildcard));
 		}
 	}
 }

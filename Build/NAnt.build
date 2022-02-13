@@ -26,6 +26,7 @@
 	<target name="package.source" depends="build" description="Package source files for release.">
 		<zip zipfile="${package.directory}\vsfile_${version}_src.zip">
 			<fileset>
+				<include name=".github\workflows\*.yml" />
 				<include name=".nuget\NuGet.config" />
 				<include name=".nuget\NuGet.targets" />
 				<include name="Build\*.build" />
@@ -33,11 +34,14 @@
 				<include name="VSFile\Project\*.cs" />
 				<include name="VSFile\Properties\*.cs" />
 				<include name="VSFile\Properties\*.resx" />
+				<include name="VSFile\Solution\*.cs" />
 				<include name="VSFile\Source\*.cs" />
 				<include name="VSFile\System\*.cs" />
 				<include name="VSFile\*.cs" />
 				<include name="VSFile\VSFile.csproj" />
+				<include name="VSFile.Tests\Category\*.cs" />
 				<include name="VSFile.Tests\Fake\*.cs" />
+				<include name="VSFile.Tests\Integration\*.cs" />
 				<include name="VSFile.Tests\Properties\*.cs" />
 				<include name="VSFile.Tests\Properties\*.resx" />
 				<include name="VSFile.Tests\Resources\*.*" />

@@ -1,6 +1,17 @@
 ﻿Releases
 ========
 
+1.3 (1.3.0.0) - February 12, 2022
+---------------------------------
+
+- Added format version of Visual Studio solution files in `SolutionFile` class.
+- ASP.NET web site relative paths referenced in Visual Studio solution files with format version 12.00 or higher now correctly resolved.
+- Added `dotnet.yml` file containing GitHub Action to build and test solution.
+- Added NUnit unit and integration tests (over 150).
+- Added NuGet package support for managing required external libraries.
+- Upgraded solution and projects to use Visual Studio 2013 and .NET Framework 4.5.
+- Corrections in `VisualStudioFile` class to ensure platform-specific directory separator character used in file path and current directory used if no directory information in given file path.
+
 1.2.1 (1.2.1.0) - February 5, 2012
 ----------------------------------
 
